@@ -2,52 +2,559 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Henrique Campos · Sites e landing pages</title>
-<meta name="description" content="Portfólio de sites e landing pages de Henrique Campos, desenvolvedor web e DBA.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Luiz Henrique Campos Freire: DBA, projetos de dados e IA, e sites e landing pages sob medida.">
+<title>Luiz Freire Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800;125,900&family=Doto:wght@700;900&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap">
 <style>
-:root{--bg:#060607;--fg:#ecebe8;--dim:#86868c;--line:#222226;--blue:#3f86ff}
+/* Layout: site de estúdio em tela preta — nome em partículas, manifesto em tipo grande, índice de projetos com prévia flutuante, banco de dados em matriz de pontos, trajetória em linhas largas, contato gigante */
+:root{
+  color-scheme: dark;
+  --bg:#000;
+  --bg-2:#07080b;
+  --fg:#f2f4fa;
+  --muted:#7d8396;
+  --dim:#3c4152;
+  --line:#191c26;
+  --glow:#3f86ff;
+  --glow-soft:rgba(63,134,255,.45);
+  --lime:#c9f26a; --pink:#ff5c9a; --peach:#ffb48a; --violet:#7b6cff; --teal:#7fe3c4; --steel:#9aa3bd;
+  --ink:#050608;
+  --f-display:"Archivo", "Arial Black", Impact, sans-serif;
+  --f-dot:"Doto", "Geist Mono", ui-monospace, monospace;
+  --f-ui:"Geist", ui-sans-serif, system-ui, sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:15px;line-height:1.6}
-.w{max-width:1200px;margin:0 auto;padding:0 max(16px,4vw)}
-header{padding:72px 0 48px;border-bottom:1px solid var(--line)}
-h1{font-family:"Archivo",Arial Black,sans-serif;font-variation-settings:"wdth" 125;font-weight:900;font-size:clamp(48px,10vw,148px);line-height:.86;letter-spacing:-.03em;margin:0;text-transform:uppercase}
-h1 span{color:var(--blue)}
-header p{color:var(--dim);max-width:52ch;margin:24px 0 0}
-.lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-ol{list-style:none;margin:0;padding:0}
-li a{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:20px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:padding .25s,color .25s}
-li a:hover{padding-left:12px;color:var(--blue)}
-li .n{color:var(--dim)}
-li b{font-family:"Archivo",Arial Black,sans-serif;font-variation-settings:"wdth" 110;font-weight:800;font-size:clamp(26px,4.4vw,54px);line-height:1;text-transform:uppercase;letter-spacing:-.02em}
-li small{display:block;margin-top:8px;color:var(--dim);font-size:13px}
-li .t{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
-footer{padding:40px 0;color:var(--dim);font-size:13px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a{color:var(--fg)}
-@media (max-width:640px){li a{grid-template-columns:36px 1fr}li .t{grid-column:2}}
+html,body{background:var(--bg)}
+body{color:var(--fg); font-family:var(--f-ui); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--glow); color:#fff}
+:focus-visible{outline:2px solid var(--glow); outline-offset:4px; border-radius:4px}
+
+.band{padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.in{max-width:1280px; margin:0 auto}
+.disp{font-family:var(--f-display); font-stretch:125%; font-weight:900; letter-spacing:-.02em; line-height:.9}
+.mono{font-family:var(--f-mono); font-size:12px; letter-spacing:.02em; color:var(--muted)}
+.eyebrow{font-family:var(--f-mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:6px; height:6px; background:var(--glow); box-shadow:0 0 10px var(--glow)}
+.glow{color:var(--glow); text-shadow:0 0 12px rgba(63,134,255,.75), 0 0 34px rgba(63,134,255,.4)}
+section.band{border-top:1px solid var(--line)}
+.secIn{padding-block:clamp(64px, 10vw, 130px); display:flex; flex-direction:column; gap:clamp(36px, 5vw, 64px)}
+
+/* abertura */
+.introIn{padding-block:18px 26px; display:flex; flex-direction:column; gap:10px}
+.nav{display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; position:relative; z-index:2}
+.logo{font-family:var(--f-display); font-stretch:125%; font-weight:900; font-size:16px; text-decoration:none}
+.logo sup{font-family:var(--f-mono); font-weight:400; font-size:10px; color:var(--glow); margin-left:2px}
+.nav nav{display:flex; gap:22px; flex-wrap:wrap}
+.nav nav a{font-family:var(--f-mono); font-size:12px; color:var(--muted); text-decoration:none; transition:color .2s}
+.nav nav a:hover{color:var(--fg)}
+.live{display:inline-flex; align-items:center; gap:8px; font-family:var(--f-mono); font-size:12px}
+.live::before{content:""; width:7px; height:7px; border-radius:50%; background:#36e07a; box-shadow:0 0 10px #36e07a}
+.stage{position:relative; height:clamp(240px, 42vw, 560px)}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; touch-action:pan-y}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.introFoot{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:24px; align-items:end}
+.tag{font-family:var(--f-dot); font-weight:900; font-size:clamp(36px, 5.6vw, 72px); line-height:.92; margin:0; letter-spacing:-.01em; text-wrap:balance}
+.introMeta{display:flex; flex-direction:column; gap:12px; font-size:15px; color:var(--muted); max-width:44ch; justify-self:end}
+.introMeta strong{color:var(--fg); font-weight:500}
+.introMeta .row{display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); padding-top:10px}
+.marquee{border-top:1px solid var(--line); overflow:hidden; white-space:nowrap; font-family:var(--f-display); font-weight:800; font-stretch:125%; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); padding-block:13px}
+.marquee div{display:inline-block; animation:mq 40s linear infinite}
+.marquee span{margin:0 18px} .marquee b{color:var(--glow); font-weight:800}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* manifesto */
+.manifesto{font-family:var(--f-display); font-stretch:125%; font-weight:800; font-size:clamp(28px, 4.6vw, 64px); line-height:1.02; letter-spacing:-.025em; margin:0; color:var(--dim); text-wrap:balance; max-width:20ch}
+.manifesto em{font-style:normal; color:var(--fg)}
+.manifesto .glow{color:var(--glow)}
+.stats{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); border-top:1px solid var(--line)}
+.stats div{padding:22px 18px 4px 0; display:flex; flex-direction:column; gap:8px; border-right:1px solid var(--line); padding-left:18px}
+.stats div:first-child{padding-left:0}
+.stats div:last-child{border-right:none}
+.stats b{font-family:var(--f-dot); font-weight:900; font-size:clamp(48px, 6vw, 84px); line-height:.85; font-variant-numeric:tabular-nums}
+.stats span{font-family:var(--f-mono); font-size:12px; color:var(--muted)}
+
+/* projetos */
+.head{display:flex; justify-content:space-between; align-items:end; gap:20px; flex-wrap:wrap}
+.head h2{margin:10px 0 0; font-size:clamp(52px, 10vw, 150px)}
+.head p{margin:0; max-width:36ch; color:var(--muted); font-size:15px}
+.filters{display:flex; gap:6px; flex-wrap:wrap}
+.filters button{all:unset; cursor:pointer; font-family:var(--f-mono); font-size:12px; color:var(--muted); padding:8px 14px; border:1px solid var(--line); border-radius:999px; transition:all .2s}
+.filters button:hover{color:var(--fg); border-color:var(--dim)}
+.filters button[aria-pressed="true"]{background:var(--fg); color:var(--ink); border-color:var(--fg)}
+.filters button:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
+.gallery{display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:clamp(14px,2vw,22px)}
+.pcard{grid-column:span 2; display:flex; flex-direction:column; gap:16px; min-width:0; transition:opacity .35s}
+.pcard.feat{grid-column:span 6}
+.pcard.half{grid-column:span 3}
+.pcard.off{opacity:.14}
+.cover{display:block; text-decoration:none; color:inherit; position:relative; aspect-ratio:4/3; max-width:100%; border-radius:10px; overflow:hidden; background:var(--bg-2); border:1px solid var(--line); transition:border-color .35s, box-shadow .35s}
+.pcard.feat .cover{aspect-ratio:21/9}
+.pcard.half .cover{aspect-ratio:16/10}
+.cover canvas{position:absolute; inset:0; width:100%; height:100%; transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.cover::after{content:""; position:absolute; inset:0; background:radial-gradient(120% 90% at 50% 120%, color-mix(in srgb, var(--c) 22%, transparent), transparent 60%); pointer-events:none}
+.cover .badge,.cover .yr{position:absolute; top:12px; z-index:1; font-family:var(--f-mono); font-size:11px; padding:5px 10px; border-radius:999px; background:rgba(0,0,0,.6); backdrop-filter:blur(6px); border:1px solid var(--line)}
+.cover .badge{left:12px; display:inline-flex; align-items:center; gap:7px}
+.cover .badge::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--c); box-shadow:0 0 8px var(--c)}
+.cover .yr{right:12px; color:var(--muted)}
+.cover .open{position:absolute; right:12px; bottom:12px; z-index:1; width:38px; height:38px; border-radius:50%; display:grid; place-items:center; background:var(--c); color:var(--ink); font-size:16px; transform:scale(.6); opacity:0; transition:all .35s cubic-bezier(.2,.8,.2,1)}
+.pcard:hover .cover{border-color:color-mix(in srgb, var(--c) 55%, var(--line)); box-shadow:0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent), 0 20px 60px -20px color-mix(in srgb, var(--c) 45%, transparent)}
+.pcard:hover .cover canvas{transform:scale(1.04)}
+.pcard:hover .cover .open{transform:scale(1); opacity:1}
+.ptop{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+.pcard h3{margin:0; font-size:clamp(26px, 2.6vw, 36px); line-height:.95}
+.pcard.feat h3{font-size:clamp(36px, 5vw, 72px)}
+.pcard p{margin:0; color:var(--muted); font-size:15px; max-width:60ch}
+.pcard.feat .pbody{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:end}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips span{font-family:var(--f-mono); font-size:11px; color:var(--steel); padding:4px 10px; border:1px solid var(--line); border-radius:999px}
+.pbody{display:flex; flex-direction:column; gap:12px}
+@media (max-width:900px){ .pcard,.pcard.half{grid-column:span 3} .pcard.feat .pbody{grid-template-columns:1fr} }
+@media (max-width:620px){ .pcard,.pcard.half,.pcard.feat{grid-column:1/-1} .pcard.feat .cover{aspect-ratio:16/10} }
+
+/* stack */
+.stackGrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:center}
+.dbArt{position:relative; aspect-ratio:1/1; max-width:560px; width:100%}
+.dbArt canvas{position:absolute; inset:0; width:100%; height:100%}
+.dbArt .cap{position:absolute; left:0; bottom:0; font-family:var(--f-mono); font-size:11px; color:var(--muted)}
+.groups{display:flex; flex-direction:column}
+.groups div{display:grid; grid-template-columns:140px minmax(0,1fr); gap:16px; padding-block:20px; border-top:1px solid var(--line)}
+.groups div:last-child{border-bottom:1px solid var(--line)}
+.groups dt{font-family:var(--f-mono); font-size:12px; color:var(--muted); padding-top:4px}
+.groups dd{margin:0; font-family:var(--f-display); font-stretch:125%; font-weight:700; font-size:clamp(18px, 2vw, 24px); line-height:1.25; letter-spacing:-.01em}
+.groups dd span{color:var(--dim)}
+
+/* trajetória */
+.tl{list-style:none; margin:0; padding:0; border-top:1px solid var(--line)}
+.tl li{display:grid; grid-template-columns:220px minmax(0,1fr) minmax(0,.9fr); gap:24px; padding-block:32px; border-bottom:1px solid var(--line); align-items:start}
+.tl time{font-family:var(--f-dot); font-weight:900; font-size:clamp(26px, 3vw, 38px); line-height:1; font-variant-numeric:tabular-nums}
+.tl h3{margin:0; font-size:clamp(26px, 3.4vw, 46px); line-height:.95}
+.tl .org{font-family:var(--f-mono); font-size:12px; color:var(--muted); margin-top:10px; display:block}
+.tl p{margin:0; color:var(--muted); font-size:15px; max-width:46ch}
+.extras{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(24px,5vw,72px)}
+.extras h4{margin:0 0 14px}
+.extras ul{list-style:none; margin:0; padding:0}
+.extras li{display:flex; justify-content:space-between; gap:16px; padding-block:12px; border-top:1px solid var(--line); font-size:15px}
+.extras li span:last-child{font-family:var(--f-mono); font-size:12px; color:var(--muted); white-space:nowrap}
+
+/* contato */
+.contact .secIn{gap:36px}
+.big{font-size:clamp(56px, 13.5vw, 210px); margin:0; line-height:.84}
+.big span{display:block}
+.big .glow{font-family:var(--f-dot); font-stretch:100%; font-weight:900; letter-spacing:-.02em}
+.contactRow{display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:24px}
+.mailBox{display:flex; align-items:center; gap:12px; flex-wrap:wrap; min-width:0}
+.mail{font-family:var(--f-display); font-stretch:125%; font-weight:700; font-size:clamp(17px, 2.6vw, 30px); letter-spacing:-.01em; user-select:all; overflow-wrap:anywhere}
+.btn{font-family:var(--f-mono); font-size:12.5px; text-decoration:none; padding:11px 18px; border-radius:999px; border:1px solid var(--line); color:var(--fg); background:transparent; cursor:pointer; transition:all .2s; display:inline-flex; gap:8px; align-items:center}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--glow); border-color:var(--glow); color:#fff; box-shadow:0 0 24px rgba(63,134,255,.45)}
+.btn.primary:hover{background:var(--fg); color:var(--ink); border-color:var(--fg); box-shadow:none}
+.links{display:flex; gap:8px; flex-wrap:wrap}
+footer .in{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-block:22px; border-top:1px solid var(--line)}
+
+@media (max-width:900px){
+  .stackGrid{grid-template-columns:1fr}
+  .dbArt{max-width:420px; margin:0 auto}
+  .tl li{grid-template-columns:1fr; gap:12px}
+  .stats{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .stats div:nth-child(2){border-right:none}
+  .stats div:nth-child(3){padding-left:0}
+}
+@media (max-width:720px){
+  .introFoot{grid-template-columns:1fr} .introMeta{justify-self:start}
+  .nav nav{display:none}
+  .extras{grid-template-columns:1fr}
+  .groups div{grid-template-columns:1fr; gap:6px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important; animation:none!important}
+}
 </style>
 </head>
-<body>
-<div class="w">
-  <header>
-    <span class="lab">Desenvolvedor web e DBA</span>
-    <h1 style="margin-top:14px">Henrique<br><span>Campos.</span></h1>
-    <p>Sites e landing pages com uma ideia central tirada do negócio de cada cliente e um momento interativo que ninguém esquece. Abaixo, os trabalhos de portfólio.</p>
-  </header>
-  <ol>
-    <li><a href="indice/"><span class="n">01</span><span><b>Índice</b><small>SaaS de monitoramento de banco · demo de query lenta com raio-x do plano de execução</small></span><span class="t">SaaS</span></a></li>
-    <li><a href="iris/"><span class="n">02</span><span><b>Íris</b><small>Clínica de estética · espelho de aumento e mapa do rosto clicável</small></span><span class="t">Estética</span></a></li>
-    <li><a href="carga/"><span class="n">03</span><span><b>Carga</b><small>Academia de força · anilha em retícula, painel de horários e planos em anilhas</small></span><span class="t">Academia</span></a></li>
-    <li><a href="ruela/"><span class="n">04</span><span><b>Ruela</b><small>Streetwear · vitrine deslizante, sacola e contagem do drop</small></span><span class="t">Moda</span></a></li>
-    <li><a href="moura/"><span class="n">05</span><span><b>Moura Vasconcellos</b><small>Advocacia · tradutor de juridiquês, dentro das regras da OAB</small></span><span class="t">Advocacia</span></a></li>
-    <li><a href="amparo/"><span class="n">06</span><span><b>Amparo</b><small>Escola de cuidadores · monitor de sinais vitais e plantão interativo</small></span><span class="t">Educação</span></a></li>
-    <li><a href="detinhos/"><span class="n">07</span><span><b>Detinhos</b><small>Hamburgueria · smash montado no scroll e comanda que vira pedido no WhatsApp</small></span><span class="t">Comida</span></a></li>
-    <li><a href="buero/"><span class="n">08</span><span><b>Buero</b><small>Proposta para jogador e streamer de League of Legends</small></span><span class="t">Criador</span></a></li>
-    <li><a href="nandin027/"><span class="n">09</span><span><b>Nandin027</b><small>Proposta para streamer de MMORPG, com visual de RPG antigo</small></span><span class="t">Criador</span></a></li>
-  </ol>
-  <footer><span>Marcas fictícias, exceto Detinhos e as propostas para criadores.</span><span>99Freelas: Henrique Campos · <a href="https://github.com/LuiixCampos">GitHub</a></span></footer>
-</div>
+<body style="margin:0">
+
+
+<header class="band" id="topo">
+  <div class="in introIn">
+    <div class="nav">
+      <a class="logo" href="#topo">LF<sup>°</sup></a>
+      <nav aria-label="Seções"><a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="#sites">Sites</a><a href="#stack">Stack</a><a href="#trajetoria">Trajetória</a><a href="#contato">Contato</a></nav>
+      <span class="live">online · São Paulo</span>
+    </div>
+    <div class="stage">
+      <h1 class="sr">Luiz Freire</h1>
+      <canvas id="particles" aria-hidden="true"></canvas>
+    </div>
+    <div class="introFoot">
+      <p class="tag glow">Dados com intenção.</p>
+      <div class="introMeta">
+        <span><strong>DBA na NTT DATA</strong> cuidando de Oracle, SQL Server, PostgreSQL e MySQL em produção. Nas horas vagas, coloco IA pra trabalhar em cima dos dados e crio sites e landing pages sob medida.</span>
+        <div class="row mono"><span>passe o mouse no nome</span><span>↓ role</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="marquee" aria-hidden="true"><div>
+  <span>Oracle RAC</span><b>✱</b><span>Exadata</span><b>✱</b><span>GoldenGate</span><b>✱</b><span>RMAN</span><b>✱</b><span>Data Guard</span><b>✱</b><span>SQL Server</span><b>✱</b><span>PostgreSQL</span><b>✱</b><span>MySQL</span><b>✱</b><span>Python</span><b>✱</b><span>n8n</span><b>✱</b><span>Docker</span><b>✱</b><span>LLMs</span><b>✱</b>
+  <span>Oracle RAC</span><b>✱</b><span>Exadata</span><b>✱</b><span>GoldenGate</span><b>✱</b><span>RMAN</span><b>✱</b><span>Data Guard</span><b>✱</b><span>SQL Server</span><b>✱</b><span>PostgreSQL</span><b>✱</b><span>MySQL</span><b>✱</b><span>Python</span><b>✱</b><span>n8n</span><b>✱</b><span>Docker</span><b>✱</b><span>LLMs</span><b>✱</b>
+</div></div>
+
+<main>
+  <section class="band" id="sobre" aria-labelledby="sobreT">
+    <div class="in secIn">
+      <span class="eyebrow" id="sobreT">Sobre</span>
+      <p class="manifesto">Comecei no <em>suporte</em>, passei pelo <em>BI</em> e hoje mantenho <em>bancos de produção</em> de pé quando o resto da empresa depende deles. Agora estou construindo <span class="glow">IA em cima dos dados.</span></p>
+      <div class="stats">
+        <div><b class="count" data-to="6">06</b><span>anos em tecnologia</span></div>
+        <div><b class="count" data-to="4">04</b><span>SGBDs em produção</span></div>
+        <div><b class="count" data-to="9">09</b><span>sites publicados</span></div>
+        <div><b class="glow">24/7</b><span>ambientes PRD · HML · DEV</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="projetos" aria-labelledby="projT">
+    <div class="in secIn">
+      <div class="head">
+        <div><span class="eyebrow">Projetos autorais</span><h2 class="disp" id="projT">Projetos</h2></div>
+        <div style="display:flex; flex-direction:column; gap:16px; align-items:flex-start">
+          <p>Ferramentas que construo fora do expediente para estudar, automatizar e resolver problemas reais.</p>
+          <div class="filters" role="group" aria-label="Filtrar projetos">
+            <button type="button" data-f="all" aria-pressed="true">Tudo</button>
+            <button type="button" data-f="dados" aria-pressed="false">Dados</button>
+            <button type="button" data-f="ia" aria-pressed="false">IA</button>
+            <button type="button" data-f="web" aria-pressed="false">Apps</button>
+          </div>
+        </div>
+      </div>
+      <div class="gallery">
+        <article class="pcard feat" data-cat="dados ia" style="--c:var(--lime)">
+          <a class="cover" href="https://github.com/LuiixCampos/monitor-db-ia" target="_blank" rel="noopener" aria-label="Abrir monitor-db-ia no GitHub"><canvas data-glyph="DB·IA" aria-hidden="true"></canvas><span class="badge">no GitHub</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">monitor-db-ia</h3><span class="mono">Lab · dados</span></div></div><div class="pbody"><p>Laboratório que monitora bancos de dados com IA. Coleta métricas, encontra queries lentas e pede sugestões de ajuste a um LLM local, com painéis de BI sobre uma base de varejo fictícia.</p><div class="chips"><span>Docker</span><span>n8n</span><span>Ollama</span><span>Databricks</span><span>Power BI</span><span>Python</span></div></div></div>
+        </article>
+        <article class="pcard half" data-cat="ia web" style="--c:var(--pink)">
+          <div class="cover"><canvas data-glyph="DONK" aria-hidden="true"></canvas><span class="badge">em construção</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></div>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Donk</h3><span class="mono">App · IA</span></div></div><div class="pbody"><p>Meu próprio assistente de IA para o PC: chat, agentes, memória, skills e agendamentos, com mascotes animados que trocam de skin. Versão Android com widget na tela inicial.</p><div class="chips"><span>FastAPI</span><span>Python</span><span>LLM APIs</span><span>Android</span></div></div></div>
+        </article>
+        <article class="pcard half" data-cat="ia" style="--c:var(--peach)">
+          <div class="cover"><canvas data-glyph="&gt;_" aria-hidden="true"></canvas><span class="badge">funcionando</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></div>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Bot-IA</h3><span class="mono">Bot · IA</span></div></div><div class="pbody"><p>Tutor de SQL em Python com Gemini, memória de contexto e retry com backoff. Sendo ligado ao WhatsApp pela API oficial via n8n.</p><div class="chips"><span>Python</span><span>Gemini</span><span>n8n</span><span>WhatsApp API</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="web ia" style="--c:var(--violet)">
+          <div class="cover"><canvas data-glyph="§" aria-hidden="true"></canvas><span class="badge">em uso</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></div>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Assistente Processual</h3><span class="mono">Web app</span></div></div><div class="pbody"><p>App React que acompanha processos judiciais e resume as movimentações com a API do Claude, feito para um escritório de advocacia da família.</p><div class="chips"><span>React</span><span>Claude API</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="ia" style="--c:var(--teal)">
+          <div class="cover"><canvas data-glyph="AGT" aria-hidden="true"></canvas><span class="badge">rodando</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></div>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Escritório de IA</h3><span class="mono">Agentes</span></div></div><div class="pbody"><p>Agentes em pixel art que roteirizam e publicam conteúdo, sempre com minha aprovação antes de ir ao ar. Inclui o canal Kage Lore.</p><div class="chips"><span>Claude Code</span><span>Docker</span><span>Piper TTS</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="ia web" style="--c:var(--steel)">
+          <div class="cover"><canvas data-glyph="T°" aria-hidden="true"></canvas><span class="badge">planejamento</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></div>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Talita</h3><span class="mono">Pesquisa</span></div></div><div class="pbody"><p>Assistente pessoal no estilo JARVIS, com o Android como terminal e o PC como cérebro. Em estudo de viabilidade.</p><div class="chips"><span>Android</span><span>Windows</span><span>LLM</span></div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="sites" aria-labelledby="sitesT">
+    <div class="in secIn">
+      <div class="head">
+        <div><span class="eyebrow">Freela · web</span><h2 class="disp" id="sitesT">Sites</h2></div>
+        <p>Landing pages com uma ideia tirada do negócio de cada cliente e um momento interativo que ninguém esquece. Clique na capa para abrir o site.</p>
+      </div>
+      <div class="gallery">
+        <article class="pcard feat" data-cat="site" style="--c:#ffb547">
+          <a class="cover" href="https://luiixcampos.github.io/indice/" target="_blank" rel="noopener" aria-label="Abrir o site Índice"><canvas data-glyph="IDX" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Índice</h3><span class="mono">SaaS · banco de dados</span></div></div><div class="pbody"><p>Monitoramento de banco para empresas sem DBA. Na abertura, o visitante acha a query que trava o sistema, vê o raio-x do plano de execução e aplica o índice que derruba tempo, CPU e fila.</p><div class="chips"><span>Demo interativa</span><span>Canvas</span><span>Dados de exemplo</span></div></div></div>
+        </article>
+        <article class="pcard half" data-cat="site" style="--c:#e7a8bd">
+          <a class="cover" href="https://luiixcampos.github.io/iris/" target="_blank" rel="noopener" aria-label="Abrir o site Íris"><canvas data-glyph="ÍRIS" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Íris</h3><span class="mono">Clínica de estética</span></div></div><div class="pbody"><p>Um espelho de aumento segue o mouse e põe a manchete em foco. Mapa do rosto clicável com cada tratamento, dentro das regras do CFM.</p><div class="chips"><span>Lente no cursor</span><span>Mapa interativo</span></div></div></div>
+        </article>
+        <article class="pcard half" data-cat="site" style="--c:#ff5a3c">
+          <a class="cover" href="https://luiixcampos.github.io/carga/" target="_blank" rel="noopener" aria-label="Abrir o site Carga"><canvas data-glyph="20KG" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Carga</h3><span class="mono">Academia de força</span></div></div><div class="pbody"><p>Anilha de 20 kg em retícula que reage ao mouse, manifesto que acende no scroll, painel de horários estilo aeroporto e planos em forma de anilha.</p><div class="chips"><span>Halftone</span><span>Split-flap</span><span>Scroll</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#c9f26a">
+          <a class="cover" href="https://luiixcampos.github.io/ruela/" target="_blank" rel="noopener" aria-label="Abrir o site Ruela"><canvas data-glyph="RUELA" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Ruela</h3><span class="mono">Moda streetwear</span></div></div><div class="pbody"><p>Vitrine que desliza, sacola funcionando e contagem regressiva para o drop.</p><div class="chips"><span>E-commerce</span><span>Carrinho</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#d9b48a">
+          <a class="cover" href="https://luiixcampos.github.io/moura/" target="_blank" rel="noopener" aria-label="Abrir o site Moura Vasconcellos"><canvas data-glyph="MV" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Moura Vasconcellos</h3><span class="mono">Advocacia</span></div></div><div class="pbody"><p>Escritório boutique com tradutor de juridiquês na abertura, dentro das regras da OAB.</p><div class="chips"><span>Sóbrio</span><span>Tradutor</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#6fd3a6">
+          <a class="cover" href="https://luiixcampos.github.io/amparo/" target="_blank" rel="noopener" aria-label="Abrir o site Amparo"><canvas data-glyph="♥" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Amparo</h3><span class="mono">Educação · saúde</span></div></div><div class="pbody"><p>Escola de cuidadores com monitor de sinais vitais ao vivo e um plantão que o visitante executa.</p><div class="chips"><span>ECG em canvas</span><span>Checklist</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#e0aa43">
+          <a class="cover" href="https://luiixcampos.github.io/detinhos/" target="_blank" rel="noopener" aria-label="Abrir o site Detinhos"><canvas data-glyph="DOG" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Detinhos</h3><span class="mono">Hamburgueria · cliente real</span></div></div><div class="pbody"><p>O smash é montado camada por camada no scroll, e a comanda impressa vira pedido no WhatsApp.</p><div class="chips"><span>Scroll</span><span>WhatsApp</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#7b6cff">
+          <a class="cover" href="https://luiixcampos.github.io/buero/" target="_blank" rel="noopener" aria-label="Abrir o site Buero"><canvas data-glyph="ADC" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Buero</h3><span class="mono">Proposta para streamer</span></div></div><div class="pbody"><p>Página para jogador de League of Legends, feita para apresentar ao vivo na stream.</p><div class="chips"><span>Twitch</span><span>YouTube</span></div></div></div>
+        </article>
+        <article class="pcard " data-cat="site" style="--c:#7fe3c4">
+          <a class="cover" href="https://luiixcampos.github.io/nandin027/" target="_blank" rel="noopener" aria-label="Abrir o site Nandin027"><canvas data-glyph="RPG" aria-hidden="true"></canvas><span class="badge">no ar</span><span class="yr">2026</span><span class="open" aria-hidden="true">↗</span></a>
+          <div class="pbody"><div><div class="ptop"><h3 class="disp">Nandin027</h3><span class="mono">Proposta para streamer</span></div></div><div class="pbody"><p>Visual de RPG antigo com ficha de personagem, comandos do chat e clipes mais vistos.</p><div class="chips"><span>Pixel</span><span>Twitch</span></div></div></div>
+        </article>
+      </div>
+      <p class="mono" style="margin:0">Marcas fictícias criadas para portfólio, exceto a Detinhos e as propostas para criadores.</p>
+    </div>
+  </section>
+
+  <section class="band" id="stack" aria-labelledby="stackT">
+    <div class="in secIn">
+      <div class="head"><div><span class="eyebrow">Ferramentas</span><h2 class="disp" id="stackT">Stack</h2></div></div>
+      <div class="stackGrid">
+        <div class="dbArt"><canvas id="db" aria-hidden="true"></canvas><span class="cap">SELECT * FROM luiz.stack;</span></div>
+        <dl class="groups">
+          <div><dt>Bancos</dt><dd>Oracle RAC / Exadata, SQL Server, PostgreSQL <span>(Azure Flexible)</span>, MySQL</dd></div>
+          <div><dt>Alta disponibilidade</dt><dd>GoldenGate, Data Guard, RMAN, backup e recovery</dd></div>
+          <div><dt>Dados &amp; BI</dt><dd>Power BI, Databricks, ETL, Kafka</dd></div>
+          <div><dt>IA &amp; automação</dt><dd>Python, n8n, Docker, Ollama, APIs de LLM <span>(Claude, Gemini)</span></dd></div>
+          <div><dt>Cloud</dt><dd>Azure, OCI <span>· AZ-900</span></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="trajetoria" aria-labelledby="trajT">
+    <div class="in secIn">
+      <div class="head"><div><span class="eyebrow">2020 → hoje</span><h2 class="disp" id="trajT">Trajetória</h2></div></div>
+      <ol class="tl">
+        <li><time class="glow">2026—</time><div><h3 class="disp">Consultor DBA</h3><span class="org">NTT DATA</span></div><p>Oracle RAC/Exadata, GoldenGate, RMAN e Data Guard em varejo de grande porte. PostgreSQL no Azure para o setor financeiro, MySQL para APIs e atuação em salas de crise.</p></li>
+        <li><time>2022—26</time><div><h3 class="disp">Analista de Suporte</h3><span class="org">NTT DATA</span></div><p>Primeiro atendimento em ambientes corporativos, triagem de incidentes e contato com projetos de streaming de dados com Kafka.</p></li>
+        <li><time>2020—21</time><div><h3 class="disp">Analista de BI</h3><span class="org">Zetaorionis IT Experts</span></div><p>Dashboards e KPIs, rotinas de ETL e otimização de processos de negócio.</p></li>
+        <li><time>2025—26</time><div><h3 class="disp">Ciência de Dados</h3><span class="org">Descomplica · graduação</span></div><p>Python, estatística e modelagem de dados.</p></li>
+      </ol>
+      <div class="extras">
+        <div><span class="eyebrow">Certificações</span><ul style="margin-top:14px">
+          <li><span>Microsoft Azure Fundamentals</span><span>AZ-900</span></li>
+          <li><span>Microsoft 365 Fundamentals</span><span>MS-900</span></li>
+          <li><span>ITIL 4 Foundation</span><span>ITIL</span></li>
+          <li><span>Power BI, SQL e Redes</span><span>cursos</span></li>
+        </ul></div>
+        <div><span class="eyebrow">Idiomas</span><ul style="margin-top:14px">
+          <li><span>Português</span><span>nativo</span></li>
+          <li><span>Inglês</span><span>fluente</span></li>
+          <li><span>Espanhol</span><span>avançado</span></li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band contact" id="contato" aria-labelledby="contT">
+    <div class="in secIn">
+      <span class="eyebrow">Contato</span>
+      <h2 class="disp big" id="contT"><span>Vamos</span><span class="glow">conversar.</span></h2>
+      <div class="contactRow">
+        <div class="mailBox"><span class="mail" id="mail">henriquecampoos78@gmail.com</span><button class="btn primary" type="button" id="copy">Copiar e-mail</button></div>
+        <div class="links">
+          <a class="btn" href="https://github.com/LuiixCampos" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn" href="https://www.linkedin.com/in/luiz-campos-freire" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn" href="https://www.instagram.com/luiixcampos277" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </div>
+      <p class="mono" style="margin:0">Aberto a freelas de DBA, automação com IA e vagas remotas ou híbridas em São Paulo.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="band"><div class="in mono"><span>© 2026 Luiz Freire</span><span>feito com dados e café</span><a href="#topo" style="text-decoration:none">voltar ao topo ↑</a></div></footer>
+
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // números rolando
+  function roll(el){
+    const to = +el.dataset.to, pad = v => String(v).padStart(2,'0');
+    if (reduce) { el.textContent = pad(to); return; }
+    const t0 = performance.now(), d = 1100;
+    const step = t => { const p = Math.min(1,(t-t0)/d); el.textContent = pad(Math.round(to*(1-Math.pow(1-p,3)))); if (p<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  const counts = document.querySelectorAll('.count');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { roll(e.target); io.unobserve(e.target); } }), {threshold:.6});
+    counts.forEach(c => io.observe(c));
+  }
+
+  // filtro de projetos
+  const btns = document.querySelectorAll('.filters button');
+  const cards = document.querySelectorAll('.pcard');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('#projetos .pcard').forEach(r => r.classList.toggle('off', !(b.dataset.f === 'all' || r.dataset.cat.split(' ').includes(b.dataset.f))));
+  }));
+
+  // capas em matriz de pontos
+  const covers = [];
+  function buildCover(cv){
+    const d = Math.min(2, devicePixelRatio || 1), W = cv.clientWidth, H = cv.clientHeight;
+    if (!W || !H) return null;
+    cv.width = W*d; cv.height = H*d;
+    const ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
+    const col = getComputedStyle(cv.closest('.pcard')).getPropertyValue('--c').trim() || '#3f86ff';
+    const g = Math.max(5, Math.round(W/70));
+    const off = document.createElement('canvas'); off.width = W; off.height = H;
+    const o = off.getContext('2d'); const txt = cv.dataset.glyph;
+    let fs = H*.62; o.font = `900 ${fs}px "Doto", monospace`;
+    const mw = o.measureText(txt).width; if (mw > W*.8) { fs *= W*.8/mw; o.font = `900 ${fs}px "Doto", monospace`; }
+    o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillText(txt, W/2, H/2 + fs*.04);
+    const data = o.getImageData(0,0,W,H).data, dots = [];
+    for (let y = g/2; y < H; y += g) for (let x = g/2; x < W; x += g) {
+      const on = data[((y|0)*W + (x|0))*4 + 3] > 100;
+      dots.push({x, y, on, r: Math.random()});
+    }
+    return {cv, ctx, W, H, g, col, dots, hover:false};
+  }
+  function paint(c, t){
+    const {ctx, W, H, g, col, dots} = c;
+    ctx.clearRect(0,0,W,H);
+    for (const p of dots) {
+      if (p.on) {
+        const wave = c.hover ? .55 + .45*Math.sin(t*3 + p.x*.04 + p.y*.03) : 1;
+        ctx.globalAlpha = .35 + .65*wave*(p.r > .08 ? 1 : .4);
+        ctx.fillStyle = col;
+        const s = g*(c.hover ? .5 + .2*wave : .62);
+        ctx.fillRect(p.x - s/2, p.y - s/2, s, s);
+      } else {
+        const tw = c.hover ? .5 + .5*Math.sin(t*2 + p.r*20) : .6;
+        ctx.globalAlpha = .1 + .12*tw*p.r;
+        ctx.fillStyle = '#7d8396';
+        ctx.fillRect(p.x - 1, p.y - 1, 2, 2);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+  function initCovers(){
+    covers.length = 0;
+    document.querySelectorAll('.cover canvas').forEach(cv => { const c = buildCover(cv); if (c) { covers.push(c); paint(c, 0); } });
+  }
+  let anim = false;
+  function tick(t){
+    t /= 1000; let any = false;
+    covers.forEach(c => { if (c.hover) { paint(c, t); any = true; } });
+    anim = any; if (any) requestAnimationFrame(tick);
+  }
+  cards.forEach(card => {
+    card.addEventListener('pointerenter', () => { const c = covers.find(x => card.contains(x.cv)); if (!c || reduce) return; c.hover = true; if (!anim) { anim = true; requestAnimationFrame(tick); } });
+    card.addEventListener('pointerleave', () => { const c = covers.find(x => card.contains(x.cv)); if (!c) return; c.hover = false; paint(c, 0); });
+  });
+  (document.fonts && document.fonts.load ? document.fonts.load('900 100px "Doto"').catch(()=>{}) : Promise.resolve()).then(initCovers);
+  addEventListener('resize', () => { clearTimeout(window.__cv); window.__cv = setTimeout(initCovers, 150); });
+
+  // copiar e-mail
+  const copy = document.getElementById('copy'), mail = document.getElementById('mail');
+  copy.addEventListener('click', () => {
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(mail); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copy.textContent = 'Selecionado · Ctrl+C'; };
+    try { navigator.clipboard.writeText(mail.textContent).then(() => { copy.textContent = 'Copiado'; setTimeout(() => copy.textContent = 'Copiar e-mail', 1800); }, sel); } catch(e){ sel(); }
+  });
+
+  // partículas do nome
+  const pc = document.getElementById('particles'), px = pc.getContext('2d');
+  let P = [], PW, PH, gap, mouse = {x:-9999, y:-9999};
+  function build(){
+    const d = Math.min(2, devicePixelRatio || 1);
+    PW = pc.clientWidth; PH = pc.clientHeight;
+    pc.width = PW*d; pc.height = PH*d; px.setTransform(d,0,0,d,0,0);
+    const lines = PW > 720 ? ['LUIZ FREIRE'] : ['LUIZ','FREIRE'];
+    const off = document.createElement('canvas'); off.width = PW; off.height = PH;
+    const o = off.getContext('2d');
+    let fs = 200;
+    const setF = () => { o.font = `900 ${fs}px "Archivo", "Arial Black", sans-serif`; try{ o.fontStretch = 'expanded'; }catch(e){} };
+    setF();
+    const widest = () => Math.max(...lines.map(l => o.measureText(l).width));
+    fs *= (PW*.97) / widest(); setF();
+    if (fs*.86*lines.length > PH*.92) { fs *= (PH*.92)/(fs*.86*lines.length); setF(); }
+    const LH = fs*.86, top = (PH - LH*lines.length)/2 + LH*.82;
+    o.fillStyle = '#fff';
+    lines.forEach((l,i) => o.fillText(l, (PW - o.measureText(l).width)/2, top + i*LH));
+    const data = o.getImageData(0,0,PW,PH).data;
+    gap = Math.max(3, Math.round(PW/300));
+    P = [];
+    for (let y = 0; y < PH; y += gap) for (let x = 0; x < PW; x += gap) {
+      if (data[(y*PW+x)*4+3] > 128) {
+        const fly = x > PW*.74 && Math.random() < ((x-PW*.74)/(PW*.26))*.55;
+        P.push({hx:x, hy:y, x, y, vx:0, vy:0, fly, ph:Math.random()*6.28, sp:.25+Math.random()*.6, blue:Math.random()<.06});
+      }
+    }
+  }
+  function frame(t){
+    t /= 1000; px.clearRect(0,0,PW,PH);
+    const s = gap*.72;
+    for (const p of P) {
+      let tx = p.hx, ty = p.hy, a = 1;
+      if (p.fly && !reduce) {
+        const k = ((t*p.sp + p.ph) % 3)/3;
+        tx += k*k*140 + Math.sin(t+p.ph)*6;
+        ty += Math.sin(p.ph*3 + t*1.3)*26*k + k*30;
+        a = 1 - k;
+      }
+      const dx = p.x-mouse.x, dy = p.y-mouse.y, d2 = dx*dx+dy*dy, R = 95;
+      if (d2 < R*R) { const m = Math.sqrt(d2) || 1, f = (R-m)/R*6; p.vx += dx/m*f; p.vy += dy/m*f; }
+      p.vx += (tx-p.x)*.08; p.vy += (ty-p.y)*.08; p.vx *= .8; p.vy *= .8; p.x += p.vx; p.y += p.vy;
+      px.globalAlpha = a; px.fillStyle = p.blue ? '#3f86ff' : '#f2f4fa';
+      px.fillRect(p.x, p.y, s, s);
+    }
+    px.globalAlpha = 1;
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  (document.fonts && document.fonts.load ? document.fonts.load('900 100px "Archivo"').catch(()=>{}) : Promise.resolve())
+    .then(() => { build(); requestAnimationFrame(frame); });
+  const setM = e => { const r = pc.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; };
+  pc.addEventListener('pointermove', setM);
+  pc.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+
+  // banco de dados em matriz de pontos
+  const dc = document.getElementById('db'), dx = dc.getContext('2d');
+  let DW, pts = [];
+  function buildDb(){
+    const d = Math.min(2, devicePixelRatio || 1);
+    DW = dc.clientWidth; dc.width = DW*d; dc.height = DW*d; dx.setTransform(d,0,0,d,0,0);
+    pts = [];
+    const segs = 3, segH = .42, gapH = .1;
+    for (let s = 0; s < segs; s++) {
+      const y0 = -((segs*segH + (segs-1)*gapH)/2) + s*(segH+gapH);
+      for (let a = 0; a < 64; a++) for (let h = 0; h <= 6; h++)
+        pts.push({th:a/64*Math.PI*2, r:1, y:y0 + h/6*segH, seg:s});
+    }
+    const topY = -((segs*segH + (segs-1)*gapH)/2);
+    for (let ring = 1; ring <= 5; ring++) { const n = ring*12; for (let a = 0; a < n; a++) pts.push({th:a/n*Math.PI*2, r:ring/5.4, y:topY, seg:-1}); }
+  }
+  function drawDb(t){
+    t /= 1000; dx.clearRect(0,0,DW,DW);
+    const rot = t*.35, tilt = .42, sc = DW*.3, cxp = DW/2, cyp = DW*.5;
+    const scan = ((t*.45) % 1.4) - .9;
+    const cs = Math.cos(tilt), sn = Math.sin(tilt);
+    for (const p of pts) {
+      const x = Math.cos(p.th + rot)*p.r, z = Math.sin(p.th + rot)*p.r;
+      const y2 = p.y*cs - z*sn, z2 = p.y*sn + z*cs;
+      const per = 3.2/(3.2 + z2);
+      const X = cxp + x*sc*per, Y = cyp + y2*sc*per;
+      const depth = (1 - z2)/2;
+      const hot = Math.abs(p.y - scan) < .05 && p.seg >= 0;
+      dx.globalAlpha = Math.max(.08, Math.min(1, depth*1.1));
+      dx.fillStyle = hot ? '#ffffff' : (p.seg === -1 ? '#7fb0ff' : '#3f86ff');
+      const sz = (hot ? 3.4 : 2.4)*per;
+      dx.fillRect(X - sz/2, Y - sz/2, sz, sz);
+    }
+    dx.globalAlpha = 1;
+    if (!reduce) requestAnimationFrame(drawDb);
+  }
+  buildDb(); requestAnimationFrame(drawDb);
+  dc.style.filter = 'drop-shadow(0 0 6px rgba(63,134,255,.55))';
+
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { build(); buildDb(); if (reduce) { frame(0); drawDb(0); } }, 150); });
+})();
+</script>
 </body>
 </html>
