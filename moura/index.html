@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moura Vasconcellos Advocacia</title>
+<meta name="description" content="Escritório de advocacia boutique. Família, Trabalhista, Previdenciário, Consumidor, Cível e Empresarial. Atendimento presencial e online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1EA; --surface:#FFFFFF; --surface-dark:#2A1D16; --surface-dark-2:#3A2A20;
+  --text:#2A1D16; --text-muted:#6B5A4C; --border:#E3D9CC;
+  --primary:#8B4A24; --primary-hover:#723A1A; --accent:#D9B48A;
+  --on-dark:#F6F1EA; --on-dark-muted:#CDBBA8;
+  --serif:'Instrument Serif', Georgia, serif; --sans:'Geist', system-ui, -apple-system, sans-serif;
+  --r-sm:8px; --r-md:16px; --r-lg:24px; --shadow:0 12px 32px rgba(42,29,22,.10);
+  --max:1200px; --section:112px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:var(--primary)}
+a:hover{color:var(--primary-hover)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.section{padding:var(--section) 0}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(52px,7.4vw,96px);line-height:.98}
+h2{font-size:clamp(40px,5vw,64px);line-height:1.02}
+h3{font-size:32px;line-height:1.1}
+em{font-style:italic;color:var(--primary)}
+p{margin:0}
+.muted{color:var(--text-muted)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);padding:8px 14px;border-radius:999px}
+.dot{width:8px;height:8px;border-radius:50%;background:#2F6B3F}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-family:var(--sans);font-size:16px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover);color:#fff}
+.btn-secondary{border-color:var(--text);color:var(--text);background:transparent}
+.btn-secondary:hover{background:var(--text);color:var(--bg)}
+.btn-light{background:var(--on-dark);color:var(--text)}
+.btn-light:hover{background:#fff;color:var(--text)}
+.btn svg{width:18px;height:18px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(246,241,234,.88);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px}
+.brand{display:flex;align-items:baseline;gap:10px;white-space:nowrap;text-decoration:none;color:var(--text)}
+.brand b{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1}
+.brand span{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted)}
+.links{display:flex;align-items:center;gap:30px}
+.links a:not(.btn){color:var(--text);text-decoration:none;font-size:15px;font-weight:500}
+.links a:not(.btn):hover{color:var(--primary)}
+.links .btn{height:44px;padding:0 20px;font-size:15px}
+.menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:999px;width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* hero */
+.hero{padding:72px 0 96px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:28px;align-items:flex-start}
+.hero-copy .lead{font-size:20px;line-height:1.6;color:var(--text-muted);max-width:520px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.partners-mini{display:flex;align-items:center;gap:14px;padding-top:8px}
+.avatars{display:flex}
+.avatars img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:3px solid var(--bg)}
+.avatars img+img{margin-left:-12px}
+.partners-mini p{font-size:15px;color:var(--text-muted);line-height:1.4}
+.partners-mini strong{color:var(--text);font-weight:600}
+.hero-media{position:relative}
+.hero-media img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r-lg);background:#d9cbb9}
+.float-card{position:absolute;left:-32px;bottom:40px;background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:18px 20px;display:flex;gap:14px;align-items:center;max-width:300px}
+.float-card .ico{flex:0 0 44px;height:44px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--primary)}
+.float-card b{display:block;font-size:15px;font-weight:600}
+.float-card small{font-size:14px;color:var(--text-muted)}
+
+/* trust strip */
+.trust{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust-item{display:flex;gap:14px;align-items:flex-start;padding:28px 24px}
+.trust-item+.trust-item{border-left:1px solid var(--border)}
+.trust-item svg{flex:0 0 24px;width:24px;height:24px;color:var(--primary);margin-top:2px}
+.trust-item b{display:block;font-size:16px;font-weight:600}
+.trust-item span{font-size:15px;color:var(--text-muted)}
+
+/* areas */
+.areas-grid{display:grid;grid-template-columns:5fr 7fr;gap:72px;align-items:start}
+.areas-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
+.areas-side img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r-lg);background:#d9cbb9;margin-top:10px}
+.area-list{border-top:1px solid var(--border)}
+.area{border-bottom:1px solid var(--border)}
+.area button{width:100%;display:flex;align-items:center;gap:20px;padding:26px 0;background:none;border:0;cursor:pointer;text-align:left;color:var(--text);font-family:var(--sans)}
+.area .a-ico{flex:0 0 52px;height:52px;border-radius:14px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--primary);transition:background .2s,color .2s}
+.area .a-ico svg{width:24px;height:24px}
+.area .a-txt{flex:1;display:flex;flex-direction:column;gap:2px}
+.area .a-txt b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15}
+.area .a-txt span{font-size:16px;color:var(--text-muted)}
+.area .chev{flex:0 0 24px;width:24px;height:24px;color:var(--text-muted);transition:transform .25s}
+.area[data-open="true"] .chev{transform:rotate(180deg)}
+.area[data-open="true"] .a-ico{background:var(--primary);color:#fff;border-color:var(--primary)}
+.area .topics{display:none;flex-wrap:wrap;gap:8px;padding:0 0 28px 72px}
+.area[data-open="true"] .topics{display:flex}
+.topics span{font-size:14px;font-weight:500;background:var(--surface);border:1px solid var(--border);padding:7px 14px;border-radius:999px}
+
+/* partners */
+.head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:48px}
+.head-row p{max-width:420px}
+.partners{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.partner{display:flex;flex-direction:column;gap:20px}
+.partner img{width:100%;aspect-ratio:5/6;object-fit:cover;border-radius:var(--r-lg);background:#d9cbb9}
+.partner .meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 16px}
+.partner .oab{font-size:14px;font-weight:500;color:var(--primary)}
+.partner p{color:var(--text-muted)}
+
+/* quote band */
+.band{position:relative;color:var(--on-dark);background:var(--surface-dark);overflow:hidden}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+.band .wrap{position:relative;padding-top:128px;padding-bottom:128px}
+.band blockquote{margin:0;max-width:860px;font-family:var(--serif);font-size:clamp(34px,4.2vw,54px);line-height:1.15}
+.band blockquote em{color:var(--accent)}
+.band cite{display:block;margin-top:28px;font-family:var(--sans);font-style:normal;font-size:15px;color:var(--on-dark-muted)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;list-style:none;margin:0;padding:0;counter-reset:s}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:28px;display:flex;flex-direction:column;gap:12px}
+.step .n{width:40px;height:40px;border-radius:50%;background:var(--bg);color:var(--primary);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px}
+.step b{font-size:18px;font-weight:600}
+.step p{font-size:16px;color:var(--text-muted)}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:5fr 7fr;gap:72px}
+details{border-bottom:1px solid var(--border)}
+details:first-of-type{border-top:1px solid var(--border)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:19px;font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary svg{flex:0 0 22px;width:22px;height:22px;color:var(--primary);transition:transform .25s}
+details[open] summary svg{transform:rotate(45deg)}
+details p{padding:0 40px 24px 0;color:var(--text-muted)}
+
+/* contact */
+.contact{background:var(--surface-dark);color:var(--on-dark);border-radius:32px;padding:72px;display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.contact h2{color:var(--on-dark)}
+.contact h2 em{color:var(--accent)}
+.contact .lead{color:var(--on-dark-muted);font-size:18px;margin-top:18px;max-width:420px}
+.info{list-style:none;margin:36px 0 0;padding:0;display:flex;flex-direction:column;gap:18px}
+.info li{display:flex;gap:14px;align-items:flex-start}
+.info svg{flex:0 0 22px;width:22px;height:22px;color:var(--accent);margin-top:3px}
+.info a{color:var(--on-dark)}
+.info a:hover{color:var(--accent)}
+form{background:var(--surface);color:var(--text);border-radius:var(--r-lg);padding:32px;display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:14px;font-weight:600}
+.field input,.field select,.field textarea{font-family:var(--sans);font-size:16px;color:var(--text);background:#fff;border:1px solid var(--border);border-radius:var(--r-sm);padding:13px 14px;min-height:48px}
+.field textarea{resize:vertical;min-height:110px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--accent);outline-offset:0;border-color:var(--primary)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form .btn{width:100%}
+.form-note{font-size:13px;color:var(--text-muted)}
+.form-ok{display:none;font-size:15px;font-weight:500;color:#2F6B3F;background:#EAF3EC;padding:12px 14px;border-radius:var(--r-sm)}
+
+/* footer */
+footer{padding:48px 0 40px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center;font-size:14px;color:var(--text-muted)}
+.foot .brand b{font-size:24px}
+
+/* responsive */
+@media (max-width:980px){
+  .links{display:none;position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 24px 20px}
+  .links.open{display:flex}
+  .links a:not(.btn){padding:14px 0;border-bottom:1px solid var(--border)}
+  .links .btn{margin-top:14px}
+  .menu-btn{display:inline-flex}
+  :root{--section:80px}
+  .hero-grid,.areas-grid,.faq-grid,.contact{grid-template-columns:1fr}
+  .hero-media{order:-1}
+  .hero-media img{aspect-ratio:16/10;max-height:520px}
+  .float-card{left:16px;bottom:16px}
+  .areas-side{position:static}
+  .trust-grid{grid-template-columns:1fr 1fr}
+  .trust-item:nth-child(3){border-left:0}
+  .trust-item:nth-child(n+3){border-top:1px solid var(--border)}
+  .steps{grid-template-columns:1fr 1fr}
+  .contact{padding:48px 28px;gap:40px}
+  .areas-grid,.faq-grid{gap:40px}
+}
+@media (max-width:760px){
+  .partners{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .trust-grid{grid-template-columns:1fr}
+  .trust-item+.trust-item{border-left:0;border-top:1px solid var(--border)}
+  .area .topics{padding-left:0}
+  .area .a-txt b{font-size:26px}
+  .hero{padding:32px 0 72px}
+  form{padding:22px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* tradutor de juridiquês */
+.float-card.jur{display:block;max-width:330px;left:-40px;bottom:36px;padding:20px 22px}
+.jur-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
+.jur-h svg{color:var(--primary)}
+.jur b{display:block;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;font-style:italic;color:var(--primary);min-height:1.1em}
+.jur p{font-size:15px;color:var(--text);margin-top:8px;min-height:3.2em}
+.jur button{margin-top:12px;background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:600;color:var(--primary);cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.jur .caret{display:inline-block;width:2px;height:.9em;background:var(--primary);margin-left:2px;vertical-align:-2px;animation:jc 1s steps(1) infinite}
+@keyframes jc{50%{opacity:0}}
+@media (max-width:980px){.float-card.jur{left:16px;right:16px;bottom:16px;max-width:none}}
+@media (max-width:520px){.float-card.jur{position:relative;left:0;right:0;bottom:0;margin-top:-40px;margin-inline:12px}}
+@media (prefers-reduced-motion:reduce){.jur .caret{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#topo" aria-label="Moura Vasconcellos Advocacia, início"><b>Moura Vasconcellos</b><span>Advocacia</span></a>
+    <button class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="links" id="menu" aria-label="Principal">
+      <a href="#areas">Áreas de atuação</a>
+      <a href="#socios">Sócios</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="btn btn-primary" href="#contato">Agendar consulta</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Sociedade registrada na OAB/SP · presencial e online em São Paulo</span>
+        <h1>Advocacia que <em>explica</em> antes de agir.</h1>
+        <p class="lead">Um escritório boutique para pessoas e empresas que querem entender cada etapa do próprio caso, com quem de fato cuida dele.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#contato">Agendar consulta
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="#areas">Ver áreas de atuação</a>
+        </div>
+        <div class="partners-mini">
+          <div class="avatars">
+            <img src="https://images.pexels.com/photos/8111819/pexels-photo-8111819.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop" alt="" width="44" height="44">
+            <img src="https://images.pexels.com/photos/7841788/pexels-photo-7841788.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop" alt="" width="44" height="44">
+          </div>
+          <p><strong>Você fala direto com os sócios.</strong><br>Sem intermediários no seu caso.</p>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="https://images.pexels.com/photos/4427422/pexels-photo-4427422.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Advogados conversando no escritório" width="960" height="1200" fetchpriority="high">
+        <div class="float-card jur" aria-live="polite">
+          <div class="jur-h"><span>Juridiquês</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>Português</span></div>
+          <b id="jurT">Trânsito em julgado</b>
+          <p id="jurD">Quando não cabe mais recurso e a decisão passa a valer de vez.</p>
+          <button type="button" id="jurB">Traduzir outro termo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust" aria-label="Como atendemos">
+    <div class="wrap trust-grid">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <div><b>Consulta online</b><span>Por vídeo, de onde você estiver</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+        <div><b>Proposta por escrito</b><span>Escopo claro antes de começar</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.5-5.4A8.5 8.5 0 1 1 21 12z"/></svg>
+        <div><b>Retorno ágil</b><span>Contato direto pelo WhatsApp</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <div><b>Acompanhamento</b><span>Aviso a cada movimentação</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREAS -->
+  <section class="section" id="areas">
+    <div class="wrap areas-grid">
+      <div class="areas-side">
+        <h2>Áreas de <em>atuação</em></h2>
+        <p class="muted">Seis frentes do Direito, com um sócio responsável por cada uma. Toque em uma área para ver os assuntos mais comuns.</p>
+        <img src="https://images.pexels.com/photos/7841846/pexels-photo-7841846.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Advogada e cliente analisando documentos" width="800" height="600" loading="lazy">
+      </div>
+      <div class="area-list" id="area-list">
+        <div class="area" data-open="true">
+          <button type="button" aria-expanded="true" aria-controls="t1">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
+            <span class="a-txt"><b>Família e Sucessões</b><span>Divórcio, guarda, pensão e inventário, com discrição.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t1"><span>Divórcio</span><span>Guarda e convivência</span><span>Pensão alimentícia</span><span>Inventário</span><span>Testamento</span></div>
+        </div>
+        <div class="area" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="t2">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M3 13h18"/></svg></span>
+            <span class="a-txt"><b>Trabalhista</b><span>Para empregados e empregadores, do contrato à rescisão.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t2"><span>Rescisão</span><span>Horas extras</span><span>Assédio moral</span><span>Acordos</span></div>
+        </div>
+        <div class="area" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="t3">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10M19 21V10M9 21V10M15 21V10M2 10l10-6 10 6"/></svg></span>
+            <span class="a-txt"><b>Previdenciário</b><span>Aposentadorias, benefícios e revisões junto ao INSS.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t3"><span>Aposentadoria</span><span>Auxílio por incapacidade</span><span>BPC/LOAS</span><span>Revisão de benefício</span></div>
+        </div>
+        <div class="area" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="t4">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+            <span class="a-txt"><b>Consumidor</b><span>Compras, serviços, bancos e planos de saúde.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t4"><span>Cobrança indevida</span><span>Negativação</span><span>Plano de saúde</span><span>Voos e bagagens</span></div>
+        </div>
+        <div class="area" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="t5">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span>
+            <span class="a-txt"><b>Cível e Contratos</b><span>Contratos, locações, cobranças e indenizações.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t5"><span>Contratos</span><span>Locação</span><span>Indenizações</span><span>Cobranças</span></div>
+        </div>
+        <div class="area" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="t6">
+            <span class="a-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h2a2 2 0 0 1 2 2v10M2 21h20M8 7h4M8 11h4M8 15h4"/></svg></span>
+            <span class="a-txt"><b>Empresarial</b><span>Abrir, organizar e proteger o seu negócio.</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="topics" id="t6"><span>Abertura de empresa</span><span>Contrato social</span><span>Sociedade</span><span>Consultoria preventiva</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="section" id="socios" style="padding-top:0">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Quem cuida do <em>seu caso</em></h2>
+        <p class="muted">Dois sócios, cada um à frente das suas áreas. É com eles que você conversa do começo ao fim.</p>
+      </div>
+      <div class="partners">
+        <article class="partner">
+          <img src="https://images.pexels.com/photos/8111819/pexels-photo-8111819.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Retrato de Helena Moura" width="800" height="960" loading="lazy">
+          <div class="meta"><h3>Helena Moura</h3><span class="oab">Sócia · OAB/SP</span></div>
+          <p>Família, Sucessões e Previdenciário. Especialista em Direito de Família, com atendimento focado em acordos que evitam anos de processo.</p>
+        </article>
+        <article class="partner">
+          <img src="https://images.pexels.com/photos/7841788/pexels-photo-7841788.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Retrato de Rafael Vasconcellos" width="800" height="960" loading="lazy">
+          <div class="meta"><h3>Rafael Vasconcellos</h3><span class="oab">Sócio · OAB/SP</span></div>
+          <p>Trabalhista, Cível e Empresarial. Atende pequenas empresas e profissionais na prevenção de conflitos e em contratos do dia a dia.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE BAND -->
+  <section class="band" aria-label="Nossa forma de trabalhar">
+    <img src="https://images.pexels.com/photos/7841456/pexels-photo-7841456.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="" loading="lazy">
+    <div class="wrap">
+      <blockquote>“Ninguém deveria assinar uma procuração sem entender o que vem depois. Por isso a primeira conversa é sempre <em>sobre o seu caso, não sobre nós</em>.”</blockquote>
+      <cite>Helena Moura e Rafael Vasconcellos, sócios</cite>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Como <em>funciona</em></h2>
+        <p class="muted">Do primeiro contato ao acompanhamento, você sabe sempre o próximo passo.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><span class="n">1</span><b>Você nos conta</b><p>Pelo formulário ou WhatsApp, em poucas linhas.</p></li>
+        <li class="step"><span class="n">2</span><b>Consulta</b><p>Analisamos os documentos e explicamos caminhos, riscos e prazos.</p></li>
+        <li class="step"><span class="n">3</span><b>Proposta</b><p>Escopo e honorários por escrito, antes de qualquer decisão.</p></li>
+        <li class="step"><span class="n">4</span><b>Acompanhamento</b><p>Você é avisado de cada movimentação relevante.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="duvidas" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <h2>Dúvidas <em>frequentes</em></h2>
+        <p class="muted">Não achou sua pergunta? <a href="#contato">Fale com a gente</a>.</p>
+      </div>
+      <div>
+        <details open>
+          <summary>A primeira consulta é paga?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <p>A primeira conversa, de até 30 minutos, serve para entender o caso e não tem custo. Na consulta explicamos as opções do seu caso antes de qualquer contratação.</p>
+        </details>
+        <details>
+          <summary>Vocês atendem online?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <p>Sim. A consulta pode ser por videochamada e os documentos enviados de forma digital.</p>
+        </details>
+        <details>
+          <summary>Como acompanho o meu processo?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <p>Você recebe atualizações a cada movimentação relevante e fala com o sócio responsável sempre que precisar.</p>
+        </details>
+        <details>
+          <summary>Quais documentos devo levar?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <p>Documento com foto, comprovante de endereço e tudo que tiver relação com o caso: contratos, mensagens, comprovantes.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contato" style="padding-top:0">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>Vamos falar sobre <em>o seu caso</em></h2>
+          <p class="lead">Conte em poucas linhas. Retornamos para marcar a consulta, presencial ou online.</p>
+          <ul class="info">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Av. Paulista, 1000, sala 1203 · Bela Vista, São Paulo/SP</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.5-5.4A8.5 8.5 0 1 1 21 12z"/></svg><a href="#contato">WhatsApp (11) 90000-0000</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><a href="#contato">contato@mouravasconcellos.adv.br</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Segunda a sexta, 9h às 18h</span></li>
+          </ul>
+        </div>
+        <form id="form" novalidate>
+          <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required></div>
+          <div class="row2">
+            <div class="field"><label for="tel">Telefone</label><input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" required></div>
+            <div class="field"><label for="area">Assunto</label>
+              <select id="area" name="area">
+                <option>Família e Sucessões</option><option>Trabalhista</option><option>Previdenciário</option>
+                <option>Consumidor</option><option>Cível e Contratos</option><option>Empresarial</option><option>Outro</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="msg">Conte brevemente a situação</label><textarea id="msg" name="msg" placeholder="Não precisa de detalhes agora"></textarea></div>
+          <button class="btn btn-primary" type="submit">Enviar mensagem</button>
+          <p class="form-ok" id="form-ok" role="status">Mensagem enviada. Retornamos em breve.</p>
+          <p class="form-note">Seus dados servem só para retornarmos o contato.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#topo"><b>Moura Vasconcellos</b><span>Advocacia</span></a>
+    <span>Marca fictícia · Projeto conceito para portfólio · Site por Henrique Campos · Fotos: Pexels</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.querySelector('.menu-btn'), menu=document.getElementById('menu');
+  btn.addEventListener('click',function(){var o=menu.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Fechar menu':'Abrir menu');});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');btn.setAttribute('aria-expanded','false');});});
+  document.querySelectorAll('#area-list .area').forEach(function(area){
+    area.querySelector('button').addEventListener('click',function(){
+      var open=area.getAttribute('data-open')==='true';
+      document.querySelectorAll('#area-list .area').forEach(function(a){a.setAttribute('data-open','false');a.querySelector('button').setAttribute('aria-expanded','false');});
+      if(!open){area.setAttribute('data-open','true');this.setAttribute('aria-expanded','true');}
+    });
+  });
+  var form=document.getElementById('form');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var nome=document.getElementById('nome'), tel=document.getElementById('tel');
+    if(!nome.value.trim()){nome.focus();return;}
+    if(!tel.value.trim()){tel.focus();return;}
+    document.getElementById('form-ok').style.display='block';
+    form.reset();
+  });
+
+  /* tradutor de juridiquês */
+  var J=[
+    ['Trânsito em julgado','Quando não cabe mais recurso e a decisão passa a valer de vez.'],
+    ['Liminar','Uma decisão rápida e provisória, dada antes do fim do processo, para evitar um prejuízo urgente.'],
+    ['Sucumbência','Quem perde a ação paga as custas e os honorários do advogado da outra parte.'],
+    ['Petição inicial','O primeiro documento do processo, onde contamos ao juiz o que aconteceu e o que você pede.'],
+    ['Prescrição','O prazo para entrar com a ação acabou e o direito não pode mais ser cobrado na Justiça.'],
+    ['Audiência de conciliação','Um encontro com a outra parte para tentar um acordo antes de o juiz decidir.']
+  ];
+  var ji=0,jT=document.getElementById('jurT'),jD=document.getElementById('jurD'),jB=document.getElementById('jurB'),jt=null;
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function showJ(){
+    var t=J[ji][0],d=J[ji][1];clearInterval(jt);jD.textContent=d;
+    if(RM){jT.textContent=t;return;}
+    var n=0;jT.innerHTML='<span class="caret"></span>';
+    jt=setInterval(function(){n++;jT.innerHTML=t.slice(0,n)+'<span class="caret"></span>';if(n>=t.length){clearInterval(jt);setTimeout(function(){jT.textContent=t;},900);}},45);
+  }
+  jB.addEventListener('click',function(){ji=(ji+1)%J.length;showJ();});
+  showJ();
+})();
+</script>
+</body>
+</html>

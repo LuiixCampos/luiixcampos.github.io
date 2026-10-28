@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Amparo Escola de Cuidadores: formação de cuidador de idosos com 120 horas e estágio supervisionado.">
+<title>Amparo Escola de Cuidadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sala de enfermagem à noite. Monitor de sinais vitais ao vivo na abertura, plantão que o visitante executa,
+   módulos com barras de carga horária em escala, vaga contada como leitos. Identidade aprovada: verde-escuro, menta, serifa itálica. */
+:root{
+  --night:#0b1411; --deep:#0f1c18; --panel:#13241f; --line:#21362f; --text:#e9efe9; --soft:#a9bbb2; --mint:#6fd3a6; --mint-dk:#3fae80; --amber:#f2b35d; --red:#ff7a6b;
+  --f-serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --f-sans:"Geist","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--text);font-family:var(--f-sans);font-size:17px;line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+.g{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.w{max-width:1200px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-serif);font-weight:400;margin:0;line-height:1.05;letter-spacing:-.015em;text-wrap:balance}
+em{font-style:italic;color:var(--mint)}
+.eye{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;gap:10px}
+.eye::before{content:"";width:22px;height:1px;background:var(--soft)}
+.mono{font-family:var(--f-mono)}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:13px 16px 13px 22px;border-radius:999px;font-weight:500;font-size:15px;text-decoration:none;border:1px solid var(--line);color:var(--text);background:transparent;cursor:pointer;transition:transform .15s,background .2s}
+.btn i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);font-style:normal}
+.btn:hover{transform:translateY(-2px)}
+.btn.pri{background:var(--mint);border-color:var(--mint);color:#08251a}
+.btn.pri i{background:rgba(0,0,0,.12)}
+
+/* NAV */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--night)}
+.nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:9;background:rgba(11,20,17,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .w{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-serif);font-size:24px;text-decoration:none}
+.logo span{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--mint);display:grid;place-items:center}
+.logo span::before{content:"";width:9px;height:9px;background:var(--mint);transform:rotate(45deg);border-radius:2px 0 2px 0;box-shadow:-3px -3px 0 -1px var(--mint)}
+.nav ul{list-style:none;display:flex;gap:26px;margin:0;padding:0;font-size:15px;color:var(--soft)}
+.nav ul a{text-decoration:none}.nav ul a:hover{color:var(--text)}
+@media (max-width:860px){.nav ul{display:none}}
+
+/* HERO */
+.hero{padding-block:72px 64px;background:radial-gradient(80% 70% at 85% 10%,rgba(111,211,166,.12),transparent 60%)}
+.hg{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(46px,6.4vw,88px)}
+.hero p.lead{font-size:19px;color:var(--soft);max-width:44ch;margin:24px 0 30px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.stats{display:flex;gap:0;margin-top:44px;border-top:1px solid var(--line)}
+.stats div{padding:18px 28px 0 0;margin-right:28px;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-family:var(--f-serif);font-weight:400;font-size:38px;line-height:1}
+.stats span{font-size:14px;color:var(--soft)}
+@media (max-width:960px){.hg{grid-template-columns:1fr}}
+
+/* MONITOR */
+.mon{background:#050a08;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.45);min-width:0}
+.mon-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:12px;color:var(--soft);letter-spacing:.08em;text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:6px;color:var(--mint)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--mint);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.ecg{width:100%;height:150px;display:block;margin:12px 0 6px}
+.vit{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:12px;overflow:hidden}
+.vit div{background:#08110e;padding:12px 12px 14px;min-width:0}
+.vit small{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.vit b{display:block;font-family:var(--f-mono);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.15;margin-top:4px;font-variant-numeric:tabular-nums}
+.vit .fc b{color:var(--mint)}.vit .sp b{color:#7fc7ff}.vit .pa b{color:var(--text)}.vit .tp b{color:var(--amber)}
+.vit em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--soft)}
+.mon-f{margin-top:12px;font-size:13px;color:var(--soft)}
+@media (max-width:520px){.vit{grid-template-columns:repeat(2,1fr)}}
+
+section.blk{padding-block:96px;border-top:1px solid var(--line)}
+.sh{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:44px}
+.sh h2{font-size:clamp(38px,4.8vw,64px);margin-top:14px}
+.sh p{margin:0;color:var(--soft);max-width:46ch;justify-self:end}
+@media (max-width:860px){.sh{grid-template-columns:1fr}.sh p{justify-self:start}}
+
+/* PLANTÃO */
+.shift{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+.tasks{border:1px solid var(--line);border-radius:18px;background:var(--deep);overflow:hidden}
+.tk-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.tk-h h3{font-size:24px}
+.prog{font-family:var(--f-mono);font-size:13px;color:var(--soft)}
+.bar{height:3px;background:var(--line)}.bar i{display:block;height:100%;width:0;background:var(--mint);transition:width .4s}
+.task{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;padding:16px 20px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);font:inherit;cursor:pointer}
+.task:last-child{border-bottom:0}
+.task:hover{background:rgba(255,255,255,.02)}
+.task .t{font-family:var(--f-mono);font-size:13px;color:var(--soft)}
+.task .n{font-size:16px}
+.task .n small{display:block;font-size:13px;color:var(--soft);margin-top:2px}
+.ck{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.task[aria-pressed="true"] .ck{background:var(--mint);border-color:var(--mint)}
+.task[aria-pressed="true"] .ck::after{content:"";width:10px;height:6px;border-left:2px solid #08251a;border-bottom:2px solid #08251a;transform:rotate(-45deg) translate(1px,-1px)}
+.task[aria-pressed="true"] .n{color:var(--soft)}
+.tip{border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(180deg,var(--panel),var(--deep));position:sticky;top:90px}
+.tip .eye{margin-bottom:14px}
+.tip h3{font-size:30px;margin-bottom:12px}
+.tip p{color:var(--soft);margin:0 0 14px}
+.tip .mod{font-family:var(--f-mono);font-size:12px;color:var(--mint)}
+@media (max-width:900px){.shift{grid-template-columns:1fr}.tip{position:relative;top:0}}
+
+/* PERFIS */
+.who{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
+.who-tabs{display:grid;gap:8px}
+.who-tabs button{text-align:left;font:inherit;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer}
+.who-tabs button small{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.who-tabs button[aria-selected="true"]{background:var(--panel);color:var(--text);border-color:var(--mint-dk)}
+.who-panel h3{font-size:clamp(34px,4vw,52px);margin-bottom:16px}
+.who-panel p{font-size:19px;color:var(--soft);max-width:52ch;margin:0 0 22px}
+.who-panel ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.who-panel li{display:flex;gap:12px;align-items:baseline}
+.who-panel li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--mint);transform:translateY(-1px)}
+@media (max-width:860px){.who{grid-template-columns:1fr}}
+
+/* MÉTODO */
+.path{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.path::before{content:"";position:absolute;left:0;right:0;top:19px;height:1px;background:var(--line)}
+.st{padding-right:32px;position:relative;min-width:0}
+.st .dot{width:39px;height:39px;border-radius:50%;background:var(--night);border:1px solid var(--mint);display:grid;place-items:center;font-family:var(--f-serif);font-style:italic;color:var(--mint);position:relative}
+.st .when{display:block;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:22px 0 8px}
+.st h3{font-size:30px;margin-bottom:10px}
+.st p{margin:0;color:var(--soft);max-width:36ch}
+@media (max-width:860px){.path{grid-template-columns:1fr;gap:36px}.path::before{left:19px;right:auto;top:0;bottom:0;width:1px;height:auto}.st{padding-left:60px;padding-right:0}.st .dot{position:absolute;left:0;top:0}.st .when{margin-top:6px}}
+
+/* MÓDULOS */
+.mods{border-top:1px solid var(--text)}
+.md{display:grid;grid-template-columns:46px minmax(0,1.1fr) minmax(0,1fr) 180px;gap:20px;align-items:center;padding-block:20px;border-bottom:1px solid var(--line)}
+.md .no{font-family:var(--f-mono);font-size:13px;color:var(--mint)}
+.md h3{font-size:24px}
+.md p{margin:0;color:var(--soft);font-size:15px}
+.hrs{display:grid;grid-template-columns:1fr 44px;gap:10px;align-items:center}
+.hrs span{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.hrs span i{display:block;height:100%;background:var(--mint);border-radius:4px}
+.hrs b{font-family:var(--f-mono);font-weight:400;font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.md.stage .hrs span i{background:var(--amber)}
+@media (max-width:860px){.md{grid-template-columns:36px 1fr;gap:8px 14px}.md p,.md .hrs{grid-column:2}}
+
+/* TURMA */
+.cls{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--deep)}
+.cls>div{padding:32px;min-width:0}
+.cls .l{border-right:1px solid var(--line)}
+.cls h3{font-size:40px;margin:12px 0 22px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-bottom:26px}
+.facts small{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.facts b{font-weight:500}
+.inc{list-style:none;padding:0;margin:0;display:grid;gap:10px;color:var(--soft);font-size:15px}
+.inc li{display:flex;gap:10px}
+.inc li::before{content:"+";color:var(--mint);font-family:var(--f-mono)}
+.price{font-family:var(--f-serif);font-size:clamp(52px,6vw,76px);line-height:1}
+.price small{font-family:var(--f-sans);font-size:18px;color:var(--soft)}
+.cls .r p{color:var(--soft);margin:10px 0 26px}
+.beds{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:10px}
+.beds i{aspect-ratio:1.4;border-radius:4px;background:var(--line)}
+.beds i.free{background:var(--mint)}
+.bl{font-family:var(--f-mono);font-size:13px;color:var(--soft);margin-bottom:24px}
+.bl b{color:var(--mint);font-weight:500}
+@media (max-width:860px){.cls{grid-template-columns:1fr}.cls .l{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:48px}
+details{border-top:1px solid var(--line);padding-block:20px}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;font-family:var(--f-serif);font-size:24px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--f-mono);color:var(--mint)}
+details[open] summary::after{content:"−"}
+details p{margin:10px 0 0;color:var(--soft);max-width:58ch}
+@media (max-width:860px){.faq{grid-template-columns:1fr}}
+
+/* CONTATO */
+.ct{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding-block:80px}
+.ct h2{font-size:clamp(40px,5.4vw,72px)}
+.wa{border:1px solid var(--line);border-radius:18px;padding:26px;background:var(--deep)}
+.wa .num{font-family:var(--f-mono);font-size:clamp(24px,3vw,32px);margin:8px 0 6px;user-select:all}
+.wa p{color:var(--soft);margin:0 0 18px;font-size:15px}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--soft);font-size:13px}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media (max-width:860px){.ct{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}html{scroll-behavior:auto}.bar i{transition:none}}
+</style>
+</head>
+<body style="margin:0">
+
+
+<header class="nav g">
+  <div class="w">
+    <a class="logo" href="#topo"><span aria-hidden="true"></span>Amparo</a>
+    <ul>
+      <li><a href="#plantao">Na prática</a></li>
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#conteudo">Conteúdo</a></li>
+      <li><a href="#turma">Turma</a></li>
+    </ul>
+    <a class="btn pri" href="#turma" style="padding:9px 10px 9px 16px">Matrículas abertas <i aria-hidden="true">→</i></a>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero g">
+    <div class="w hg">
+      <div>
+        <span class="eye">Formação de cuidador de idosos</span>
+        <h1 style="margin-top:18px">Cuidar bem é uma <em>técnica.</em> E ela se aprende.</h1>
+        <p class="lead">Formação de 120 horas com aulas práticas em laboratório e estágio supervisionado por enfermeira. Para quem quer entrar na área com segurança ou cuidar melhor de alguém da família.</p>
+        <div class="ctas">
+          <a class="btn pri" href="#turma">Ver turma e valores <i aria-hidden="true">→</i></a>
+          <a class="btn" href="#plantao">Experimentar um plantão <i aria-hidden="true">↓</i></a>
+        </div>
+        <div class="stats">
+          <div><b>120 h</b><span>carga horária</span></div>
+          <div><b>40 h</b><span>de estágio</span></div>
+          <div><b>4 meses</b><span>de formação</span></div>
+        </div>
+      </div>
+      <div class="mon" aria-label="Monitor de sinais vitais de exemplo">
+        <div class="mon-h"><span>Leito 04 · Dona Lúcia, 82</span><span class="live"><i aria-hidden="true"></i>Ao vivo</span></div>
+        <canvas class="ecg" id="ecg" aria-hidden="true"></canvas>
+        <div class="vit">
+          <div class="fc"><small>FC</small><b id="fc">72</b><em>bpm</em></div>
+          <div class="sp"><small>SpO₂</small><b id="sp">97</b><em>%</em></div>
+          <div class="pa"><small>PA</small><b id="pa">128/82</b><em>mmHg</em></div>
+          <div class="tp"><small>Temp.</small><b id="tp">36,4</b><em>°C</em></div>
+        </div>
+        <p class="mon-f">É isso que você aprende a ler e anotar no módulo 04. Paciente fictícia, valores simulados.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="plantao">
+    <div class="w">
+      <div class="sh">
+        <div><span class="eye">Na prática</span><h2>Faça um plantão da manhã com a gente.</h2></div>
+        <p>Este é o exercício do módulo 04. Marque cada tarefa e veja o que você aprende para fazê-la com segurança.</p>
+      </div>
+      <div class="shift">
+        <div class="tasks">
+          <div class="tk-h"><h3>Diário de cuidados</h3><span class="prog" id="prog">0 de 5 feitas</span></div>
+          <div class="bar"><i id="bar"></i></div>
+          <div id="tasks"></div>
+        </div>
+        <aside class="tip" id="tip" aria-live="polite">
+          <span class="eye">Por trás da tarefa</span>
+          <h3 id="tipT">Escolha uma tarefa</h3>
+          <p id="tipD">Cada tarefa do plantão tem uma técnica por trás. Toque em uma delas para ver o que a formação ensina.</p>
+          <span class="mod" id="tipM"></span>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="quem">
+    <div class="w">
+      <div class="sh">
+        <div><span class="eye">Para quem é</span><h2>Uma profissão que cresce com o país.</h2></div>
+        <p>Cada vez mais famílias procuram cuidadores preparados, que saibam agir com calma em cada situação. A formação foi pensada para três perfis de aluno.</p>
+      </div>
+      <div class="who">
+        <div class="who-tabs" role="tablist" aria-label="Perfil do aluno" id="whoTabs">
+          <button type="button" role="tab" aria-selected="true" data-k="0"><small>Primeira profissão</small>Quero começar do zero</button>
+          <button type="button" role="tab" aria-selected="false" data-k="1"><small>Mudança de área</small>Quero recomeçar à noite</button>
+          <button type="button" role="tab" aria-selected="false" data-k="2"><small>Cuidado na família</small>Quero cuidar de quem amo</button>
+        </div>
+        <div class="who-panel" role="tabpanel" id="whoPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="metodo">
+    <div class="w">
+      <div class="sh">
+        <div><span class="eye">Método</span><h2>Do laboratório ao primeiro plantão.</h2></div>
+        <p>Você não vai para a casa de ninguém sem antes ter praticado. A formação acontece em três etapas, uma depois da outra.</p>
+      </div>
+      <div class="path">
+        <div class="st"><span class="dot">i</span><span class="when">Meses 1 a 3</span><h3>Prática em laboratório</h3><p>Cama hospitalar, cadeira de rodas e manequins para treinar banho, transferência e aferição até ficar natural.</p></div>
+        <div class="st"><span class="dot">ii</span><span class="when">Mês 4 · 40 h</span><h3>Estágio supervisionado</h3><p>Plantões em instituição parceira, sempre acompanhados por enfermeira, com avaliação prática no fim.</p></div>
+        <div class="st"><span class="dot">iii</span><span class="when">Conclusão</span><h3>Certificado e indicação</h3><p>Certificado de 120 horas e entrada no banco de indicações enviado a famílias e casas de repouso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="conteudo">
+    <div class="w">
+      <div class="sh">
+        <div><span class="eye">Conteúdo</span><h2>Oito módulos, na ordem em que você aprende.</h2></div>
+        <p>Teoria e prática juntas em todos os módulos. A barra mostra o peso de cada um na carga de 120 horas.</p>
+      </div>
+      <div class="mods" id="mods"></div>
+    </div>
+  </section>
+
+  <section class="blk g" id="turma">
+    <div class="w">
+      <div class="cls">
+        <div class="l">
+          <span class="eye">Próxima turma</span>
+          <h3>Turma de março</h3>
+          <div class="facts">
+            <div><small>Início</small><b>9 de março</b></div>
+            <div><small>Duração</small><b>4 meses</b></div>
+            <div><small>Horário</small><b>Seg a qui, 19h às 22h</b></div>
+            <div><small>Formato</small><b>Presencial</b></div>
+          </div>
+          <ul class="inc">
+            <li>Apostila e kit de aferição com esfigmomanômetro e oxímetro</li>
+            <li>Estágio em instituição parceira</li>
+            <li>Certificado de 120 horas</li>
+            <li>Banco de indicações para famílias e casas de repouso</li>
+          </ul>
+        </div>
+        <div class="r">
+          <span class="eye">Investimento</span>
+          <div class="price" style="margin-top:14px">12× R$ 119</div>
+          <p>ou R$ 1.290 à vista, com material incluso</p>
+          <div class="beds" id="beds" aria-hidden="true"></div>
+          <div class="bl"><b>8</b> de 30 vagas disponíveis</div>
+          <a class="btn pri" href="#contato">Garantir minha vaga <i aria-hidden="true">→</i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="duvidas">
+    <div class="w faq">
+      <div><span class="eye">Dúvidas</span><h2 style="font-size:clamp(38px,4.8vw,60px);margin-top:14px">Antes de se matricular.</h2></div>
+      <div>
+        <details open><summary>Preciso ter experiência na área?</summary><p>Não. A formação começa do básico, e as aulas práticas acontecem em laboratório antes do estágio.</p></details>
+        <details><summary>O certificado vale para trabalhar?</summary><p>Sim. É um certificado de curso livre de 120 horas com a descrição dos oito módulos e do estágio, que é o que famílias e casas de repouso pedem na contratação.</p></details>
+        <details><summary>E se eu faltar a uma aula?</summary><p>Você pode repor a aula prática em outra turma da mesma semana. Para receber o certificado, a frequência mínima é de 75%.</p></details>
+        <details><summary>Como funciona o pagamento?</summary><p>Em até 12 vezes no cartão ou à vista no PIX com o material incluso. A vaga fica garantida depois da primeira parcela.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="g" id="contato" style="border-top:1px solid var(--line)">
+    <div class="w ct">
+      <h2>Converse com a <em>coordenação.</em></h2>
+      <div class="wa">
+        <span class="eye">WhatsApp da coordenação</span>
+        <div class="num" id="num">(11) 90000-0000</div>
+        <p>Segunda a sábado, das 9h às 18h. Respondemos em até uma hora.</p>
+        <button class="btn" type="button" id="copy">Copiar número <i aria-hidden="true">⧉</i></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="g"><div class="w"><span>Amparo Escola de Cuidadores · marca fictícia para portfólio</span><span>Site por Henrique Campos</span></div></footer>
+
+<script>
+(function(){
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ECG */
+var cv=document.getElementById('ecg'),ctx=cv.getContext('2d'),W,H,x=0,last=null,beat=0;
+function size(){var d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);ctx.fillStyle='#050a08';ctx.fillRect(0,0,W,H);grid();x=0;last=null;}
+function grid(){ctx.strokeStyle='rgba(111,211,166,.07)';ctx.lineWidth=1;for(var i=0;i<W;i+=20){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}for(var j=0;j<H;j+=20){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(W,j);ctx.stroke();}}
+function wave(t){ // t em [0,1) dentro de um batimento
+  if(t<.10)return Math.sin(t/.10*Math.PI)*.08;            // P
+  if(t<.16)return 0;
+  if(t<.18)return -.12;                                    // Q
+  if(t<.21)return 1;                                       // R
+  if(t<.24)return -.28;                                    // S
+  if(t<.36)return 0;
+  if(t<.52)return Math.sin((t-.36)/.16*Math.PI)*.22;       // T
+  return 0;
+}
+var period=0.83*60,ph=0;
+function step(){
+  var spd=2.2;
+  for(var k=0;k<spd;k++){
+    ph+=1/(period*3);if(ph>=1){ph-=1;}
+    var y=H*.62-wave(ph)*H*.5;
+    ctx.fillStyle='#050a08';ctx.fillRect(x,0,14,H);
+    ctx.strokeStyle='rgba(111,211,166,.07)';
+    if(x%20<1){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    ctx.strokeStyle='#6fd3a6';ctx.lineWidth=2;ctx.lineJoin='round';
+    if(last){ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(x,y);ctx.stroke();}
+    last=[x,y];x+=1;if(x>W){x=0;last=null;}
+  }
+  requestAnimationFrame(step);
+}
+size();addEventListener('resize',size);
+if(RM){for(var i=0;i<W;i++){ph+=1/(period*3);if(ph>=1)ph-=1;var y=H*.62-wave(ph)*H*.5;ctx.strokeStyle='#6fd3a6';ctx.lineWidth=2;if(last){ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(i,y);ctx.stroke();}last=[i,y];}}
+else step();
+
+/* vitais */
+var fc=document.getElementById('fc'),sp=document.getElementById('sp'),pa=document.getElementById('pa'),tp=document.getElementById('tp');
+var v={fc:72,sp:97,s:128,d:82,t:36.4};
+function drift(a,b,c,min,max){a+=(Math.random()-.5)*b;return Math.min(max,Math.max(min,a));}
+if(!RM)setInterval(function(){
+  v.fc=Math.round(drift(v.fc,3,0,68,78));v.sp=Math.round(drift(v.sp,1.2,0,96,98));
+  fc.textContent=v.fc;sp.textContent=v.sp;period=(60/v.fc)*60;
+},2200);
+if(!RM)setInterval(function(){v.s=Math.round(drift(v.s,4,0,122,132));v.d=Math.round(drift(v.d,3,0,78,86));v.t=drift(v.t,.15,0,36.2,36.7);pa.textContent=v.s+'/'+v.d;tp.textContent=v.t.toFixed(1).replace('.',',');},9000);
+
+/* plantão */
+var T=[
+ {h:'07:30',n:'Aferição de pressão',s:'Anotar no diário: 128/82 mmHg',t:'Aferição de pressão',d:'Como posicionar o braço e o manguito, ler o esfigmomanômetro e reconhecer quando um valor pede contato com a família ou com o médico.',m:'Módulo 04 · Sinais vitais e medicação · 18 h'},
+ {h:'08:00',n:'Medicação do café',s:'Conferir a receita e o horário',t:'Organização de medicação',d:'Montar a caixa de horários, conferir dose e via e registrar cada tomada para evitar esquecimento ou dose dupla.',m:'Módulo 04 · Sinais vitais e medicação · 18 h'},
+ {h:'09:00',n:'Banho de aspersão',s:'Cadeira de banho e piso seco',t:'Higiene com segurança',d:'Preparar o banheiro antes, manter a pessoa coberta e aquecida e observar a pele em busca de vermelhidão ou lesão.',m:'Módulo 02 · Higiene e conforto · 16 h'},
+ {h:'10:00',n:'Mudança de decúbito',s:'A cada 2 horas, com coxins',t:'Prevenção de lesão por pressão',d:'Virar a pessoa na cama sem forçar a coluna de quem cuida, alternando os lados e protegendo calcanhares, quadril e ombros.',m:'Módulo 03 · Mobilidade e quedas · 16 h'},
+ {h:'11:00',n:'Hidratação · 300 mL',s:'Água em pequenos goles',t:'Hidratação e disfagia',d:'Oferecer líquido na consistência certa, com a pessoa sentada, e reconhecer sinais de engasgo ou dificuldade para engolir.',m:'Módulo 05 · Alimentação e hidratação · 10 h'}
+];
+var box=document.getElementById('tasks'),prog=document.getElementById('prog'),bar=document.getElementById('bar');
+box.innerHTML=T.map(function(o,i){return '<button class="task" type="button" aria-pressed="false" data-i="'+i+'"><span class="t">'+o.h+'</span><span class="n">'+o.n+'<small>'+o.s+'</small></span><span class="ck" aria-hidden="true"></span></button>';}).join('');
+var tipT=document.getElementById('tipT'),tipD=document.getElementById('tipD'),tipM=document.getElementById('tipM');
+box.addEventListener('click',function(e){
+  var b=e.target.closest('.task');if(!b)return;var i=+b.dataset.i,o=T[i];
+  b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');
+  tipT.textContent=o.t;tipD.textContent=o.d;tipM.textContent=o.m;
+  var n=box.querySelectorAll('[aria-pressed="true"]').length;
+  prog.textContent=n===T.length?'Plantão concluído':n+' de '+T.length+' feitas';bar.style.width=(n/T.length*100)+'%';
+});
+
+/* perfis */
+var P=[
+ {h:'Começar do zero',p:'Não é preciso experiência na área. O único requisito é ensino médio completo, e as primeiras semanas são de prática no laboratório.',l:['Aulas desde o básico, sem jargão','Prática antes de qualquer plantão real','Entrada no banco de indicações ao concluir']},
+ {h:'Recomeçar à noite',p:'As aulas são de segunda a quinta, das 19h às 22h, para quem ainda trabalha durante o dia e quer mudar de área sem parar de pagar as contas.',l:['Quatro noites por semana, três horas cada','Reposição de aula prática na mesma semana','Estágio com horários combinados com você']},
+ {h:'Cuidar de quem ama',p:'Para quem cuida de um familiar e quer fazer isso com mais técnica e menos desgaste, para quem cuida e para quem é cuidado.',l:['Transferências sem machucar as costas','Como organizar remédios e horários','Como lidar com a agitação nas demências']}
+];
+var tabs=document.getElementById('whoTabs'),panel=document.getElementById('whoPanel');
+function showP(k){var o=P[k];panel.innerHTML='<h3>'+o.h+'</h3><p>'+o.p+'</p><ul>'+o.l.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+  tabs.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.k==k?'true':'false');});}
+tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)showP(b.dataset.k);});
+showP(0);
+
+/* módulos */
+var M=[
+ ['Fundamentos do envelhecimento','Mudanças da velhice, ética e o Estatuto da Pessoa Idosa.',12],
+ ['Higiene e conforto','Banho no leito, cuidados com a pele e prevenção de lesão por pressão.',16],
+ ['Mobilidade e quedas','Transferências, uso de andador e adaptação da casa.',16],
+ ['Sinais vitais e medicação','Pressão, temperatura, saturação e organização de horários.',18],
+ ['Alimentação e hidratação','Dietas por consistência, disfagia e cuidados com sonda.',10],
+ ['Demências e convivência','Alzheimer, comunicação e manejo de agitação.',14],
+ ['Primeiros socorros','Engasgo, quedas, hipoglicemia e quando acionar o SAMU (192).',8],
+ ['Estágio supervisionado','Plantões acompanhados por enfermeira, com avaliação prática.',40]
+];
+document.getElementById('mods').innerHTML=M.map(function(m,i){
+  return '<div class="md'+(i===7?' stage':'')+'"><span class="no">'+String(i+1).padStart(2,'0')+'</span><h3>'+m[0]+'</h3><p>'+m[1]+'</p><div class="hrs"><span><i style="width:'+(m[2]/40*100)+'%"></i></span><b>'+m[2]+' h</b></div></div>';
+}).join('');
+
+/* vagas */
+var beds=document.getElementById('beds');for(var b=0;b<30;b++){var e=document.createElement('i');if(b>=22)e.className='free';beds.appendChild(e);}
+
+/* copiar */
+document.getElementById('copy').addEventListener('click',function(){
+  var btn=this,n=document.getElementById('num').textContent;
+  function ok(){btn.firstChild.textContent='Número copiado ';setTimeout(function(){btn.firstChild.textContent='Copiar número ';},2000);}
+  try{navigator.clipboard.writeText(n).then(ok,function(){sel();});}catch(x){sel();}
+  function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('num'));var s=getSelection();s.removeAllRanges();s.addRange(r);}
+});
+})();
+</script>
+
+</body>
+</html>

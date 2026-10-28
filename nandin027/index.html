@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NANDIN027 · Proposta de site</title>
+<meta name="description" content="Proposta de site não oficial para o Nandin027, streamer de MMORPG retrô. Feita por Henrique Campos.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Silkscreen&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0C18; --bg2:#10132A; --panel:#151936; --panel2:#1C2147; --fg:#F4EEDC; --muted:#9A9CB8; --line:#2A2F5C;
+  --gold:#F6C445; --gold-d:#9C7414; --ember:#FF6B3D; --hp:#FF4D5E; --mp:#4FA3FF; --xp:#7CF06A;
+  --disp:'Pixelify Sans',system-ui,sans-serif; --px:'Silkscreen',ui-monospace,monospace; --sans:'Rubik',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,36px)}
+.px{font-family:var(--px);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.disp{font-family:var(--disp);font-weight:700;line-height:.95;letter-spacing:-.01em}
+.gold{color:var(--gold)} .ember{color:var(--ember)}
+section{position:relative}
+
+/* static starfield, no fixed layers */
+.sky{position:absolute;left:0;right:0;top:0;height:1100px;z-index:-1;pointer-events:none;background:
+  radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 32% 8%,#fff6 50%,transparent 51%),
+  radial-gradient(2px 2px at 58% 22%,#F6C44599 50%,transparent 51%),radial-gradient(1px 1px at 76% 12%,#fff7 50%,transparent 51%),
+  radial-gradient(1px 1px at 88% 34%,#fff5 50%,transparent 51%),radial-gradient(2px 2px at 6% 44%,#4FA3FF88 50%,transparent 51%),
+  radial-gradient(1px 1px at 44% 40%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 92% 6%,#fff8 50%,transparent 51%),
+  radial-gradient(900px 520px at 80% -5%,rgba(79,163,255,.16),transparent 60%),
+  radial-gradient(700px 520px at 0% 40%,rgba(255,107,61,.10),transparent 60%);}
+
+/* pixel frame */
+.frame-px{background:var(--panel);border:3px solid #000;box-shadow:inset 0 0 0 2px var(--line),inset 0 0 0 4px #0006,0 6px 0 #000;border-radius:6px}
+
+.pitch{background:var(--gold);color:#1A1200;text-align:center;padding:9px 16px;font-family:var(--px);font-size:12px;letter-spacing:.03em}
+
+header{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:2px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:66px}
+.logo{font-family:var(--disp);font-weight:700;font-size:24px;display:flex;align-items:center;gap:10px}
+.logo i{width:14px;height:14px;background:var(--gold);box-shadow:3px 3px 0 var(--ember)}
+.links{display:flex;gap:24px;font-weight:500;font-size:15px}
+.links a:hover{color:var(--gold)}
+.live-btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px;background:var(--ember);color:#1A0700;font-family:var(--px);font-size:13px;border:3px solid #000;box-shadow:0 4px 0 #000;border-radius:4px;transition:transform .15s,box-shadow .15s}
+.live-btn:hover{transform:translateY(2px);box-shadow:0 2px 0 #000}
+.live-btn .dot{width:8px;height:8px;background:#1A0700;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* hero */
+.hero{padding:70px 0 84px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .85fr;gap:56px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;background:var(--bg2);border:2px solid var(--line);border-radius:4px}
+.tag b{color:var(--xp);font-weight:400}
+.hero h1{margin:22px 0 0;font-size:clamp(64px,10.5vw,156px);text-shadow:6px 6px 0 #000,10px 10px 0 rgba(246,196,69,.25)}
+.hero h1 .n{color:var(--gold)}
+.hero .sub{margin:22px 0 0;font-size:clamp(19px,1.9vw,24px);line-height:1.4;max-width:600px}
+.hero .sub em{font-style:normal;color:var(--gold)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 22px;font-family:var(--px);font-size:14px;border:3px solid #000;box-shadow:0 5px 0 #000;border-radius:4px;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(3px);box-shadow:0 2px 0 #000}
+.btn svg{width:20px;height:20px}
+.btn-tw{background:#9B6BFF;color:#fff}
+.btn-gold{background:var(--gold);color:#1A1200}
+.btn-ghost{background:var(--panel2);color:var(--fg)}
+
+/* character sheet */
+.sheet{padding:22px;position:relative}
+.sheet-head{display:flex;gap:16px;align-items:center}
+.crest{width:92px;height:92px;flex:0 0 auto;image-rendering:pixelated}
+.sheet h2{margin:0;font-family:var(--disp);font-size:34px;line-height:1}
+.sheet .cls{color:var(--muted);font-size:14px;margin-top:4px}
+.bars{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.bar{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
+.bar .px{font-size:11px;color:var(--muted)}
+.track{height:18px;background:#05060F;border:2px solid #000;box-shadow:inset 0 0 0 1px var(--line);position:relative;overflow:hidden}
+.fill{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(90deg,var(--c) 0 10px,color-mix(in srgb,var(--c) 80%,#000) 10px 12px)}
+.fill.hp{--c:var(--hp);width:92%} .fill.mp{--c:var(--mp);width:78%} .fill.xp{--c:var(--xp);width:0;transition:width 1.6s steps(20)}
+.sheet.in .fill.xp{width:86%}
+.track span{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--px);font-size:9px;color:#fff;text-shadow:1px 1px 0 #000}
+.attrs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.attrs div{background:var(--bg2);border:2px solid var(--line);padding:10px 8px;text-align:center;border-radius:4px}
+.attrs b{display:block;font-family:var(--disp);font-size:20px;color:var(--gold)}
+.attrs span{font-family:var(--px);font-size:9px;color:var(--muted);text-transform:uppercase}
+
+/* marquee */
+.marq{border-top:2px solid #000;border-bottom:2px solid #000;overflow:hidden;padding:14px 0;background:var(--gold);color:#1A1200}
+.marq-track{display:flex;gap:40px;width:max-content;animation:roll 36s linear infinite}
+.marq-track span{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.6vw,42px);white-space:nowrap}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+.sec{padding:104px 0}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:38px}
+.sec-head h2{margin:0;font-size:clamp(42px,6vw,84px);text-shadow:4px 4px 0 #000}
+.sec-head p{margin:0;color:var(--muted);max-width:430px}
+.kicker{display:block;margin-bottom:12px;color:var(--ember)}
+
+/* live */
+.live-box{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}
+.player{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;padding:0}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.side{display:flex;flex-direction:column;gap:16px}
+.box{padding:20px}
+.box h3{margin:0 0 12px;font-family:var(--disp);font-size:22px}
+.cmds{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cmds li{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.cmds code{font-family:var(--px);font-size:13px;background:#05060F;color:var(--gold);padding:5px 10px;border:2px solid var(--line)}
+.cmds span{color:var(--muted);font-size:14px;text-align:right}
+.sub-box{background:linear-gradient(160deg,#2B1D5C,#171334)}
+.perks{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+.perks li::before{content:"▸ ";color:var(--gold)}
+
+/* facade + video */
+.facade{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;color:var(--fg);font-family:var(--sans);background:#000}
+.facade img{width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .2s}
+.facade:hover img{opacity:.95}
+.facade .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:var(--gold);color:#1A1200;border:3px solid #000;box-shadow:0 4px 0 #000;font-size:20px;padding-left:3px}
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.vid{overflow:hidden;display:flex;flex-direction:column;transition:transform .2s}
+.vid:hover{transform:translateY(-4px)}
+.vid .frm{position:relative;aspect-ratio:16/9;background:#000;border-bottom:3px solid #000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px}
+.vid h3{margin:0;font-size:17px;font-weight:600;line-height:1.3}
+.vid .info span{color:var(--muted)}
+.more{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.more a{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px 16px;background:var(--bg2);border:2px solid var(--line);border-radius:4px;font-size:15px;transition:border-color .15s}
+.more a:hover{border-color:var(--gold)}
+.more a span:last-child{color:var(--gold);flex:0 0 auto;font-family:var(--px);font-size:11px}
+
+/* worlds */
+.worlds{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px}
+.world{padding:24px;display:flex;flex-direction:column;gap:14px;min-height:300px}
+.world .badge{align-self:flex-start;padding:5px 10px;background:#05060F;border:2px solid var(--line);color:var(--xp)}
+.world.main{background:linear-gradient(165deg,#3A1F12,#1A1230 70%)}
+.world.main .badge{color:var(--ember)}
+.world h3{margin:0;font-family:var(--disp);font-size:clamp(30px,3vw,42px);line-height:1}
+.world p{margin:0;color:#CFCBE0}
+.world .go{margin-top:auto;font-family:var(--px);font-size:12px;color:var(--gold)}
+.world .go:hover{text-decoration:underline}
+.pix{display:flex;gap:4px}
+.pix i{width:12px;height:12px;background:var(--c,#fff)}
+
+/* clips / quest log */
+.log{padding:8px 0}
+.log a{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:16px 22px;border-bottom:2px dashed var(--line);transition:background .15s}
+.log a:last-child{border-bottom:0}
+.log a:hover{background:var(--panel2)}
+.log .rank{font-family:var(--disp);font-size:28px;color:var(--gold)}
+.log b{font-weight:600}
+.log small{display:block;color:var(--muted);font-size:14px}
+.log .v{font-family:var(--px);font-size:11px;color:var(--xp);text-align:right}
+
+/* setup quest */
+.quest{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:32px;align-items:center;background:repeating-linear-gradient(-45deg,#1A1630 0 22px,#16132A 22px 44px)}
+.quest h2{margin:0;font-size:clamp(36px,4.6vw,64px);text-shadow:4px 4px 0 #000}
+.quest p{color:#CFCBE0;margin:14px 0 0}
+.tape{display:inline-block;margin-bottom:14px;padding:6px 12px;background:var(--gold);color:#1A1200;border:2px solid #000;transform:rotate(-2deg)}
+.support{display:grid;gap:12px}
+.support a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:var(--bg);border:3px solid #000;box-shadow:inset 0 0 0 2px var(--line),0 4px 0 #000;border-radius:4px;transition:transform .15s}
+.support a:hover{transform:translateY(-2px)}
+.support b{font-family:var(--disp);font-size:22px}
+.support span{color:var(--muted);font-size:14px}
+.support em{font-style:normal;font-family:var(--px);font-size:11px;color:var(--gold)}
+
+/* socials */
+.socials{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.soc{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:36px;padding:22px;min-height:190px;transition:transform .2s}
+.soc:hover{transform:translateY(-4px)}
+.soc svg{width:30px;height:30px}
+.soc h3{margin:0;font-family:var(--disp);font-size:24px}
+.soc span{color:var(--muted);font-size:14px}
+.soc .arrow{position:absolute;right:18px;top:16px;font-family:var(--px);color:var(--gold)}
+
+.final{text-align:center;padding:120px 0}
+.final h2{margin:0 auto;font-size:clamp(48px,8.4vw,132px);text-shadow:6px 6px 0 #000}
+.final p{color:var(--muted);margin:22px auto 32px;max-width:520px}
+footer{border-top:2px solid var(--line);padding:26px 0;color:var(--muted)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid,.live-box,.quest{grid-template-columns:1fr}
+  .vids{grid-template-columns:1fr 1fr}
+  .worlds{grid-template-columns:1fr}
+  .world{min-height:0}
+  .more{grid-template-columns:1fr}
+  .socials{grid-template-columns:1fr 1fr}
+}
+@media (max-width:680px){
+  .links{display:none}
+  .vids{grid-template-columns:1fr}
+  .socials{grid-template-columns:1fr}
+  .soc{min-height:130px}
+  .sec{padding:76px 0}
+  .quest{padding:22px}
+  .log a{grid-template-columns:36px 1fr;padding:14px 16px}
+  .log .v{grid-column:2;text-align:left}
+  .live-btn{font-size:11px;padding:0 12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.fill.xp{width:86%}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<div class="pitch">Proposta de site não oficial · conceito feito por Henrique Campos para apresentar ao Nandin027</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#topo"><i aria-hidden="true"></i>NANDIN027</a>
+    <nav class="links" aria-label="Principal">
+      <a href="#live">Live</a><a href="#mundos">Jogos</a><a href="#videos">Vídeos</a><a href="#clipes">Clipes</a><a href="#redes">Redes</a>
+    </nav>
+    <a class="live-btn" href="https://www.twitch.tv/nandin027" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>Assistir live</a>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag px"><b>■</b> MMORPG retrô · Priston Tale EU · Hero Saga</span>
+        <h1 class="disp"><span class="n">Nandin</span>027</h1>
+        <p class="sub">MMORPG das antigas, <em>resenha de qualidade</em> e umas dicas brabas pra quem curte aprender jogando.</p>
+        <div class="cta">
+          <a class="btn btn-tw" href="https://www.twitch.tv/nandin027" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.3 3 3 6.4V19h4.3v2h2.4l2-2h3.5L20 14.4V3H4.3zm14 10.6-2.7 2.7h-4.3l-2.4 2.4v-2.4H5.3V4.7h13v8.9zM15.6 7.8h-1.7v4.7h1.7V7.8zm-4.7 0H9.2v4.7h1.7V7.8z"/></svg>
+            Seguir na Twitch
+          </a>
+          <a class="btn btn-gold" href="https://www.youtube.com/@Nandin_027" target="_blank" rel="noopener">YouTube</a>
+          <a class="btn btn-ghost" href="#mundos">Ver jogos</a>
+        </div>
+      </div>
+
+      <div class="sheet frame-px rv" id="sheet" aria-label="Ficha do personagem Nandin027">
+        <div class="sheet-head">
+          <svg class="crest" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="1" width="12" height="13" fill="#000"/>
+            <rect x="3" y="2" width="10" height="11" fill="#F6C445"/>
+            <rect x="4" y="3" width="8" height="9" fill="#1C2147"/>
+            <rect x="5" y="4" width="2" height="7" fill="#F4EEDC"/>
+            <rect x="9" y="4" width="2" height="7" fill="#F4EEDC"/>
+            <rect x="7" y="5" width="1" height="2" fill="#F4EEDC"/>
+            <rect x="8" y="7" width="1" height="2" fill="#F4EEDC"/>
+            <rect x="5" y="14" width="6" height="1" fill="#000"/>
+            <rect x="6" y="15" width="4" height="1" fill="#000"/>
+            <rect x="4" y="13" width="8" height="1" fill="#F6C445"/>
+          </svg>
+          <div>
+            <h2>Nandin027</h2>
+            <div class="cls">Classe: Streamer · Main de Assassina no PTEU</div>
+          </div>
+        </div>
+        <div class="bars">
+          <div class="bar"><span class="px">HP</span><div class="track"><div class="fill hp"></div><span>Resenha</span></div></div>
+          <div class="bar"><span class="px">MP</span><div class="track"><div class="fill mp"></div><span>Dicas brabas</span></div></div>
+          <div class="bar"><span class="px">XP</span><div class="track"><div class="fill xp"></div><span>Rumo ao lvl cap</span></div></div>
+        </div>
+        <div class="attrs">
+          <div><b>6,6 mil</b><span>Seguidores</span></div>
+          <div><b>PTEU</b><span>Servidor atual</span></div>
+          <div><b>MMO</b><span>Foco do canal</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq" aria-hidden="true">
+    <div class="marq-track">
+      <span>Priston Tale EU</span><span>✦</span><span>Hero Saga</span><span>✦</span><span>Tibia 7.4</span><span>✦</span><span>Resenha de qualidade</span><span>✦</span><span>Dicas brabas</span><span>✦</span>
+      <span>Priston Tale EU</span><span>✦</span><span>Hero Saga</span><span>✦</span><span>Tibia 7.4</span><span>✦</span><span>Resenha de qualidade</span><span>✦</span><span>Dicas brabas</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- LIVE -->
+  <section class="sec" id="live">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Na <span class="gold">live</span></h2>
+        <p class="rv">Farm, boss, PvP e o chat junto na resenha. Se ele estiver on, a live aparece aqui. É só dar play.</p>
+      </div>
+      <div class="live-box">
+        <div class="player frame-px rv" id="tw-slot"></div>
+        <div class="side">
+          <div class="box frame-px rv">
+            <h3>Comandos do chat</h3>
+            <ul class="cmds">
+              <li><code>!priston</code><span>Link pra jogar o PTEU</span></li>
+              <li><code>!rag</code><span>Entrar no Hero Saga</span></li>
+              <li><code>!loja</code><span>Lojinha do canal</span></li>
+              <li><code>!insta</code><span>Instagram do Nandin</span></li>
+            </ul>
+          </div>
+          <div class="box frame-px sub-box rv">
+            <h3>Vira sub aí, pô!</h3>
+            <ul class="perks">
+              <li>Emotes e insígnia que evolui</li>
+              <li>3x NandinPoints e 3x chance nos sorteios</li>
+              <li>Sem anúncios chatos</li>
+              <li>Tem Prime? Dá pra usar o sub grátis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLDS -->
+  <section class="sec" id="mundos" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Mundos que ele <span class="ember">joga</span></h2>
+        <p class="rv">O foco é MMORPG, com uma boa dose de variedade.</p>
+      </div>
+      <div class="worlds">
+        <article class="world main frame-px rv">
+          <span class="badge px">Main atual</span>
+          <div class="pix" aria-hidden="true"><i style="--c:#FF6B3D"></i><i style="--c:#F6C445"></i><i style="--c:#FF6B3D"></i></div>
+          <h3>Priston Tale EU</h3>
+          <p>Assassina rumo ao level cap, rotação de boss, farm de soul, PvP e o evento de Halloween com boss novo e pet épico.</p>
+          <a class="go" href="https://pristontale.eu/?r=Nandin" target="_blank" rel="noopener">Jogar com o código do Nandin ↗</a>
+        </article>
+        <article class="world frame-px rv">
+          <span class="badge px">Também joga</span>
+          <div class="pix" aria-hidden="true"><i style="--c:#4FA3FF"></i><i style="--c:#7CF06A"></i><i style="--c:#4FA3FF"></i></div>
+          <h3>Hero Saga</h3>
+          <p>MMORPG de fantasia num mundo inspirado em Midgard, com classes e sistemas novos.</p>
+          <a class="go" href="https://rpgherosaga.com/" target="_blank" rel="noopener">Conhecer o servidor ↗</a>
+        </article>
+        <article class="world frame-px rv">
+          <span class="badge px">Variedade</span>
+          <div class="pix" aria-hidden="true"><i style="--c:#7CF06A"></i><i style="--c:#F4EEDC"></i><i style="--c:#7CF06A"></i></div>
+          <h3>Tibia 7.4</h3>
+          <p>A primeira vez jogando o Tibia raiz, ao vivo e com o chat dando pitaco.</p>
+          <a class="go" href="https://www.twitch.tv/nandin027/clip/WanderingCautiousWaspMrDestructoid-FUpxZgRThgvUcTAL" target="_blank" rel="noopener">Ver o clipe ↗</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="sec" id="videos" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Últimos <span class="gold">vídeos</span></h2>
+        <p class="rv">Guias e lives do canal no YouTube. O vídeo só carrega quando você clica.</p>
+      </div>
+      <div class="vids">
+        <article class="vid frame-px rv"><div class="frm"><button type="button" class="facade yt-load" data-id="OsE4-MYpVSU" data-title="Evento Halloween PTEU" aria-label="Assistir: Evento Halloween PTEU"><img src="https://i.ytimg.com/vi/OsE4-MYpVSU/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span></button></div><div class="info"><h3>Evento Halloween PTEU: nova mecânica de boss, pet épico e mais</h3><span class="px">Out 2026</span></div></article>
+        <article class="vid frame-px rv"><div class="frm"><button type="button" class="facade yt-load" data-id="Hlt0ircdHIE" data-title="Equipamento em visual no PTEU" aria-label="Assistir: Como transformar seu equipamento em visual"><img src="https://i.ytimg.com/vi/Hlt0ircdHIE/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span></button></div><div class="info"><h3>Como transformar seu equipamento em visual no Priston Tale EU</h3><span class="px">Set 2026</span></div></article>
+        <article class="vid frame-px rv"><div class="frm"><button type="button" class="facade yt-load" data-id="ghLODFHti0s" data-title="Preço dos itens no PTEU" aria-label="Assistir: Agora ficou fácil saber o preço dos itens"><img src="https://i.ytimg.com/vi/ghLODFHti0s/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span></button></div><div class="info"><h3>Agora ficou fácil saber o preço dos itens no PTEU!</h3><span class="px">Set 2026</span></div></article>
+      </div>
+      <div class="more">
+        <a class="rv" href="https://www.youtube.com/watch?v=4m1zqyfXH4Y" target="_blank" rel="noopener"><span>Novo boss PvP + Prist High End</span><span>Assistir ↗</span></a>
+        <a class="rv" href="https://www.youtube.com/watch?v=vhlH8hJsQus" target="_blank" rel="noopener"><span>Testando a top 1 PRS do jogo??</span><span>Assistir ↗</span></a>
+        <a class="rv" href="https://www.youtube.com/watch?v=Hv9CBi_NhGg" target="_blank" rel="noopener"><span>Quem manda é os BR 🏴‍☠️</span><span>Assistir ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIPS -->
+  <section class="sec" id="clipes" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Log de <span class="ember">momentos</span></h2>
+        <p class="rv">Os clipes mais vistos do canal, feitos pelo chat e pelo próprio Nandin.</p>
+      </div>
+      <div class="log frame-px rv">
+        <a href="https://www.twitch.tv/nandin027/clip/RamshackleWealthyWallaby4Head-wmQUGUhFZACLp-wo" target="_blank" rel="noopener"><span class="rank">01</span><span><b>Di primeira</b><small>Clipado por saiogah</small></span><span class="v">682 views</span></a>
+        <a href="https://www.twitch.tv/nandin027/clip/LazyThoughtfulTeaCeilingCat-ALnf0FdT63kgz94B" target="_blank" rel="noopener"><span class="rank">02</span><span><b>Tô planejando ficar rico esse ano</b><small>Clipado por coehigu_</small></span><span class="v">424 views</span></a>
+        <a href="https://www.twitch.tv/nandin027/clip/WildHedonisticUdonPeteZarollTie-PzEz4RTtbvvsasS6" target="_blank" rel="noopener"><span class="rank">03</span><span><b>Ghost Fire solo</b><small>Clipado pelo Nandin</small></span><span class="v">306 views</span></a>
+        <a href="https://www.twitch.tv/nandin027/clip/CulturedArbitraryRuffEleGiggle-5C3dyS105PMySzKV" target="_blank" rel="noopener"><span class="rank">04</span><span><b>Como farmar ROPS bebendo água</b><small>Clipado pelo Nandin</small></span><span class="v">197 views</span></a>
+        <a href="https://www.twitch.tv/nandin027/clip/ShyJoyousYakArgieB8-XV26Y-3VJLixv8Mf" target="_blank" rel="noopener"><span class="rank">05</span><span><b>Eu vou morrer</b><small>Clipado por vslucian</small></span><span class="v">130 views</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETUP QUEST -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="quest frame-px rv">
+        <div>
+          <span class="tape px">🚧 Quest ativa</span>
+          <h2 class="disp">Setup em obras</h2>
+          <p>O setup tá passando por uma reforma braba. Apoio, sub e PIX viram upgrade: setup melhor, lives mais insanas e conteúdo de qualidade.</p>
+        </div>
+        <div class="support">
+          <a href="https://pixgg.com/nandin027" target="_blank" rel="noopener"><span><b>PIX</b><br><span>Manda aquela moral</span></span><em>Apoiar ↗</em></a>
+          <a href="https://midfielder.tv.br/nandin027" target="_blank" rel="noopener"><span><b>MidFielder</b><br><span>Mensagem, áudio e sorteios na live</span></span><em>Interagir ↗</em></a>
+          <a href="https://streamelements.com/nandin027-49eb1/store" target="_blank" rel="noopener"><span><b>Lojinha</b><br><span>Troque seus pontos do canal</span></span><em>Abrir ↗</em></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIALS -->
+  <section class="sec" id="redes" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Inventário de <span class="gold">redes</span></h2>
+        <p class="rv">Tudo num lugar só.</p>
+      </div>
+      <div class="socials">
+        <a class="soc frame-px rv" href="https://www.twitch.tv/nandin027" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#9B6BFF" aria-hidden="true"><path d="M4.3 3 3 6.4V19h4.3v2h2.4l2-2h3.5L20 14.4V3H4.3zm14 10.6-2.7 2.7h-4.3l-2.4 2.4v-2.4H5.3V4.7h13v8.9zM15.6 7.8h-1.7v4.7h1.7V7.8zm-4.7 0H9.2v4.7h1.7V7.8z"/></svg><div><h3>Twitch</h3><span>/nandin027</span></div></a>
+        <a class="soc frame-px rv" href="https://kick.com/nandin027" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#7CF06A" aria-hidden="true"><path d="M3 3h6v5h2V6h2V4h2V3h6v6h-2v2h-2v2h2v2h2v6h-6v-1h-2v-2h-2v-2H9v5H3z"/></svg><div><h3>Kick</h3><span>/nandin027</span></div></a>
+        <a class="soc frame-px rv" href="https://www.youtube.com/@Nandin_027" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#ff4545" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg><div><h3>YouTube</h3><span>@Nandin_027</span></div></a>
+        <a class="soc frame-px rv" href="https://www.instagram.com/nandinw027/" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#ff5fa8"/></svg><div><h3>Instagram</h3><span>@nandinw027</span></div></a>
+        <a class="soc frame-px rv" href="https://beacons.ai/nandin_027/mediakit" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="none" stroke="#F6C445" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><div><h3>Mídia kit</h3><span>Para marcas e parcerias</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <h2 class="disp rv">Bora pro <span class="gold">farm</span>?</h2>
+      <p class="rv">Segue na Twitch e cola na próxima live. A resenha é garantida.</p>
+      <a class="btn btn-gold rv" href="https://www.twitch.tv/nandin027" target="_blank" rel="noopener">Seguir o Nandin027</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Proposta não oficial · Site conceito por Henrique Campos</span>
+    <span>Priston Tale, Hero Saga e Tibia pertencem aos seus donos. Sem vínculo oficial.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var host=location.hostname||'localhost';
+  // Twitch: aparece sozinho, mas parado e sem som (leve, não trava stream)
+  var slot=document.getElementById('tw-slot');
+  var f=document.createElement('iframe');
+  f.title='Live do Nandin027 na Twitch'; f.allowFullscreen=true;
+  f.setAttribute('allow','autoplay; fullscreen');
+  f.src='https://player.twitch.tv/?channel=nandin027&parent='+encodeURIComponent(host)+'&muted=true&autoplay=false';
+  slot.appendChild(f);
+
+  // YouTube: só carrega no clique
+  document.querySelectorAll('.yt-load').forEach(function(b){
+    b.addEventListener('click',function(){
+      var v=document.createElement('iframe');
+      v.title=b.dataset.title; v.allowFullscreen=true;
+      v.allow='accelerometer; encrypted-media; gyroscope; picture-in-picture; autoplay';
+      v.src='https://www.youtube-nocookie.com/embed/'+b.dataset.id+'?autoplay=1';
+      b.replaceWith(v);
+    });
+  });
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BUERO · Proposta de site</title>
+<meta name="description" content="Proposta de site não oficial para o Buero, ADC brasileiro de League of Legends. Feita por Henrique Campos.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07080A; --bg2:#0E1013; --card:#121519; --fg:#EEF2EC; --muted:#8B938C; --line:#20252A;
+  --tox:#3DFF8B; --tox-d:#1B7A45; --pur:#9B6BFF; --pur-d:#4B2A9E;
+  --disp:'Unbounded',system-ui,sans-serif; --sans:'Space Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--tox);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(18px,3vw,36px)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.disp{font-family:var(--disp);font-weight:900;letter-spacing:-.02em;line-height:.9;text-transform:uppercase}
+.tox{color:var(--tox)} .pur{color:var(--pur)}
+section{position:relative}
+
+/* noise grid bg */
+.bg-grid{position:absolute;left:0;right:0;top:0;height:1400px;z-index:-1;pointer-events:none;background:
+  radial-gradient(900px 600px at 85% -10%,rgba(155,107,255,.18),transparent 60%),
+  radial-gradient(800px 600px at -10% 30%,rgba(61,255,139,.10),transparent 60%),
+  linear-gradient(var(--bg),var(--bg));}
+.bg-grid::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px;opacity:.6}
+
+/* pitch banner */
+.pitch{background:var(--tox);color:#04140A;text-align:center;padding:9px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.pitch b{font-weight:500}
+
+/* nav */
+header{position:sticky;top:0;z-index:40;background:#07080A;border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
+.logo{font-family:var(--disp);font-weight:900;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.logo i{width:10px;height:10px;border-radius:50%;background:var(--tox);box-shadow:0 0 12px var(--tox)}
+.links{display:flex;gap:26px;font-size:15px;font-weight:500}
+.links a:hover{color:var(--tox)}
+.live-btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px;border-radius:999px;background:#fff;color:#000;font-weight:600;font-size:14px;transition:transform .2s}
+.live-btn:hover{transform:translateY(-2px)}
+.live-btn .dot{width:9px;height:9px;border-radius:50%;background:#ff3b3b;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.7)}100%{box-shadow:0 0 0 10px rgba(255,59,59,0)}}
+
+/* hero */
+.hero{padding:72px 0 80px}
+.hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:56px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:8px 14px}
+.tag b{color:var(--tox);font-weight:500}
+.hero h1{margin:22px 0 0;font-size:clamp(84px,13vw,200px);position:relative}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;pointer-events:none}
+.glitch::before{color:var(--tox);transform:translate(4px,0);clip-path:inset(0 0 62% 0);mix-blend-mode:screen;animation:g1 3.2s 3 steps(1)}
+.glitch::after{color:var(--pur);transform:translate(-4px,0);clip-path:inset(60% 0 0 0);mix-blend-mode:screen;animation:g2 2.7s 3 steps(1)}
+@keyframes g1{0%,88%,100%{transform:translate(0,0)}90%{transform:translate(6px,-2px)}94%{transform:translate(-5px,1px)}}
+@keyframes g2{0%,84%,100%{transform:translate(0,0)}86%{transform:translate(-6px,2px)}92%{transform:translate(5px,-1px)}}
+.hero .sub{margin:22px 0 0;font-size:clamp(20px,2vw,26px);line-height:1.35;max-width:600px}
+.hero .sub em{font-style:normal;color:var(--tox)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border:1px solid var(--line);background:var(--bg2);border-radius:14px;min-width:132px}
+.chip b{font-family:var(--disp);font-weight:800;font-size:24px}
+.chip span{color:var(--muted);font-size:13px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 24px;border-radius:14px;font-weight:600;font-size:16px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn svg{width:20px;height:20px}
+.btn-tw{background:var(--pur);color:#fff;box-shadow:0 10px 30px rgba(155,107,255,.35)}
+.btn-tw:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(155,107,255,.5)}
+.btn-k{background:var(--tox);color:#04140A;box-shadow:0 10px 30px rgba(61,255,139,.25)}
+.btn-k:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);background:var(--bg2)}
+.btn-ghost:hover{border-color:var(--fg)}
+
+/* holo card */
+.card-wrap{perspective:1100px;display:flex;justify-content:center}
+.holo{position:relative;width:min(380px,100%);aspect-ratio:5/7;border-radius:22px;padding:22px;background:linear-gradient(160deg,#16191E 0%,#0C0E11 100%);border:1px solid #2B3138;transform-style:preserve-3d;transition:transform .15s ease-out;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(61,255,139,.08);overflow:hidden;display:flex;flex-direction:column}
+.holo::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 20%,rgba(61,255,139,.35) 35%,rgba(155,107,255,.35) 45%,rgba(64,200,255,.25) 55%,transparent 70%);background-size:250% 250%;background-position:var(--hx,50%) var(--hy,50%);mix-blend-mode:color-dodge;opacity:.55;pointer-events:none}
+.holo::after{content:"";position:absolute;inset:0;border-radius:inherit;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);pointer-events:none}
+.holo-top{display:flex;justify-content:space-between;align-items:center}
+.ovr{font-family:var(--disp);font-weight:900;font-size:54px;line-height:.85;color:var(--tox);text-shadow:0 0 24px rgba(61,255,139,.45)}
+.ovr small{display:block;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;color:var(--muted);text-shadow:none;margin-top:6px}
+.emblem{width:76px;height:76px}
+.holo-mid{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.holo-mid .big{font-family:var(--disp);font-weight:900;font-size:120px;line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(238,242,236,.22);letter-spacing:-.05em}
+.holo-mid .rat{position:absolute;width:150px;height:150px}
+.holo-name{font-family:var(--disp);font-weight:900;font-size:40px;line-height:1;text-transform:uppercase}
+.holo-role{color:var(--muted);font-size:14px;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stats div{background:rgba(255,255,255,.04);border:1px solid #262B31;border-radius:12px;padding:10px;text-align:center}
+.stats b{display:block;font-family:var(--disp);font-weight:800;font-size:16px}
+.stats span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+
+/* marquee */
+.marq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;background:var(--bg2)}
+.marq-track{display:flex;gap:44px;width:max-content;animation:roll 32s linear infinite}
+.marq-track span{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4vw,48px);text-transform:uppercase;white-space:nowrap}
+.marq-track .o{color:transparent;-webkit-text-stroke:1.2px var(--fg)}
+.marq-track .g{color:var(--tox)}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+/* sections */
+.sec{padding:110px 0}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:40px}
+.sec-head h2{margin:0;font-size:clamp(44px,6.4vw,96px)}
+.sec-head p{margin:0;color:var(--muted);max-width:420px}
+
+/* live */
+.live-box{display:grid;grid-template-columns:1.6fr 1fr;gap:20px}
+.player{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;border:1px solid #2B3138;background:#000}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.side{display:flex;flex-direction:column;gap:14px}
+.cmd{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.cmd h3{margin:0 0 12px;font-family:var(--disp);font-weight:800;font-size:20px;text-transform:uppercase}
+.cmd ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cmd li{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.cmd code{font-family:var(--mono);font-size:14px;background:rgba(61,255,139,.1);color:var(--tox);padding:5px 10px;border-radius:8px}
+.cmd li span{color:var(--muted);font-size:14px;text-align:right}
+.bday{background:linear-gradient(135deg,var(--pur-d),#24124F);border:1px solid #5B3CC4;border-radius:18px;padding:22px}
+.bday b{display:block;font-family:var(--disp);font-weight:900;font-size:34px;line-height:1;margin-top:8px}
+
+
+.facade{position:absolute;inset:0;width:100%;height:100%;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--fg);font-family:var(--sans);background:radial-gradient(circle at 50% 45%,rgba(155,107,255,.28),transparent 60%),linear-gradient(135deg,#101318,#0A0C0F)}
+.facade .play{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--tox);color:#04140A;font-size:22px;padding-left:4px;transition:transform .2s}
+.facade:hover .play{transform:scale(1.08)}
+.facade .ft{font-family:var(--disp);font-weight:800;font-size:20px;text-transform:uppercase}
+.facade .fs{color:var(--muted);font-size:14px}
+
+/* videos */
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.vid{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s}
+.vid:hover{transform:translateY(-4px);border-color:var(--tox-d)}
+.vid .frame{position:relative;aspect-ratio:16/9;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.vid h3{margin:0;font-size:17px;font-weight:600;line-height:1.3}
+.vid .info span{color:var(--muted)}
+.more{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+.more a{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);transition:border-color .2s,background .2s}
+.more a:hover{border-color:var(--tox);background:#0f1712}
+.more a span:last-child{color:var(--tox);flex:0 0 auto}
+
+/* timeline */
+.tl{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:15px;height:2px;background:linear-gradient(90deg,var(--tox),var(--pur))}
+.step{position:relative;padding-top:44px}
+.step::before{content:"";position:absolute;top:6px;left:0;width:20px;height:20px;border-radius:50%;background:var(--bg);border:3px solid var(--tox);box-shadow:0 0 14px rgba(61,255,139,.5)}
+.step.now::before{background:var(--tox)}
+.step b{display:block;font-family:var(--disp);font-weight:800;font-size:22px}
+.step h3{margin:6px 0 6px;font-size:17px;font-weight:600}
+.step p{margin:0;color:var(--muted);font-size:15px}
+
+/* socials */
+.socials{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.soc{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding:22px;border-radius:20px;border:1px solid var(--line);background:var(--card);min-height:200px;overflow:hidden;transition:transform .25s,border-color .25s}
+.soc:hover{transform:translateY(-4px)}
+.soc svg{width:30px;height:30px}
+.soc h3{margin:0;font-family:var(--disp);font-weight:800;font-size:22px;text-transform:uppercase}
+.soc span{color:var(--muted);font-size:14px}
+.soc.tw:hover{border-color:var(--pur)} .soc.k:hover{border-color:var(--tox)} .soc.yt:hover{border-color:#ff4545} .soc.ig:hover{border-color:#ff5fa8} .soc.x:hover{border-color:#fff}
+.soc .arrow{position:absolute;right:18px;top:18px;transition:transform .3s}
+.soc:hover .arrow{transform:rotate(-45deg)}
+
+/* final */
+.final{text-align:center;padding:130px 0}
+.final h2{margin:0 auto;font-size:clamp(52px,9vw,150px);max-width:1100px}
+.final p{color:var(--muted);margin:22px auto 34px;max-width:520px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s,transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid,.live-box{grid-template-columns:1fr}
+  .vids{grid-template-columns:1fr 1fr}
+  .tl{grid-template-columns:1fr 1fr 1fr;row-gap:36px}
+  .tl::before{display:none}
+  .socials{grid-template-columns:1fr 1fr}
+}
+@media (max-width:680px){
+  .links{display:none}
+  .vids,.more{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr 1fr}
+  .socials{grid-template-columns:1fr}
+  .soc{min-height:140px}
+  .sec{padding:80px 0}
+  .chip{min-width:0;flex:1 1 40%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<div class="pitch"><b>Proposta de site não oficial</b> · conceito feito por Henrique Campos para apresentar ao Buero</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#topo"><i aria-hidden="true"></i>BUERO</a>
+    <nav class="links" aria-label="Principal">
+      <a href="#live">Live</a><a href="#videos">Vídeos</a><a href="#trajetoria">Trajetória</a><a href="#redes">Redes</a>
+    </nav>
+    <a class="live-btn" href="https://www.twitch.tv/buerinho" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>Assistir live</a>
+  </div>
+</header>
+
+<main id="topo">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag mono"><b>●</b> ADC · VKS Academy · BR / KR</span>
+        <h1 class="disp"><span class="glitch" data-t="BUERO">BUERO</span></h1>
+        <p class="sub">O ADC brasileiro que é conhecido pelo <em>Twitch no soloQ</em>, passou pela fila da Coreia e voltou ao competitivo.</p>
+        <div class="chips">
+          <div class="chip"><b>151 mil</b><span>inscritos no YouTube</span></div>
+          <div class="chip"><b>430+</b><span>vídeos publicados</span></div>
+          <div class="chip"><b>14,2 mil</b><span>seguidores no Kick</span></div>
+        </div>
+        <div class="cta">
+          <a class="btn btn-tw" href="https://www.twitch.tv/buerinho" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.3 3 3 6.4V19h4.3v2h2.4l2-2h3.5L20 14.4V3H4.3zm14 10.6-2.7 2.7h-4.3l-2.4 2.4v-2.4H5.3V4.7h13v8.9zM15.6 7.8h-1.7v4.7h1.7V7.8zm-4.7 0H9.2v4.7h1.7V7.8z"/></svg>
+            Twitch
+          </a>
+          <a class="btn btn-k" href="https://kick.com/buerolol" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h6v5h2V6h2V4h2V3h6v6h-2v2h-2v2h2v2h2v6h-6v-1h-2v-2h-2v-2H9v5H3z"/></svg>
+            Kick
+          </a>
+          <a class="btn btn-ghost" href="#videos">Ver vídeos</a>
+        </div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="holo" id="holo" aria-label="Card do jogador Buero">
+          <div class="holo-top">
+            <div class="ovr">ADC<small>Bot lane</small></div>
+            <svg class="emblem" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3DFF8B"/><stop offset="1" stop-color="#9B6BFF"/></linearGradient></defs>
+              <polygon points="50,6 90,28 90,72 50,94 10,72 10,28" fill="none" stroke="url(#eg)" stroke-width="3"/>
+              <polygon points="50,20 77,35 77,65 50,80 23,65 23,35" fill="rgba(61,255,139,.08)" stroke="rgba(61,255,139,.4)" stroke-width="1.5"/>
+              <text x="50" y="58" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" fill="#EEF2EC">BR</text>
+            </svg>
+          </div>
+          <div class="holo-mid">
+            <span class="big" aria-hidden="true">B</span>
+            <svg class="rat" viewBox="0 0 160 160" aria-hidden="true">
+              <defs><radialGradient id="glow"><stop offset="0" stop-color="rgba(61,255,139,.55)"/><stop offset="1" stop-color="rgba(61,255,139,0)"/></radialGradient></defs>
+              <circle cx="80" cy="80" r="76" fill="url(#glow)"/>
+              <g fill="none" stroke="#3DFF8B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M40 98c0-24 18-42 42-42 20 0 34 12 38 28 2 8-3 14-11 14H52"/>
+                <circle cx="96" cy="58" r="10"/><circle cx="66" cy="58" r="8"/>
+                <circle cx="104" cy="80" r="2.5" fill="#3DFF8B"/>
+                <path d="M118 86l12 2M118 92l12 6"/>
+                <path d="M40 98c-14 0-22 8-20 18 2 8 12 10 20 6"/>
+              </g>
+            </svg>
+          </div>
+          <div class="holo-name">Buero</div>
+          <div class="holo-role">Daniel Nunes · Brasil</div>
+          <div class="stats">
+            <div><b>VKS</b><span>Academy</span></div>
+            <div><b>Twitch</b><span>Main</span></div>
+            <div><b>BR·KR</b><span>Servers</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq" aria-hidden="true">
+    <div class="marq-track">
+      <span>One-trick de Twitch</span><span class="g">✦</span><span class="o">SoloQ na pegada do competitivo</span><span class="g">✦</span><span>Bootcamp na Coreia</span><span class="g">✦</span><span class="o">VKS Academy</span><span class="g">✦</span>
+      <span>One-trick de Twitch</span><span class="g">✦</span><span class="o">SoloQ na pegada do competitivo</span><span class="g">✦</span><span>Bootcamp na Coreia</span><span class="g">✦</span><span class="o">VKS Academy</span><span class="g">✦</span>
+    </div>
+  </div>
+
+  <!-- LIVE -->
+  <section class="sec" id="live">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Na <span class="tox">live</span></h2>
+        <p class="rv">SoloQ ADC na pegada competitiva, com o chat junto. Se ele estiver on, a live roda aqui mesmo.</p>
+      </div>
+      <div class="live-box">
+        <div class="player rv">
+          <button type="button" class="facade" id="tw-load" aria-label="Carregar a live da Twitch"><span class="play" aria-hidden="true">▶</span><span class="ft">Carregar a live</span><span class="fs">O player só abre quando você clicar</span></button>
+        </div>
+        <div class="side">
+          <div class="cmd rv">
+            <h3>Comandos do chat</h3>
+            <ul>
+              <li><code>!clip</code><span>Marca o lance na hora</span></li>
+              <li><code>!multi</code><span>Assiste junto de outra live</span></li>
+            </ul>
+          </div>
+          <div class="bday rv" id="bday">
+            <span class="mono">28 de outubro</span>
+            <b id="bday-text">Aniversário do Buero</b>
+            <p id="bday-sub" style="margin:10px 0 0;color:#D7CCFF">Manda os parabéns no chat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="sec" id="videos" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Últimos <span class="pur">vídeos</span></h2>
+        <p class="rv">Direto do canal oficial no YouTube: a temporada na Coreia, builds de Twitch e os desafios.</p>
+      </div>
+      <div class="vids">
+        <article class="vid rv"><div class="frame"><button type="button" class="facade yt-load" data-id="SF0w5QyIRiw" data-title="Partida de 47 kills de Twitch na Coreia" aria-label="Assistir: Partida de 47 kills de Twitch na Coreia"><span class="play" aria-hidden="true">▶</span><span class="fs">Clique pra carregar o vídeo</span></button></div><div class="info"><h3>Partida INSANA de 47 kills de Twitch na Coreia</h3><span class="mono">15 min</span></div></article>
+        <article class="vid rv"><div class="frame"><button type="button" class="facade yt-load" data-id="hzgmRmfsjdg" data-title="Build de Twitch AP na Coreia" aria-label="Assistir: Build de Twitch AP na Coreia"><span class="play" aria-hidden="true">▶</span><span class="fs">Clique pra carregar o vídeo</span></button></div><div class="info"><h3>É impossível perder de Twitch com a build do Rato AP</h3><span class="mono">12 min</span></div></article>
+        <article class="vid rv"><div class="frame"><button type="button" class="facade yt-load" data-id="3kSjEFGURws" data-title="Donate de 70k pra voltar pro Brasil" aria-label="Assistir: Donate de 70k pra voltar pro Brasil"><span class="play" aria-hidden="true">▶</span><span class="fs">Clique pra carregar o vídeo</span></button></div><div class="info"><h3>Recebi um donate de 70k pra voltar pro Brasil no primeiro dia?</h3><span class="mono">14 min</span></div></article>
+      </div>
+      <div class="more">
+        <a class="rv" href="https://www.youtube.com/watch?v=etVIggUBHFo" target="_blank" rel="noopener"><span>Joguei com o coach Seeel, o que ele achou de mim?</span><span>Assistir ↗</span></a>
+        <a class="rv" href="https://www.youtube.com/watch?v=gsknZnQ1A_8" target="_blank" rel="noopener"><span>Tiltando os coreanos na fila GM</span><span>Assistir ↗</span></a>
+        <a class="rv" href="https://www.youtube.com/watch?v=YMG66u6LNCY" target="_blank" rel="noopener"><span>O primeiro penta no Challenger</span><span>Assistir ↗</span></a>
+        <a class="rv" href="https://www.youtube.com/watch?v=l0Fa5yOP3Yc" target="_blank" rel="noopener"><span>O desafio do Lamerione: 100 reais por kill</span><span>Assistir ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="sec" id="trajetoria" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Trajetória</h2>
+        <p class="rv">Do bot lane da Rensga ao bootcamp na Coreia.</p>
+      </div>
+      <div class="tl">
+        <div class="step rv"><b class="tox">2019</b><h3>Rensga Esports</h3><p>Começo como bot laner e depois streamer da equipe.</p></div>
+        <div class="step rv"><b class="tox">2020</b><h3>Flamengo Esports</h3><p>Passagem pelo Flamengo até o início de 2021.</p></div>
+        <div class="step rv"><b class="tox">2024</b><h3>CBLOL Academy</h3><p>Qualificatória do Split 1.</p></div>
+        <div class="step rv"><b class="tox">2025</b><h3>RATZ &amp; Penta de Ashe</h3><p>Circuito Desafiante e pentakill de Ashe na IDL Kings Lendas.</p></div>
+        <div class="step rv"><b class="tox">Bootcamp</b><h3>Coreia</h3><p>SoloQ no servidor coreano, com Twitch no mestre e GM.</p></div>
+        <div class="step now rv"><b class="tox">2026</b><h3>VKS Academy</h3><p>Novo capítulo no competitivo com a Vivo Keyd Stars.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIALS -->
+  <section class="sec" id="redes">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp rv">Segue o <span class="tox">rato</span></h2>
+        <p class="rv">Todas as redes num lugar só.</p>
+      </div>
+      <div class="socials">
+        <a class="soc tw rv" href="https://www.twitch.tv/buerinho" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#9B6BFF" aria-hidden="true"><path d="M4.3 3 3 6.4V19h4.3v2h2.4l2-2h3.5L20 14.4V3H4.3zm14 10.6-2.7 2.7h-4.3l-2.4 2.4v-2.4H5.3V4.7h13v8.9zM15.6 7.8h-1.7v4.7h1.7V7.8zm-4.7 0H9.2v4.7h1.7V7.8z"/></svg><div><h3>Twitch</h3><span>/buerinho</span></div></a>
+        <a class="soc k rv" href="https://kick.com/buerolol" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#3DFF8B" aria-hidden="true"><path d="M3 3h6v5h2V6h2V4h2V3h6v6h-2v2h-2v2h2v2h2v6h-6v-1h-2v-2h-2v-2H9v5H3z"/></svg><div><h3>Kick</h3><span>/buerolol</span></div></a>
+        <a class="soc yt rv" href="https://www.youtube.com/@Buerinho" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#ff4545" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg><div><h3>YouTube</h3><span>@Buerinho</span></div></a>
+        <a class="soc ig rv" href="https://www.instagram.com/bueroficial/" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#ff5fa8"/></svg><div><h3>Instagram</h3><span>@bueroficial</span></div></a>
+        <a class="soc x rv" href="https://x.com/buerolol" target="_blank" rel="noopener"><span class="arrow">↗</span><svg viewBox="0 0 24 24" fill="#EEF2EC" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><div><h3>X</h3><span>@buerolol</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final">
+    <div class="wrap">
+      <h2 class="disp rv">Bora pro <span class="glitch tox" data-t="SOLOQ">SOLOQ</span></h2>
+      <p class="rv">SoloQ ADC na pegada competitiva, Twitch no bot lane e o chat junto.</p>
+      <a class="btn btn-tw rv" href="https://www.twitch.tv/buerinho" target="_blank" rel="noopener" style="margin:0 auto">Seguir na Twitch</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Proposta não oficial · Site conceito por Henrique Campos</span>
+    <span>League of Legends é marca da Riot Games. Sem vínculo oficial.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // twitch embed (parent = current domain)
+  var host=location.hostname||'localhost';
+  (function(){
+    var b=document.getElementById('tw-load');
+    var f=document.createElement('iframe');
+    f.title='Live do Buero na Twitch'; f.allowFullscreen=true;
+    f.setAttribute('allow','autoplay; fullscreen');
+    f.src='https://player.twitch.tv/?channel=buerinho&parent='+encodeURIComponent(host)+'&muted=true&autoplay=false';
+    b.replaceWith(f);
+  })();
+  document.querySelectorAll('.yt-load').forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=document.createElement('iframe');
+      f.title=b.dataset.title; f.allowFullscreen=true;
+      f.allow='accelerometer; encrypted-media; gyroscope; picture-in-picture; autoplay';
+      f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.id+'?autoplay=1';
+      b.replaceWith(f);
+    });
+  });
+
+  // holo tilt
+  var card=document.getElementById('holo');
+  var fine=matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(fine){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+      card.style.transform='rotateY('+((x-.5)*18)+'deg) rotateX('+((.5-y)*18)+'deg)';
+      card.style.setProperty('--hx',(x*100)+'%'); card.style.setProperty('--hy',(y*100)+'%');
+    });
+    card.addEventListener('mouseleave',function(){card.style.transform='';});
+  }
+
+  // birthday
+  var now=new Date(), y=now.getFullYear();
+  var bd=new Date(y,9,28);
+  var t=document.getElementById('bday-text'), s=document.getElementById('bday-sub');
+  var today=now.getDate()===28&&now.getMonth()===9;
+  if(today){t.textContent='Hoje é aniversário do Buero!';s.textContent='Manda os parabéns no chat.';}
+  else{
+    if(now>bd) bd=new Date(y+1,9,28);
+    var days=Math.ceil((bd-now)/864e5);
+    t.textContent=days===1?'Aniversário é amanhã':'Faltam '+days+' dias pro aniversário';
+  }
+
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>

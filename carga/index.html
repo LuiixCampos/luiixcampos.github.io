@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="CARGA Treino de Força: treino em turmas de até 8 pessoas na Vila Mariana, São Paulo.">
+<title>CARGA Treino de Força</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cartaz de sala de musculação à noite. Anilha em retícula no centro, dados de HUD nos cantos,
+   manifesto que acende com o scroll, quadro de horários estilo painel de embarque, planos em forma de anilha. */
+:root{
+  --night:#0c0c0d; --iron:#17171a; --line:#2a2a2f; --chalk:#ecebe6; --dim:#8a8a90;
+  --red:#e2321f; --blue:#2c63d6; --yellow:#f0c22c; --green:#2f9a55;
+  --f-display:"Bricolage Grotesque","Arial Narrow",Impact,sans-serif;
+  --f-body:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--chalk);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+.g{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.w{max-width:1280px;margin:0 auto}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.disp{font-family:var(--f-display);font-variation-settings:"wdth" 75;font-weight:800;line-height:.86;letter-spacing:-.02em;text-transform:uppercase;margin:0;text-wrap:balance}
+.red{color:var(--red)}
+.dim{color:var(--dim)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--chalk);border-radius:999px;padding:11px 20px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;background:transparent;color:var(--chalk);cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:var(--chalk);color:var(--night)}
+.btn.solid{background:var(--red);border-color:var(--red);color:#fff}
+.btn.solid:hover{background:var(--chalk);border-color:var(--chalk);color:var(--night)}
+
+/* HERO */
+.hero{position:relative;min-height:640px;height:min(100svh,920px);border-bottom:1px solid var(--line);overflow:hidden;cursor:crosshair}
+#plate{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;inset:0;pointer-events:none;display:grid;grid-template-rows:auto 1fr auto;padding-block:20px 24px}
+.hud .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.brand h1{font-size:clamp(84px,17vw,250px);color:var(--red)}
+.brand .rule{height:2px;background:var(--red);margin:10px 0 8px;width:100%}
+.brand .meta{display:flex;justify-content:space-between;gap:24px}
+.menu{pointer-events:auto;display:flex;gap:20px;align-items:center}
+.menu a{text-decoration:none}
+.menu a:hover{color:var(--red)}
+.mid{display:flex;justify-content:space-between;align-items:center}
+.mid .big{font-family:var(--f-mono);font-size:clamp(22px,3vw,40px);letter-spacing:0;font-variant-numeric:tabular-nums}
+.bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.bottom .cta{pointer-events:auto}
+.kg{font-family:var(--f-display);font-variation-settings:"wdth" 75;font-weight:800;font-size:clamp(110px,20vw,300px);line-height:.78;color:var(--red);letter-spacing:-.04em}
+.kg small{font-size:.3em;letter-spacing:0}
+.xh{position:absolute;width:22px;height:22px;pointer-events:none;transform:translate(-50%,-50%);left:50%;top:52%}
+.xh::before,.xh::after{content:"";position:absolute;background:var(--red)}
+.xh::before{left:10px;top:0;width:2px;height:22px}
+.xh::after{top:10px;left:0;height:2px;width:22px}
+.xh span{position:absolute;left:18px;top:16px;white-space:nowrap;color:var(--red)}
+@media (max-width:760px){.menu a:not(.btn){display:none}.mid .big{font-size:20px}.brand .meta span:last-child{display:none}.hero{min-height:600px}}
+
+/* MANIFESTO */
+.manifesto{height:260vh;position:relative}
+.manifesto .stick{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:28px}
+.manifesto p.words{font-family:var(--f-display);font-variation-settings:"wdth" 90;font-weight:600;font-size:clamp(34px,5.4vw,78px);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:20ch}
+.words span{opacity:.2;transition:opacity .25s, color .25s}
+.words span.on{opacity:1}
+.words span.hot.on{color:var(--red)}
+.manifesto .row{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:14px}
+
+/* FICHA TÉCNICA */
+section.blk{padding-block:96px;border-top:1px solid var(--line)}
+.head{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;margin-bottom:48px;align-items:end}
+.head h2{font-size:clamp(56px,9vw,140px)}
+.head p{margin:0;max-width:46ch;color:var(--dim);justify-self:end}
+@media (max-width:860px){.head{grid-template-columns:1fr}.head p{justify-self:start}}
+.spec{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--chalk)}
+.spec div{padding:20px 20px 24px 0;border-right:1px solid var(--line);min-width:0}
+.spec div+div{padding-left:20px}
+.spec div:last-child{border-right:0}
+.spec b{display:block;font-family:var(--f-display);font-variation-settings:"wdth" 75;font-weight:800;font-size:clamp(64px,8vw,120px);line-height:.9;font-variant-numeric:tabular-nums}
+.spec span{display:block;margin-top:8px}
+@media (max-width:860px){.spec{grid-template-columns:repeat(2,1fr)}.spec div{border-bottom:1px solid var(--line)}.spec div:nth-child(2n){border-right:0}.spec div:nth-child(3){padding-left:0}}
+
+/* BARRA */
+.bench{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:center;margin-top:72px;background:var(--iron);border:1px solid var(--line);border-radius:4px;padding:28px}
+.bench .total{font-family:var(--f-display);font-variation-settings:"wdth" 75;font-weight:800;font-size:clamp(80px,11vw,160px);line-height:.85;font-variant-numeric:tabular-nums}
+.bench .total small{font-size:.32em;color:var(--dim)}
+.rack{height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:12px}
+.sleeve{display:flex;align-items:center;gap:3px}
+.sleeve.l{flex-direction:row-reverse}
+.shaft{height:9px;flex:0 1 300px;background:linear-gradient(#6d6d74,#c9c9cf 45%,#6d6d74)}
+.collar{width:10px;height:30px;background:#c9c9cf;flex:none}
+.tip{width:28px;height:15px;background:#6d6d74;flex:none}
+.pl{flex:none;border-radius:3px;animation:drop .22s ease-out}
+@keyframes drop{from{transform:translateY(-18px);opacity:0}to{transform:none;opacity:1}}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pick button{font-family:var(--f-mono);font-size:13px;border:1px solid var(--line);border-radius:4px;background:var(--night);color:var(--chalk);padding:14px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.pick button:hover{border-color:var(--chalk)}
+.pick i{width:10px;height:10px;border-radius:50%}
+.pick .clr{grid-column:span 3;color:var(--dim)}
+.bench .note{margin:14px 0 0;font-size:14px;color:var(--dim)}
+@media (max-width:860px){.bench{grid-template-columns:1fr}}
+
+/* CICLO */
+.cycle{display:grid;grid-template-columns:120px 1fr;gap:40px}
+.gauge{position:sticky;top:80px;height:420px;border-left:1px solid var(--line);margin-left:20px}
+.gauge .fill{position:absolute;left:-2px;top:0;width:3px;background:var(--red);height:0}
+.gauge .tk{position:absolute;left:-6px;width:11px;height:1px;background:var(--dim)}
+.gauge .wk{position:absolute;left:14px;font-family:var(--f-mono);font-size:11px;color:var(--dim);transform:translateY(-50%)}
+.phases{display:grid;gap:0}
+.ph{display:grid;grid-template-columns:200px 1fr;gap:32px;padding-block:40px;border-bottom:1px solid var(--line)}
+.ph:first-child{padding-top:0}
+.ph h3{font-size:clamp(56px,7vw,104px)}
+.ph p{margin:0;max-width:52ch;color:#c9c9cc;font-size:19px}
+.ph .mono{margin-bottom:10px;display:block}
+@media (max-width:860px){.cycle{grid-template-columns:1fr}.gauge{display:none}.ph{grid-template-columns:1fr;gap:12px}}
+
+/* PAINEL */
+.board{background:#050506;border:1px solid var(--line);border-radius:4px;padding:20px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.tabs button{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--chalk);color:var(--night);border-color:var(--chalk)}
+.scroll{overflow-x:auto}
+.rows{min-width:640px;display:grid;gap:6px}
+.r{display:grid;grid-template-columns:80px 1fr 140px 130px;gap:14px;align-items:center}
+.r.h{font-family:var(--f-mono);font-size:11px;color:var(--dim);letter-spacing:.1em;padding-bottom:6px}
+.flap{display:flex;gap:3px}
+.flap b{width:22px;height:32px;background:#1b1b1f;border-radius:2px;display:grid;place-items:center;font-family:var(--f-mono);font-weight:500;font-size:16px;color:var(--chalk);position:relative}
+.flap b::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#050506}
+.st{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.st i{width:8px;height:8px;border-radius:50%}
+
+/* PLANOS */
+.plates{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:center}
+.disc{aspect-ratio:1;max-width:100%;border-radius:50%;position:relative;display:grid;place-items:center;text-align:center;padding:14%;isolation:isolate;min-width:0}
+.disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,var(--night) 0 7%,#2b2b30 7% 8.5%,transparent 8.5%),var(--c);z-index:-1;box-shadow:inset 0 0 0 10px rgba(0,0,0,.22),inset 0 0 0 11px rgba(255,255,255,.15)}
+.disc.small{width:84%;justify-self:center}
+.disc .in{display:grid;gap:6px;justify-items:center}
+.disc h3{font-size:clamp(40px,4.4vw,64px)}
+.disc .p{font-family:var(--f-display);font-variation-settings:"wdth" 75;font-weight:800;font-size:clamp(44px,5vw,76px);line-height:.9}
+.disc .p small{font-family:var(--f-mono);font-size:12px;font-weight:400}
+.disc ul{list-style:none;margin:6px 0 10px;padding:0;font-size:14px;line-height:1.4}
+.disc .btn{border-color:currentColor}
+.disc.dark{color:#fff}
+.disc.lite{color:var(--night)}
+.disc.lite .btn:hover{background:var(--night);color:var(--chalk)}
+@media (max-width:900px){.plates{grid-template-columns:1fr;max-width:440px;margin:0 auto}.disc.small{width:100%}}
+
+/* COACHES */
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.co{background:var(--night);padding:20px;display:grid;gap:12px;min-width:0}
+.co canvas{width:100%;aspect-ratio:1;max-width:100%;display:block}
+.co h3{font-size:40px}
+.co p{margin:0;color:var(--dim);font-size:15px}
+@media (max-width:900px){.team{grid-template-columns:repeat(2,1fr)}}
+
+/* CTA */
+.final{padding-block:110px 90px;border-top:1px solid var(--line)}
+.final h2{font-size:clamp(64px,12vw,190px)}
+.fgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;margin-top:48px;align-items:start}
+.fgrid p{margin:0;font-size:20px;max-width:38ch;color:#c9c9cc}
+form{display:grid;gap:16px;min-width:0}
+label{display:grid;gap:6px}
+input,select{font:inherit;font-size:18px;color:var(--chalk);background:transparent;border:0;border-bottom:1px solid var(--dim);padding:10px 0;border-radius:0;width:100%}
+input:focus,select:focus{outline:none;border-bottom-color:var(--red)}
+select option{background:var(--night)}
+.ok{border:1px solid var(--green);color:var(--chalk);padding:12px 14px;border-radius:4px;font-size:15px}
+@media (max-width:860px){.fgrid{grid-template-columns:1fr}}
+
+/* FAQ + FOOTER */
+details{border-top:1px solid var(--line);padding-block:20px}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;font-family:var(--f-display);font-variation-settings:"wdth" 85;font-weight:700;font-size:clamp(24px,2.6vw,34px);letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--f-mono);font-weight:400;color:var(--red)}
+details[open] summary::after{content:"−"}
+details p{margin:12px 0 0;color:var(--dim);max-width:64ch}
+footer{border-top:1px solid var(--line);padding-block:40px}
+.ft{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.ft p{margin:4px 0 0;font-size:15px}
+@media (prefers-reduced-motion:reduce){.pl{animation:none}html{scroll-behavior:auto}.words span{transition:none}}
+</style>
+</head>
+<body style="margin:0">
+
+
+<main>
+  <section class="hero" id="topo" aria-label="Abertura">
+    <canvas id="plate" aria-hidden="true"></canvas>
+    <div class="xh" id="xh" aria-hidden="true"><span class="mono">20 KG</span></div>
+    <div class="hud g">
+      <div class="top">
+        <div class="brand">
+          <h1 class="disp">Carga.</h1>
+          <div class="rule"></div>
+          <div class="meta mono"><span>Treino de força · Vila Mariana</span><span>Turmas de 8</span></div>
+        </div>
+        <nav class="menu mono" aria-label="Seções">
+          <a href="#sala">A sala</a>
+          <a href="#horarios">Horários</a>
+          <a href="#planos">Planos</a>
+          <a class="btn" href="#aula">Aula grátis</a>
+        </nav>
+      </div>
+      <div class="mid">
+        <span class="big" id="clock">05:30</span>
+        <span class="big">SP</span>
+      </div>
+      <div class="bottom">
+        <div style="display:grid;gap:14px">
+          <span class="mono dim">23°35′S 46°38′W · abre às 05:30</span>
+          <a class="btn solid cta" href="#aula">Agendar aula experimental ↗</a>
+        </div>
+        <div class="kg">20<small>kg</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto g" id="manifesto" aria-label="Manifesto">
+    <div class="stick w">
+      <span class="mono red">01 · O método</span>
+      <p class="words" id="words">Sessenta minutos, oito pessoas e uma barra de vinte quilos. Aqui ninguém treina no *achismo.* Cada série vai pro caderno e a carga só sobe quando a *execução* estiver limpa.</p>
+      <div class="row mono dim"><span>Coach olhando de perto</span><span>Planilha que evolui toda semana</span></div>
+    </div>
+  </section>
+
+  <section class="blk g" id="sala">
+    <div class="w">
+      <div class="head">
+        <h2 class="disp">A sala</h2>
+        <p>Equipamento de competição em vez de máquina de shopping. Piso emborrachado de 40 mm, barras calibradas e espaço para errar com segurança.</p>
+      </div>
+      <div class="spec">
+        <div><b>12</b><span class="mono dim">Plataformas de levantamento</span></div>
+        <div><b>08</b><span class="mono dim">Alunos por turma, no máximo</span></div>
+        <div><b>60</b><span class="mono dim">Minutos por treino</span></div>
+        <div><b>40</b><span class="mono dim">mm de piso emborrachado</span></div>
+      </div>
+
+      <div class="bench" aria-label="Monte sua barra">
+        <div style="min-width:0">
+          <span class="mono red">Monte sua barra</span>
+          <div class="total" aria-live="polite"><span id="tot">20</span><small> kg</small></div>
+          <div class="rack" aria-hidden="true">
+            <div class="tip"></div><div class="sleeve l" id="L"></div><div class="collar"></div>
+            <div class="shaft"></div>
+            <div class="collar"></div><div class="sleeve" id="R"></div><div class="tip"></div>
+          </div>
+        </div>
+        <div>
+          <div class="pick" id="pick">
+            <button type="button" data-k="25"><i style="background:var(--red)"></i>25</button>
+            <button type="button" data-k="20"><i style="background:var(--blue)"></i>20</button>
+            <button type="button" data-k="15"><i style="background:var(--yellow)"></i>15</button>
+            <button type="button" data-k="10"><i style="background:var(--green)"></i>10</button>
+            <button type="button" data-k="5"><i style="background:#ecebe6"></i>5</button>
+            <button type="button" data-k="2.5"><i style="background:#6d6d74"></i>2,5</button>
+            <button type="button" class="clr" id="clr">Tirar tudo</button>
+          </div>
+          <p class="note" id="note">Cada toque põe uma anilha de cada lado, nas cores do padrão de competição.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="ciclo">
+    <div class="w">
+      <div class="head">
+        <h2 class="disp">12 semanas</h2>
+        <p>Todo aluno segue um ciclo fechado. No fim dele tem dia de teste e os recordes vão para o quadro da sala.</p>
+      </div>
+      <div class="cycle">
+        <div class="gauge" id="gauge" aria-hidden="true"><div class="fill" id="fill"></div></div>
+        <div class="phases" id="phases">
+          <article class="ph">
+            <div><span class="mono red">Semanas 01–04</span><h3 class="disp">Base</h3></div>
+            <p>Técnica do agachamento, do terra e do supino com carga leve. A gente filma, corrige e descobre os seus números de partida.</p>
+          </article>
+          <article class="ph">
+            <div><span class="mono red">Semanas 05–09</span><h3 class="disp">Subida</h3></div>
+            <p>A carga sobe toda semana, de 2,5 em 2,5 kg. Se a execução sujar, a carga volta. Quem decide é o vídeo, não o ego.</p>
+          </article>
+          <article class="ph">
+            <div><span class="mono red">Semanas 10–12</span><h3 class="disp">Teste</h3></div>
+            <p>Uma semana leve para o corpo recuperar e depois o dia de teste, com a turma inteira em volta da plataforma.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="horarios">
+    <div class="w">
+      <div class="head">
+        <h2 class="disp">Partidas</h2>
+        <p>As turmas saem no horário. Reserve sua vaga pelo WhatsApp até 2 horas antes.</p>
+      </div>
+      <div class="board">
+        <div class="tabs" role="group" aria-label="Dia">
+          <button type="button" data-d="a" aria-pressed="true">Seg · Qua</button>
+          <button type="button" data-d="b" aria-pressed="false">Ter · Qui</button>
+          <button type="button" data-d="c" aria-pressed="false">Sexta</button>
+          <button type="button" data-d="d" aria-pressed="false">Sábado</button>
+        </div>
+        <div class="scroll"><div class="rows" id="rows"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="planos">
+    <div class="w">
+      <div class="head">
+        <h2 class="disp">Planos</h2>
+        <p>Cada plano tem o peso da anilha que leva o nome. Sem taxa de matrícula e sem fidelidade.</p>
+      </div>
+      <div class="plates">
+        <div class="disc small dark" style="--c:var(--green)">
+          <div class="in">
+            <span class="mono">10 kg</span>
+            <h3 class="disp">Começo</h3>
+            <div class="p">R$189<small> /mês</small></div>
+            <ul><li>2 treinos por semana</li><li>Turmas de iniciantes</li></ul>
+            <a class="btn" href="#aula">Quero esse</a>
+          </div>
+        </div>
+        <div class="disc dark" style="--c:var(--red)">
+          <div class="in">
+            <span class="mono">25 kg · o mais pesado</span>
+            <h3 class="disp">Livre</h3>
+            <div class="p">R$279<small> /mês</small></div>
+            <ul><li>Treinos ilimitados</li><li>Todas as turmas</li><li>Revisão de vídeo</li></ul>
+            <a class="btn" href="#aula">Quero esse</a>
+          </div>
+        </div>
+        <div class="disc small dark" style="--c:var(--blue)">
+          <div class="in">
+            <span class="mono">20 kg</span>
+            <h3 class="disp">Personal</h3>
+            <div class="p">R$640<small> /mês</small></div>
+            <ul><li>8 sessões individuais</li><li>Planilha só sua</li></ul>
+            <a class="btn" href="#aula">Quero esse</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="coaches">
+    <div class="w">
+      <div class="head">
+        <h2 class="disp">Coaches</h2>
+        <p>Todos formados em Educação Física, com registro no CREF.</p>
+      </div>
+      <div class="team">
+        <div class="co"><canvas data-i="RA" data-c="#e2321f"></canvas><h3 class="disp">Rafa Andrade</h3><p>Powerlifting e força geral</p></div>
+        <div class="co"><canvas data-i="JM" data-c="#2c63d6"></canvas><h3 class="disp">Júlia Matos</h3><p>Levantamento olímpico</p></div>
+        <div class="co"><canvas data-i="TS" data-c="#2f9a55"></canvas><h3 class="disp">Tiago Sena</h3><p>Iniciantes e retorno ao treino</p></div>
+        <div class="co"><canvas data-i="BL" data-c="#f0c22c"></canvas><h3 class="disp">Bia Lemos</h3><p>Condicionamento e mobilidade</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final g" id="aula">
+    <div class="w">
+      <span class="mono red">Aula experimental</span>
+      <h2 class="disp">Primeiro treino<br>por nossa <span class="red">conta.</span></h2>
+      <div class="fgrid">
+        <p>Você faz uma turma inteira com o coach e sai com seus números de partida anotados. Sem compromisso de matrícula.</p>
+        <form id="f" novalidate>
+          <label for="nome"><span class="mono dim">Nome</span><input id="nome" autocomplete="name" placeholder="Como podemos te chamar"></label>
+          <label for="tel"><span class="mono dim">WhatsApp</span><input id="tel" type="tel" autocomplete="tel" placeholder="(11) 90000-0000"></label>
+          <label for="turno"><span class="mono dim">Melhor turno</span>
+            <select id="turno"><option>Manhã</option><option>Almoço</option><option>Noite</option><option>Sábado</option></select>
+          </label>
+          <button class="btn solid" type="submit" style="justify-self:start">Quero minha aula grátis ↗</button>
+          <p class="ok" id="ok" hidden>Recebemos. Um coach vai te chamar no WhatsApp para marcar o horário.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk g" id="duvidas">
+    <div class="w" style="max-width:900px">
+      <span class="mono red" style="display:block;margin-bottom:20px">Dúvidas</span>
+      <details open><summary>Nunca peguei peso. Posso começar?</summary><p>Pode. As turmas de iniciantes começam só com técnica e carga leve. Ninguém pega um peso que ainda não controla.</p></details>
+      <details><summary>Preciso levar alguma coisa?</summary><p>Roupa confortável, tênis de sola reta e água. Magnésio, cintos e faixas ficam à disposição na sala.</p></details>
+      <details><summary>Tem fidelidade?</summary><p>Não. Os planos são mensais e você cancela avisando com 30 dias de antecedência.</p></details>
+      <details><summary>Tem estacionamento?</summary><p>Temos convênio com o estacionamento ao lado, com 2 horas grátis para alunos.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="g">
+  <div class="w ft">
+    <div><span class="disp red" style="font-size:44px">Carga.</span><p class="dim">Rua Domingos de Morais, 1200 · Vila Mariana, São Paulo</p></div>
+    <div class="mono dim" style="display:grid;gap:6px;align-content:end"><span>Seg a sex 05:30–22:00 · Sáb 08:00–13:00</span><span>WhatsApp (11) 90000-0000 · @cargatreino</span><span>Marca fictícia · site por Henrique Campos</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Anilha em retícula ---------- */
+var cv=document.getElementById('plate'),ctx=cv.getContext('2d'),hero=cv.parentElement;
+var off=document.createElement('canvas'),oc=off.getContext('2d',{willReadFrequently:true});
+var W,H,dpr,step,ang=0,mx=0,my=0,tx=0,ty=0,cols,rows;
+function size(){
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  W=hero.clientWidth;H=hero.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  step=W<700?6:7;cols=Math.ceil(W/step);rows=Math.ceil(H/step);
+  off.width=cols;off.height=rows;
+}
+function drawPlate(){
+  var c=oc,cw=cols,ch=rows;
+  c.setTransform(1,0,0,1,0,0);c.fillStyle='#000';c.fillRect(0,0,cw,ch);
+  var R=Math.min(cw,ch)*(cw<ch*1.1?0.44:0.48);
+  var cx=cw*(cw<ch*1.1?0.5:0.56)+tx*cw*0.02, cy=ch*0.53+ty*ch*0.02;
+  c.translate(cx,cy);
+  // luz ambiente
+  var g=c.createRadialGradient(-R*0.35,-R*0.45,R*0.1,0,0,R*1.05);
+  g.addColorStop(0,'#bdbdbd');g.addColorStop(.6,'#5a5a5a');g.addColorStop(1,'#1a1a1a');
+  c.fillStyle=g;c.beginPath();c.arc(0,0,R,0,7);c.fill();
+  // aro
+  c.lineWidth=R*0.06;c.strokeStyle='#d8d8d8';c.beginPath();c.arc(0,0,R*0.95,0,7);c.stroke();
+  c.lineWidth=R*0.012;c.strokeStyle='#111';c.beginPath();c.arc(0,0,R*0.88,0,7);c.stroke();
+  // miolo
+  c.fillStyle='#2a2a2a';c.beginPath();c.arc(0,0,R*0.3,0,7);c.fill();
+  c.fillStyle='#e8e8e8';c.beginPath();c.arc(0,0,R*0.22,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(0,0,R*0.12,0,7);c.fill();
+  // texto girando
+  c.rotate(ang);
+  c.fillStyle='#f2f2f2';c.textAlign='center';c.textBaseline='middle';
+  c.font='800 '+(R*0.34)+'px "Bricolage Grotesque", Impact, sans-serif';
+  c.fillText('20',0,-R*0.58);
+  c.font='800 '+(R*0.13)+'px "Bricolage Grotesque", Impact, sans-serif';
+  c.fillText('KG',0,R*0.6);
+  c.font='500 '+(R*0.065)+'px "IBM Plex Mono", monospace';
+  for(var i=0;i<2;i++){c.save();c.rotate(i?Math.PI/2:-Math.PI/2);c.fillText('CARGA · CALIBRADA',0,-R*0.74);c.restore();}
+  // parafusos
+  c.fillStyle='#0a0a0a';
+  for(var k=0;k<8;k++){var a=k*Math.PI/4+Math.PI/8;c.beginPath();c.arc(Math.cos(a)*R*0.38,Math.sin(a)*R*0.38,R*0.025,0,7);c.fill();}
+}
+function render(){
+  drawPlate();
+  var d=oc.getImageData(0,0,cols,rows).data;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#d9d8d2';
+  var hx=mx*W,hy=my*H;
+  for(var y=0;y<rows;y++){
+    for(var x=0;x<cols;x++){
+      var v=d[(y*cols+x)*4]/255;
+      if(v<0.06)continue;
+      var px=x*step+step/2,py=y*step+step/2;
+      var r=v*step*0.62;
+      var dx=px-hx,dy=py-hy,dd=dx*dx+dy*dy;
+      if(dd<9000){ctx.fillStyle='#e2321f';ctx.beginPath();ctx.arc(px,py,r,0,7);ctx.fill();ctx.fillStyle='#d9d8d2';continue;}
+      ctx.beginPath();ctx.arc(px,py,r,0,7);ctx.fill();
+    }
+  }
+}
+var xh=document.getElementById('xh');
+hero.addEventListener('pointermove',function(e){
+  var b=hero.getBoundingClientRect();mx=(e.clientX-b.left)/b.width;my=(e.clientY-b.top)/b.height;
+  xh.style.left=(mx*100)+'%';xh.style.top=(my*100)+'%';
+});
+hero.addEventListener('pointerleave',function(){mx=-1;my=-1;xh.style.left='50%';xh.style.top='52%';});
+mx=-1;my=-1;
+var vis=true;
+new IntersectionObserver(function(e){vis=e[0].isIntersecting;}).observe(hero);
+function loop(){
+  if(vis){ang+=0.0025;tx+=((mx<0?0:mx-.5)-tx)*.05;ty+=((my<0?0:my-.5)-ty)*.05;render();}
+  requestAnimationFrame(loop);
+}
+size();
+window.addEventListener('resize',function(){size();if(RM)render();});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(RM)render();});
+if(RM)render();else loop();
+
+/* relógio */
+var ck=document.getElementById('clock');
+function tick(){try{var t=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'});ck.textContent=t;}catch(e){}}
+tick();setInterval(tick,15000);
+
+/* ---------- Manifesto ---------- */
+var wp=document.getElementById('words');
+var raw=wp.textContent.trim().split(/\s+/);
+wp.innerHTML=raw.map(function(w){var hot=/^\*.*\*[.,]?$/.test(w);w=w.replace(/\*/g,'');return '<span'+(hot?' class="hot"':'')+'>'+w+'</span>';}).join(' ');
+var spans=wp.querySelectorAll('span'),man=document.getElementById('manifesto');
+
+/* ---------- Medidor do ciclo ---------- */
+var gauge=document.getElementById('gauge'),fill=document.getElementById('fill'),phs=document.getElementById('phases');
+for(var i=0;i<=12;i++){var t=document.createElement('div');t.className='tk';t.style.top=(i/12*100)+'%';gauge.appendChild(t);
+  if(i%4===0||i===12){var l=document.createElement('div');l.className='wk';l.style.top=(i/12*100)+'%';l.textContent='S'+String(i).padStart(2,'0');gauge.appendChild(l);}}
+
+function onScroll(){
+  var b=man.getBoundingClientRect(),vh=innerHeight;
+  var p=Math.min(1,Math.max(0,(-b.top+vh*0.15)/(b.height-vh*0.9)));
+  var n=Math.round(p*spans.length);
+  for(var i=0;i<spans.length;i++)spans[i].classList.toggle('on',i<n);
+  var pb=phs.getBoundingClientRect();
+  var q=Math.min(1,Math.max(0,(vh*0.55-pb.top)/pb.height));
+  fill.style.height=(q*100)+'%';
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- Barra ---------- */
+var COL={25:'#e2321f',20:'#2c63d6',15:'#f0c22c',10:'#2f9a55',5:'#ecebe6',2.5:'#6d6d74'};
+var HT={25:160,20:160,15:150,10:140,5:90,2.5:70},WD={25:22,20:20,15:18,10:15,5:12,2.5:10};
+var st=[20],L=document.getElementById('L'),R=document.getElementById('R'),tot=document.getElementById('tot'),note=document.getElementById('note');
+function mk(k){var e=document.createElement('div');e.className='pl';e.style.background=COL[k];e.style.height=HT[k]+'px';e.style.width=WD[k]+'px';return e;}
+function drawBar(){L.innerHTML='';R.innerHTML='';st.forEach(function(k){L.appendChild(mk(k));R.appendChild(mk(k));});
+  var s=20+st.reduce(function(a,b){return a+b;},0)*2;tot.textContent=String(s).replace('.',',');}
+document.getElementById('pick').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  if(b.id==='clr'){st=[];note.textContent='Barra vazia. Só os 20 kg dela.';drawBar();return;}
+  if(st.length>=6){note.textContent='Não cabe mais anilha. Tire tudo e monte outra carga.';return;}
+  st.push(+b.dataset.k);note.textContent='Cada toque põe uma anilha de cada lado, nas cores do padrão de competição.';drawBar();
+});
+drawBar();
+
+/* ---------- Painel de partidas ---------- */
+var D={
+ a:[['06:00','FORCA','RAFA','r'],['07:00','INICIANTES','TIAGO','g'],['12:15','CONDICIONA','BIA','y'],['18:00','OLIMPICO','JULIA','b'],['19:00','FORCA','RAFA','r'],['20:00','INICIANTES','TIAGO','g']],
+ b:[['06:00','OLIMPICO','JULIA','b'],['07:00','FORCA','RAFA','r'],['12:15','INICIANTES','TIAGO','g'],['18:00','CONDICIONA','BIA','y'],['19:00','FORCA AVANC','RAFA','r'],['20:00','OLIMPICO','JULIA','b']],
+ c:[['06:00','FORCA','RAFA','r'],['12:15','CONDICIONA','BIA','y'],['18:00','INICIANTES','TIAGO','g'],['19:00','OLIMPICO','JULIA','b']],
+ d:[['08:30','FORCA DUPLA','RAFA','r'],['10:00','INICIANTES','TIAGO','g'],['11:30','ARRANCO','JULIA','b']]
+};
+var TAG={r:['Força','#e2321f'],g:['Iniciantes','#2f9a55'],y:['Condicionamento','#f0c22c'],b:['Olímpico','#2c63d6']};
+var rowsEl=document.getElementById('rows'),CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+function cells(s,n){var o='';for(var i=0;i<n;i++)o+='<b data-v="'+(s[i]||' ')+'">'+(s[i]||'')+'</b>';return '<div class="flap">'+o+'</div>';}
+function fillBoard(k){
+  var h='<div class="r h"><span>HORA</span><span>TURMA</span><span>COACH</span><span>TIPO</span></div>';
+  D[k].forEach(function(r){var t=TAG[r[3]];h+='<div class="r">'+cells(r[0],5)+cells(r[1],11)+cells(r[2],5)+'<span class="st"><i style="background:'+t[1]+'"></i>'+t[0]+'</span></div>';});
+  rowsEl.innerHTML=h;
+  if(RM)return;
+  rowsEl.querySelectorAll('.flap b').forEach(function(b,i){
+    var v=b.dataset.v;if(v===' ')return;var n=0,max=4+((i*7)%9);
+    var id=setInterval(function(){n++;if(n>=max){b.textContent=v;clearInterval(id);}else b.textContent=CH[(Math.random()*CH.length)|0];},45);
+  });
+}
+document.querySelector('.tabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+  fillBoard(b.dataset.d);
+});
+fillBoard('a');
+
+/* ---------- Coaches em retícula ---------- */
+document.querySelectorAll('.co canvas').forEach(function(c){
+  var s=240,x=c.getContext('2d');c.width=s*2;c.height=s*2;x.scale(2,2);
+  var o=document.createElement('canvas');o.width=60;o.height=60;var q=o.getContext('2d',{willReadFrequently:true});
+  function paint(){
+    q.fillStyle='#000';q.fillRect(0,0,60,60);
+    var g=q.createLinearGradient(0,0,60,60);g.addColorStop(0,'#fff');g.addColorStop(1,'#222');
+    q.fillStyle=g;q.font='800 44px "Bricolage Grotesque", Impact, sans-serif';q.textAlign='center';q.textBaseline='middle';
+    q.fillText(c.dataset.i,30,33);
+    var d=q.getImageData(0,0,60,60).data;
+    x.fillStyle='#0c0c0d';x.fillRect(0,0,s,s);x.fillStyle=c.dataset.c;
+    for(var yy=0;yy<60;yy++)for(var xx=0;xx<60;xx++){var v=d[(yy*60+xx)*4]/255;if(v<.05)continue;x.beginPath();x.arc(xx*4+2,yy*4+2,v*2.3,0,7);x.fill();}
+  }
+  paint();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(paint);
+});
+
+/* ---------- Formulário ---------- */
+document.getElementById('f').addEventListener('submit',function(e){
+  e.preventDefault();var n=document.getElementById('nome'),t=document.getElementById('tel');
+  if(!n.value.trim()){n.focus();return;}
+  if(t.value.replace(/\D/g,'').length<10){t.focus();return;}
+  document.getElementById('ok').hidden=false;
+});
+})();
+</script>
+
+</body>
+</html>
