@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sobra · Curso de organização financeira</title>
+<meta name="description" content="Sobra: curso de 30 dias para o salário durar o mês inteiro. Feche os vazamentos e veja quanto sobra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Conceito: o salário como objeto. No topo, um calendário do mês mostra o dia em que o dinheiro acaba e cada vazamento
+   fechado empurra esse dia para frente. Depois, a mesma nota é fatiada pela rolagem, as fatias vermelhas caem e o que
+   resta vira sobra. O curso é vendido pela demonstração, sem contador falso. */
+:root{
+  --paper:#f2eee3; --paper-2:#e9e3d4; --ink:#13120f; --muted:#6c675c; --line:#d8d1c0;
+  --green:#1d6b45; --green-2:#2f8a5c; --mint:#cfe8bd; --red:#e2412b; --red-soft:#f6c9bf; --marker:#ffd83d;
+  --f-d:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
+  --f-b:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --f-m:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.35;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit}
+::selection{background:var(--marker)}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:6px}
+.w{max-width:1240px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.d{font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 78,"opsz" 96;letter-spacing:-.025em;line-height:.9}
+.m{font-family:var(--f-m);font-size:12.5px;letter-spacing:.02em}
+.eb{font-family:var(--f-m);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mk{background:linear-gradient(transparent 58%,var(--marker) 58%,var(--marker) 92%,transparent 92%);padding:0 .08em}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--f-b);font-weight:700;font-size:16px;padding:16px 24px;border-radius:999px;background:var(--ink);color:var(--paper);transition:transform .15s,background .2s;text-align:center}
+.btn:hover{background:var(--green)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+section{border-top:2px solid var(--ink)}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:18px}
+.logo{font-family:var(--f-d);font-weight:800;font-size:28px;letter-spacing:-.04em;text-decoration:none;font-variation-settings:"wdth" 80}
+.logo i{font-style:normal;color:var(--green)}
+.top nav{display:flex;gap:22px}
+.top nav a{text-decoration:none;font-weight:600;font-size:15px}
+.top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.top .btn{padding:11px 18px;font-size:14px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:center;padding-block:clamp(24px,4vw,56px) clamp(56px,7vw,96px)}
+.hero h1{margin:14px 0 22px;font-size:clamp(54px,8.2vw,124px)}
+.hero h1 .r{color:var(--red)}
+.hero h1 .g{color:var(--green)}
+.hero p.lead{margin:0 0 28px;max-width:44ch;font-size:clamp(17px,1.5vw,20px);color:#3b3830}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero .hnote{margin-top:18px;color:var(--muted)}
+
+.cal{background:#fbf9f3;border:2px solid var(--ink);border-radius:18px;padding:clamp(14px,2vw,22px);box-shadow:8px 8px 0 var(--ink);position:relative}
+.calTop{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.calTop .eb{display:block;margin-bottom:4px}
+.verdict{font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 80;font-size:clamp(28px,3.4vw,44px);line-height:.95;letter-spacing:-.02em}
+.verdict b{color:var(--red);font-weight:800}
+.verdict.ok b{color:var(--green)}
+.bal{text-align:right}
+.bal .num{font-family:var(--f-m);font-size:clamp(20px,2.2vw,28px);font-weight:500;font-variant-numeric:tabular-nums}
+.bal .num.neg{color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.wd{font-family:var(--f-m);font-size:10.5px;color:var(--muted);text-align:center;padding-bottom:2px}
+.day{position:relative;aspect-ratio:1/1;border-radius:8px;border:1.5px solid var(--ink);background:#fff;overflow:hidden;font-family:var(--f-m);font-size:12px}
+.day span{position:absolute;left:6px;top:4px;z-index:2}
+.day .ink{position:absolute;left:0;right:0;bottom:0;height:var(--h,0%);background:var(--green);transition:height .5s cubic-bezier(.2,.8,.2,1),background .3s}
+.day.low .ink{background:var(--green-2)}
+.day.out{background:repeating-linear-gradient(-45deg,#fff 0 6px,var(--red-soft) 6px 8px)}
+.day.out .ink{height:0!important}
+.day.blank{border-style:dashed;border-color:var(--line);background:transparent}
+.day.hi{color:#fff}
+.day.big span{font-weight:500}
+.stamp{position:absolute;z-index:4;pointer-events:none;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 75;font-size:clamp(14px,1.6vw,20px);letter-spacing:.02em;color:var(--red);border:3px solid var(--red);border-radius:6px;padding:2px 8px;background:rgba(251,249,243,.92);transform:translate(-50%,-50%) rotate(-12deg);transition:left .7s cubic-bezier(.3,1.4,.4,1),top .7s cubic-bezier(.3,1.4,.4,1),color .3s,border-color .3s;white-space:nowrap}
+.stamp.ok{color:var(--green);border-color:var(--green)}
+.leaks{margin-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.leak{all:unset;box-sizing:border-box;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--ink);border-radius:10px;background:#fff;font-size:14px;font-weight:600;transition:background .2s,transform .15s}
+.leak:hover{background:var(--paper)}
+.leak:active{transform:scale(.98)}
+.leak small{display:block;font-family:var(--f-m);font-weight:400;font-size:11px;color:var(--muted)}
+.leak .v{font-family:var(--f-m);font-size:12.5px;color:var(--red);white-space:nowrap}
+.leak .sw{width:34px;height:20px;border-radius:999px;background:var(--red-soft);border:1.5px solid var(--ink);position:relative;flex:none}
+.leak .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--red);transition:left .2s,background .2s}
+.leak[aria-pressed="true"]{background:var(--mint)}
+.leak[aria-pressed="true"] .v{color:var(--green);text-decoration:line-through}
+.leak[aria-pressed="true"] .sw{background:#fff}
+.leak[aria-pressed="true"] .sw::after{left:16px;background:var(--green)}
+.leak:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.calFoot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;color:var(--muted)}
+.calFoot button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
+
+.tape{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;padding-block:14px;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 78;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.01em}
+.tape div{display:inline-block;animation:tp 38s linear infinite}
+.tape span{margin-inline:18px}.tape b{color:var(--marker)}
+@keyframes tp{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape div{animation:none}}
+
+/* nota fatiada */
+.split{position:relative;height:340vh}
+.split .stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3vh,32px);overflow:hidden}
+.split .cap{min-height:6.2em}
+.split h2{margin:10px 0 10px;font-size:clamp(40px,6vw,88px)}
+.split .cap p{margin:0;max-width:52ch;color:#3b3830;font-size:clamp(16px,1.4vw,19px)}
+.stage{position:relative;width:100%;height:min(46vh,380px)}
+.note{position:absolute;inset:0;margin:auto}
+.strip{position:absolute;top:0;bottom:0;border:2px solid var(--ink);overflow:hidden;will-change:transform,opacity;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px}
+.strip .lab{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--f-m);font-size:12px;white-space:nowrap;color:#fff;font-weight:500}
+.strip .lab b{font-weight:500;opacity:.8;margin-top:8px}
+.strip.fix{background:var(--green)}
+.strip.leakS{background:var(--red)}
+.strip.over{background:repeating-linear-gradient(-45deg,var(--red) 0 8px,#b9311f 8px 12px)}
+.strip.save{background:var(--marker);border-style:dashed}
+.strip.save .lab{color:var(--ink)}
+.face{position:absolute;inset:0;border:2.5px solid var(--ink);border-radius:14px;background:var(--green);overflow:hidden;transition:opacity .25s}
+.face canvas{position:absolute;inset:0;width:100%;height:100%}
+.face .val{position:absolute;right:4%;top:8%;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 75;color:#eaf4df;font-size:clamp(30px,6vw,84px);letter-spacing:-.02em;line-height:.9;text-align:right}
+.face .val small{display:block;font-family:var(--f-m);font-weight:400;font-size:clamp(10px,1vw,13px);letter-spacing:.14em;margin-bottom:6px}
+.face .seal{position:absolute;left:5%;bottom:10%;width:clamp(56px,9vw,110px);aspect-ratio:1;border-radius:50%;border:2px solid #eaf4df;display:grid;place-items:center;font-family:var(--f-d);font-weight:800;color:#eaf4df;font-size:clamp(16px,2.4vw,30px)}
+.edge{position:absolute;top:-14px;bottom:-14px;border-left:2px dashed var(--ink);opacity:0;transition:opacity .3s}
+.edge span{position:absolute;top:-22px;left:6px;font-family:var(--f-m);font-size:11px;white-space:nowrap}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border:1.5px solid var(--ink);margin-right:6px;vertical-align:-2px}
+
+/* método: extrato */
+.sec{padding-block:clamp(64px,9vw,120px)}
+.sec h2{margin:12px 0 0;font-size:clamp(44px,7vw,104px)}
+.headRow{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
+.headRow p{margin:0;max-width:40ch;color:#3b3830}
+.stmt{border:2px solid var(--ink);border-radius:16px;background:#fbf9f3;overflow:hidden}
+.stmt .sh{display:grid;grid-template-columns:90px minmax(0,1fr) 150px;gap:16px;padding:12px 20px;border-bottom:2px solid var(--ink);font-family:var(--f-m);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stmt details{border-bottom:1.5px dashed var(--line)}
+.stmt details:last-of-type{border-bottom:none}
+.stmt summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:90px minmax(0,1fr) 150px;gap:16px;align-items:center;padding:18px 20px;transition:background .2s}
+.stmt summary::-webkit-details-marker{display:none}
+.stmt summary:hover{background:var(--paper)}
+.stmt summary .n{font-family:var(--f-m);color:var(--muted)}
+.stmt summary h3{margin:0;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 82;font-size:clamp(22px,2.4vw,32px);letter-spacing:-.015em;line-height:1}
+.stmt summary h3::after{content:" +";color:var(--muted);font-weight:500}
+.stmt details[open] summary h3::after{content:" –"}
+.stmt summary .amt{font-family:var(--f-m);font-size:15px;text-align:right;color:var(--green);font-weight:500}
+.stmt summary .amt.z{color:var(--muted)}
+.stmt .body{padding:0 20px 20px calc(20px + 90px + 16px);color:#3b3830;max-width:calc(62ch + 126px)}
+.stmt .body ul{margin:8px 0 0;padding-left:18px}
+.stmt .tot{display:grid;grid-template-columns:90px minmax(0,1fr) 150px;gap:16px;padding:18px 20px;border-top:2px solid var(--ink);background:var(--ink);color:var(--paper);align-items:center}
+.stmt .tot b{font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 80;font-size:clamp(22px,2.4vw,30px)}
+.stmt .tot .amt{font-family:var(--f-m);text-align:right;color:var(--marker);font-size:17px}
+
+/* pra quem */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,32px)}
+.who > div{border:2px solid var(--ink);border-radius:16px;padding:clamp(20px,3vw,32px);background:#fbf9f3}
+.who .no{background:transparent;border-style:dashed}
+.who h3{margin:0 0 14px;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 82;font-size:clamp(26px,2.8vw,38px);line-height:1}
+.who ul{margin:0;padding:0;list-style:none}
+.who li{padding:10px 0 10px 30px;border-top:1.5px dashed var(--line);position:relative}
+.who li::before{content:"✓";position:absolute;left:4px;top:9px;font-weight:700;color:var(--green)}
+.who .no li::before{content:"×";color:var(--red);font-size:20px;top:4px}
+
+/* autora */
+.author{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(24px,5vw,72px);align-items:center}
+.mono{aspect-ratio:4/5;border:2px solid var(--ink);border-radius:18px;background:var(--green);position:relative;overflow:hidden;box-shadow:8px 8px 0 var(--ink)}
+.mono canvas{position:absolute;inset:0;width:100%;height:100%}
+.mono span{position:absolute;left:16px;bottom:14px;color:#eaf4df;font-family:var(--f-m);font-size:12px}
+.author blockquote{margin:0;font-family:var(--f-d);font-weight:700;font-variation-settings:"wdth" 85;font-size:clamp(26px,3.2vw,44px);line-height:1.08;letter-spacing:-.015em}
+.author .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px}
+.author .facts div{border-top:2px solid var(--ink);padding-top:8px;min-width:140px}
+.author .facts b{display:block;font-family:var(--f-d);font-weight:800;font-size:34px;font-variation-settings:"wdth" 78;line-height:1}
+
+/* oferta */
+.offer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:start}
+.offer h2{margin:12px 0 18px}
+.offer .lead{color:#3b3830;max-width:42ch;margin:0 0 22px}
+.honest{display:flex;gap:12px;align-items:flex-start;border:2px dashed var(--ink);border-radius:14px;padding:14px 16px;max-width:44ch}
+.honest b{font-family:var(--f-d);font-variation-settings:"wdth" 80;font-size:20px;display:block;line-height:1.1}
+.price{border:2px solid var(--ink);border-radius:20px;background:#fbf9f3;box-shadow:10px 10px 0 var(--ink);padding:clamp(18px,2.6vw,30px);position:relative}
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);border-radius:999px;padding:4px;background:var(--paper)}
+.seg button{all:unset;cursor:pointer;position:relative;z-index:1;text-align:center;font-weight:700;font-size:14px;padding:10px 4px;border-radius:999px;transition:color .25s}
+.seg button[aria-pressed="true"]{color:var(--paper)}
+.seg button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.seg .pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:999px;background:var(--ink);transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.tierName{margin:22px 0 2px;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 82;font-size:30px;line-height:1}
+.pop{display:inline-block;margin-left:8px;vertical-align:4px;font-family:var(--f-m);font-size:11px;background:var(--marker);border:1.5px solid var(--ink);padding:2px 8px;border-radius:999px;font-weight:500}
+.amount{display:flex;align-items:flex-start;gap:6px;margin:12px 0 2px;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 75}
+.amount .cur{font-size:26px;margin-top:12px}
+.digits{display:flex;font-size:clamp(76px,9vw,116px);line-height:1;height:1em;overflow:hidden;letter-spacing:-.03em}
+.dg{display:block;height:1em;overflow:hidden}
+.dg .col{display:flex;flex-direction:column;transition:transform .7s cubic-bezier(.2,.9,.25,1)}
+.dg .col span{height:1em;display:block}
+.inst{color:var(--muted);margin:0 0 18px}
+.inc{list-style:none;margin:0 0 22px;padding:0}
+.inc li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1.5px dashed var(--line);transition:opacity .3s}
+.inc li span:last-child{font-family:var(--f-m);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.inc li.off{opacity:.35;text-decoration:line-through}
+.price .btn{width:100%}
+.guar{display:flex;gap:14px;align-items:center;margin-top:18px}
+.guar .seal{flex:none;width:76px;height:76px;border-radius:50%;border:2.5px solid var(--green);color:var(--green);display:grid;place-items:center;text-align:center;font-family:var(--f-d);font-weight:800;font-variation-settings:"wdth" 75;line-height:.9;font-size:13px;transform:rotate(-10deg)}
+.guar .seal b{display:block;font-size:30px}
+.guar p{margin:0;font-size:14.5px;color:#3b3830}
+
+/* faq */
+.faq{max-width:900px}
+.faq details{border-top:2px solid var(--ink)}
+.faq details:last-child{border-bottom:2px solid var(--ink)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-family:var(--f-d);font-weight:700;font-variation-settings:"wdth" 85;font-size:clamp(20px,2.2vw,26px);line-height:1.15}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-m);font-weight:400}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 22px;max-width:62ch;color:#3b3830}
+
+/* final */
+.final{background:var(--ink);color:var(--paper);text-align:center;padding-block:clamp(72px,10vw,140px)}
+.final h2{margin:0 auto 26px;font-size:clamp(52px,10vw,160px);max-width:12ch}
+.final h2 s{color:var(--red);text-decoration-thickness:.08em}
+.final h2 em{font-style:normal;color:var(--marker)}
+.final .btn{background:var(--marker);color:var(--ink)}
+.final .btn:hover{background:#fff}
+footer{background:var(--ink);color:#a29d90;border-top:1px solid #2b2924}
+footer .w{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-block:22px;font-size:13px}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,140%);background:var(--ink);color:var(--paper);padding:14px 18px;border-radius:12px;font-size:14px;z-index:60;max-width:calc(100% - 32px);transition:transform .35s cubic-bezier(.3,1.3,.5,1);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.toast.on{transform:translate(-50%,0)}
+
+@media (max-width:980px){
+  .hero,.offer,.author{grid-template-columns:1fr}
+  .who{grid-template-columns:1fr}
+  .mono{max-width:360px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .top nav{display:none}
+  .hero h1{font-size:clamp(50px,15vw,72px)}
+  .grid{gap:4px}
+  .day{border-radius:6px;font-size:10.5px}
+  .day span{left:4px;top:2px}
+  .leaks{grid-template-columns:1fr}
+  .cal{box-shadow:5px 5px 0 var(--ink)}
+  .stmt .sh{display:none}
+  .stmt summary{grid-template-columns:44px minmax(0,1fr);row-gap:4px;padding:16px}
+  .stmt summary .amt{grid-column:2;text-align:left}
+  .stmt .body{padding:0 16px 18px 76px}
+  .stmt .tot{grid-template-columns:1fr auto;padding:16px}
+  .stmt .tot .n{display:none}
+  .split{height:300vh}
+  .stage{height:min(52vh,460px)}
+  .strip{align-items:center;justify-content:flex-start;padding:0 0 0 10px}
+  .strip .lab{writing-mode:horizontal-tb;transform:none;font-size:11px}
+  .edge{top:auto;bottom:auto;left:-10px!important;right:-10px;border-left:none;border-top:2px dashed var(--ink);height:0}
+  .edge span{top:6px;left:auto;right:0}
+  .price{box-shadow:6px 6px 0 var(--ink)}
+  .mono{max-width:260px}
+}
+</style>
+</head>
+<body>
+<header class="w top">
+  <a class="logo" href="#">Sobra<i>.</i></a>
+  <nav aria-label="Seções"><a href="#vazamentos">O mês</a><a href="#metodo">Método</a><a href="#oferta">Turma</a><a href="#duvidas">Dúvidas</a></nav>
+  <a class="btn" href="#oferta">Quero entrar</a>
+</header>
+
+<main>
+  <div class="w hero" id="vazamentos">
+    <div>
+      <span class="eb">Curso de 30 dias · organização financeira</span>
+      <h1 class="d">Seu salário acaba no dia <span class="r" id="h1day">19</span>. O mês, <span class="g">não.</span></h1>
+      <p class="lead">O problema quase nunca é o tamanho do salário. São quatro vazamentos pequenos que somam mais que o aluguel. Feche os vazamentos ao lado e veja o mês mudar.</p>
+      <div class="ctas"><a class="btn" href="#oferta">Quero o meu dia 30</a><a class="btn ghost" href="#metodo">Ver o método</a></div>
+      <p class="hnote m">Mês de exemplo · salário de R$ 3.200</p>
+    </div>
+
+    <div class="cal" id="cal">
+      <div class="calTop">
+        <div><span class="eb">Mês de exemplo</span><div class="verdict" id="verdict" aria-live="polite">Acaba no dia <b>19</b></div></div>
+        <div class="bal"><span class="eb">Saldo no dia 30</span><div class="num neg" id="bal">– R$ 1.100</div></div>
+      </div>
+      <div class="grid" id="grid" aria-hidden="true"></div>
+      <div class="stamp" id="stamp" aria-hidden="true">ACABOU</div>
+      <div class="leaks" role="group" aria-label="Fechar vazamentos">
+        <button class="leak" type="button" data-k="juros" aria-pressed="false"><span>Juros do cartão<small>módulo 02</small></span><span class="v">R$ 380</span><span class="sw"></span></button>
+        <button class="leak" type="button" data-k="assin" aria-pressed="false"><span>Assinaturas esquecidas<small>módulo 03</small></span><span class="v">R$ 170</span><span class="sw"></span></button>
+        <button class="leak" type="button" data-k="deliv" aria-pressed="false"><span>Delivery<small>módulo 04</small></span><span class="v">R$ 480</span><span class="sw"></span></button>
+        <button class="leak" type="button" data-k="impul" aria-pressed="false"><span>Compras por impulso<small>módulo 05</small></span><span class="v">R$ 520</span><span class="sw"></span></button>
+      </div>
+      <div class="calFoot m"><span>toque para fechar cada vazamento</span><button type="button" id="reset">voltar ao início</button></div>
+    </div>
+  </div>
+
+  <div class="tape" aria-hidden="true"><div>
+    <span>Juros do cartão</span><b>✕</b><span>Delivery de terça</span><b>✕</b><span>Streaming que ninguém vê</span><b>✕</b><span>"Tava em promoção"</span><b>✕</b><span>Taxa de app</span><b>✕</b><span>Parcelinha de R$ 39</span><b>✕</b>
+    <span>Juros do cartão</span><b>✕</b><span>Delivery de terça</span><b>✕</b><span>Streaming que ninguém vê</span><b>✕</b><span>"Tava em promoção"</span><b>✕</b><span>Taxa de app</span><b>✕</b><span>Parcelinha de R$ 39</span><b>✕</b>
+  </div></div>
+
+  <section class="split" id="split" aria-labelledby="splitT">
+    <div class="stick w">
+      <div class="cap">
+        <span class="eb" id="sEb">01 · O salário</span>
+        <h2 class="d" id="splitT">R$ 3.200 parece bastante.</h2>
+        <p id="sTx">Role a página e acompanhe a mesma nota sendo dividida pelas contas do mês.</p>
+      </div>
+      <div class="stage" id="stage">
+        <div class="note" id="note">
+          <div class="face" id="face"><canvas id="guil" aria-hidden="true"></canvas><div class="val"><small>SALÁRIO DO MÊS</small>R$ 3.200</div><div class="seal">S.</div></div>
+          <div class="edge" id="edge"><span>fim do salário</span></div>
+        </div>
+      </div>
+      <div class="legend m"><span><i style="background:var(--green)"></i>contas fixas</span><span><i style="background:var(--red)"></i>vazamentos</span><span><i style="background:var(--marker)"></i>sobra</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="metodo" aria-labelledby="metT">
+    <div class="w">
+      <div class="headRow">
+        <div><span class="eb">O método</span><h2 class="d" id="metT">Seis módulos.<br>Um extrato novo.</h2></div>
+        <p>Cada módulo fecha um vazamento. Ao lado de cada um, quanto ele devolveu no mês de exemplo. Clique para ver o que tem dentro.</p>
+      </div>
+      <div class="stmt">
+        <div class="sh"><span>Módulo</span><span>Lançamento</span><span style="text-align:right">No mês de exemplo</span></div>
+        <details><summary><span class="n">01</span><h3>Raio-x do mês</h3><span class="amt z">mapa</span></summary><div class="body">Você exporta o extrato, separa tudo em quatro cores e descobre para onde o dinheiro vai de verdade. Leva uma noite.<ul><li>Planilha pronta de categorização</li><li>O teste dos 3 últimos extratos</li></ul></div></details>
+        <details><summary><span class="n">02</span><h3>Cartão sem juros</h3><span class="amt">+ R$ 380</span></summary><div class="body">Como sair do rotativo, negociar a fatura atrasada e usar o cartão a seu favor, com a data de fechamento certa.<ul><li>Roteiro de negociação com o banco</li><li>Calendário de fechamento e vencimento</li></ul></div></details>
+        <details><summary><span class="n">03</span><h3>Assinaturas esquecidas</h3><span class="amt">+ R$ 170</span></summary><div class="body">A caça aos débitos automáticos: streaming, app, academia que você não vai, seguro que veio junto com o cartão.<ul><li>Lista dos débitos mais comuns</li><li>Modelos de cancelamento</li></ul></div></details>
+        <details><summary><span class="n">04</span><h3>Delivery e mercado</h3><span class="amt">+ R$ 480</span></summary><div class="body">Comer bem gastando menos: a lista de mercado de 15 minutos e a regra do delivery planejado, sem cortar o prazer.<ul><li>Cardápio da semana</li><li>Lista de mercado por preço</li></ul></div></details>
+        <details><summary><span class="n">05</span><h3>A regra das 48 horas</h3><span class="amt">+ R$ 520</span></summary><div class="body">Toda compra fora da lista espera dois dias. Metade delas perde a graça. O módulo mostra como montar a lista de desejos que trava o impulso.<ul><li>Lista de desejos com preço-alvo</li><li>Como sair das notificações de promoção</li></ul></div></details>
+        <details><summary><span class="n">06</span><h3>Para onde vai a sobra</h3><span class="amt z">reserva</span></summary><div class="body">Reserva de emergência primeiro, depois os objetivos. Sem promessa de enriquecer: só o dinheiro parando de sumir.<ul><li>Quanto guardar e onde deixar</li><li>Plano dos próximos 12 meses</li></ul></div></details>
+        <div class="tot"><span class="n m">total</span><b>Sobra no fim do mês</b><span class="amt">R$ 830</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="whoT">
+    <div class="w">
+      <div class="headRow"><div><span class="eb">Honestidade</span><h2 class="d" id="whoT">Pra quem é.<br>Pra quem não é.</h2></div></div>
+      <div class="who">
+        <div><h3>É pra você se</h3><ul>
+          <li>o salário entra e some antes do dia 20</li>
+          <li>você paga o mínimo do cartão "só esse mês"</li>
+          <li>não sabe dizer quanto gastou de delivery no mês passado</li>
+          <li>quer começar uma reserva, mas nunca sobra nada</li>
+        </ul></div>
+        <div class="no"><h3>Não é pra você se</h3><ul>
+          <li>procura dica de investimento ou ação que vai subir</li>
+          <li>quer ficar rico rápido</li>
+          <li>já tem reserva e controla os gastos todo mês</li>
+          <li>não tem 20 minutos por dia durante um mês</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="autT">
+    <div class="w author">
+      <div class="mono"><canvas id="monoC" aria-hidden="true"></canvas><span>Marina Teles · contadora</span></div>
+      <div>
+        <span class="eb" id="autT">Quem ensina</span>
+        <blockquote style="margin-top:14px">“Passei dez anos fechando a contabilidade de empresas e percebi que quase ninguém fazia isso com o próprio salário. O Sobra é o fechamento do mês, só que da sua casa.”</blockquote>
+        <div class="facts">
+          <div><b>10 anos</b><span class="m">como contadora</span></div>
+          <div><b>30 dias</b><span class="m">de curso</span></div>
+          <div><b>20 min</b><span class="m">por dia</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="oferta" aria-labelledby="offT">
+    <div class="w offer">
+      <div>
+        <span class="eb">A turma</span>
+        <h2 class="d" id="offT">Escolha como quer entrar.</h2>
+        <p class="lead">Todas as opções têm o curso completo e acesso por um ano. A diferença é quanto apoio você quer no caminho.</p>
+        <div class="honest"><span aria-hidden="true" style="font-size:26px">⏱</span><div><b>Sem contador falso.</b><span>A turma abre todo mês. Não tem "últimas vagas" nem preço que muda à meia-noite. Seria estranho um curso contra a compra por impulso fazer isso.</span></div></div>
+      </div>
+      <div class="price">
+        <div class="seg" role="group" aria-label="Escolher plano">
+          <span class="pill" id="pill"></span>
+          <button type="button" data-t="0" aria-pressed="false">Curso</button>
+          <button type="button" data-t="1" aria-pressed="true">Completo</button>
+          <button type="button" data-t="2" aria-pressed="false">Com mentoria</button>
+        </div>
+        <div class="tierName" id="tName">Completo <span class="pop">mais escolhido</span></div>
+        <div class="amount" aria-live="polite"><span class="cur">R$</span><span class="digits" id="digits" aria-label="297 reais"></span></div>
+        <p class="inst" id="tInst">à vista no Pix, ou em até 12x no cartão</p>
+        <ul class="inc" id="inc">
+          <li><span>Os 6 módulos em vídeo</span><span>30 dias</span></li>
+          <li><span>Acesso por um ano</span><span>12 meses</span></li>
+          <li data-min="1"><span>Kit de planilhas e modelos</span><span>bônus</span></li>
+          <li data-min="1"><span>Grupo de alunos</span><span>bônus</span></li>
+          <li data-min="2"><span>3 mentorias em grupo ao vivo</span><span>1 por mês</span></li>
+        </ul>
+        <button class="btn" type="button" id="buy">Quero entrar na turma</button>
+        <div class="guar"><div class="seal"><span><b>7</b>dias</span></div><p>Se em 7 dias você achar que não é pra você, devolvemos 100% do valor. Um e-mail resolve, sem pergunta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="duvidas" aria-labelledby="faqT">
+    <div class="w">
+      <div class="headRow"><div><span class="eb">Dúvidas</span><h2 class="d" id="faqT">Perguntas que chegam no direct.</h2></div></div>
+      <div class="faq">
+        <details><summary>Funciona pra quem ganha pouco?</summary><p>Funciona melhor, inclusive. Quanto menor o salário, mais cada vazamento pesa. O mês de exemplo usa R$ 3.200, mas o método é o mesmo para qualquer valor.</p></details>
+        <details><summary>Preciso entender de planilha?</summary><p>Não. As planilhas já vêm prontas e tem uma aula só de como preencher. Se preferir, dá para fazer tudo no caderno.</p></details>
+        <details><summary>Vou ter que cortar tudo que eu gosto?</summary><p>Não. A ideia é gastar no que importa pra você e parar de gastar no que você nem lembra. O delivery de sexta continua, o de terça talvez não.</p></details>
+        <details><summary>Quanto tempo por dia?</summary><p>Uns 20 minutos. As aulas têm de 8 a 15 minutos e cada dia tem uma tarefa curta.</p></details>
+        <details><summary>E se eu estiver endividado?</summary><p>O módulo 02 é justamente sobre isso: como organizar e negociar as dívidas antes de pensar em guardar.</p></details>
+        <details><summary>Como recebo o acesso?</summary><p>Na hora, por e-mail, depois da confirmação do pagamento. Pix e boleto liberam em minutos; cartão, na hora.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="finT">
+    <div class="w">
+      <h2 class="d" id="finT">Do dia <s>19</s><br>ao dia <em>30.</em></h2>
+      <a class="btn" href="#oferta">Quero o meu dia 30</a>
+    </div>
+  </section>
+</main>
+<footer><div class="w"><span>Sobra. · Marca e autora fictícias criadas para portfólio. Não é recomendação de investimento.</span><span>Site por Henrique Campos</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DPR = () => Math.min(2, devicePixelRatio || 1);
+  const brl = v => 'R$ ' + Math.round(Math.abs(v)).toLocaleString('pt-BR');
+
+  // ---------- simulação do mês ----------
+  const SAL = 3200;
+  const FIX = [{v:1150, d:5}, {v:290, d:10}, {v:130, d:15}];
+  const SPREAD = 560 + 240;
+  const LEAK = {juros:{v:380, d:8}, assin:{v:170, d:3}, deliv:{v:480}, impul:{v:520}};
+  const closed = new Set();
+  function sim(){
+    let b = SAL, end = null; const bal = [];
+    for (let d = 1; d <= 30; d++) {
+      let out = SPREAD/30;
+      FIX.forEach(f => { if (f.d === d) out += f.v; });
+      for (const k in LEAK) { if (closed.has(k)) continue; const l = LEAK[k]; out += l.d ? (l.d === d ? l.v : 0) : l.v/30; }
+      b -= out; bal.push(b);
+      if (b < 0 && end === null) end = d;
+    }
+    return {bal, end, last: b};
+  }
+  // grade: mês de exemplo começa numa quarta
+  const grid = document.getElementById('grid'), START = 3;
+  ['D','S','T','Q','Q','S','S'].forEach(w => { const e = document.createElement('div'); e.className = 'wd'; e.textContent = w; grid.appendChild(e); });
+  for (let i = 0; i < START; i++) { const e = document.createElement('div'); e.className = 'day blank'; grid.appendChild(e); }
+  const days = [];
+  for (let d = 1; d <= 30; d++) { const e = document.createElement('div'); e.className = 'day'; e.innerHTML = '<div class="ink"></div><span>' + d + '</span>'; grid.appendChild(e); days.push(e); }
+  for (let i = 0; i < (7 - (START + 30) % 7) % 7; i++) { const e = document.createElement('div'); e.className = 'day blank'; grid.appendChild(e); }
+  const verdict = document.getElementById('verdict'), balEl = document.getElementById('bal'), stamp = document.getElementById('stamp'), cal = document.getElementById('cal'), h1day = document.getElementById('h1day');
+  let shownBal = null;
+  function tweenBal(to){
+    const from = shownBal === null ? to : shownBal; shownBal = to;
+    const t0 = performance.now(), D = reduce ? 0 : 650;
+    const step = t => { const p = D ? Math.min(1, (t - t0)/D) : 1, v = from + (to - from)*(1 - Math.pow(1-p, 3));
+      balEl.textContent = (v < 0 ? '– ' : '+ ') + brl(v); balEl.classList.toggle('neg', v < 0); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  function render(){
+    const {bal, end, last} = sim();
+    days.forEach((el, i) => {
+      const b = bal[i], out = end !== null && i + 1 >= end;
+      const h = out ? 0 : Math.max(6, Math.min(100, b/SAL*100));
+      el.style.setProperty('--h', h + '%');
+      setTimeout(() => { el.classList.toggle('out', out); el.classList.toggle('hi', !out && h > 62); el.classList.toggle('low', !out && h < 25); }, reduce ? 0 : i*18);
+    });
+    if (end) { verdict.innerHTML = 'Acaba no dia <b>' + end + '</b>'; verdict.classList.remove('ok'); stamp.textContent = 'ACABOU'; stamp.classList.remove('ok'); }
+    else { verdict.innerHTML = 'Sobram <b>' + brl(last) + '</b>'; verdict.classList.add('ok'); stamp.textContent = 'SOBROU ' + brl(last); stamp.classList.add('ok'); }
+    tweenBal(last);
+    placeStamp(end);
+  }
+  function placeStamp(end){
+    const target = days[(end || 30) - 1], cr = cal.getBoundingClientRect(), r = target.getBoundingClientRect();
+    stamp.style.left = (r.left - cr.left + r.width/2) + 'px';
+    stamp.style.top = (r.top - cr.top + r.height/2) + 'px';
+  }
+  document.querySelectorAll('.leak').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.k, on = !closed.has(k);
+    on ? closed.add(k) : closed.delete(k); b.setAttribute('aria-pressed', on); render();
+  }));
+  document.getElementById('reset').addEventListener('click', () => { closed.clear(); document.querySelectorAll('.leak').forEach(b => b.setAttribute('aria-pressed', 'false')); render(); });
+  render();
+  addEventListener('resize', () => placeStamp(sim().end));
+
+  // ---------- nota fatiada pela rolagem ----------
+  const SL = [
+    {n:'Aluguel', v:1150, t:'fix'}, {n:'Mercado', v:560, t:'fix'}, {n:'Contas da casa', v:290, t:'fix'}, {n:'Transporte', v:240, t:'fix'}, {n:'Internet e celular', v:130, t:'fix'},
+    {n:'Impulso', v:520, t:'leakS'}, {n:'Delivery', v:480, t:'leakS'}, {n:'Juros do cartão', v:380, t:'leakS'}, {n:'Assinaturas', v:170, t:'leakS'}
+  ];
+  const TOTAL = SL.reduce((a, s) => a + s.v, 0), SAVE = SAL - SL.filter(s => s.t === 'fix').reduce((a, s) => a + s.v, 0);
+  const split = document.getElementById('split'), note = document.getElementById('note'), face = document.getElementById('face'), edge = document.getElementById('edge'), stage = document.getElementById('stage');
+  const sEb = document.getElementById('sEb'), sH = document.getElementById('splitT'), sTx = document.getElementById('sTx');
+  const strips = SL.map(s => { const e = document.createElement('div'); e.className = 'strip ' + s.t; e.innerHTML = '<span class="lab">' + s.n + ' <b>' + brl(s.v) + '</b></span>'; note.appendChild(e); return {s, e}; });
+  const save = document.createElement('div'); save.className = 'strip save'; save.innerHTML = '<span class="lab">Sobra <b>' + brl(SAVE) + '</b></span>'; note.appendChild(save);
+  let NW, NH, vert = false;
+  function sizeNote(){
+    const W = stage.clientWidth, H = stage.clientHeight; vert = W < 640;
+    if (!vert) { NW = Math.min((W - 70)/(TOTAL/SAL), 980); NH = Math.min(H, NW*.42); }
+    else { NH = Math.min(H/(TOTAL/SAL), 420); NW = Math.min(W*.92, NH*1.15); }
+    note.style.width = NW + 'px'; note.style.height = NH + 'px';
+    note.style.left = vert ? '0' : '0'; note.style.right = 'auto'; note.style.margin = vert ? '0 auto' : '0';
+    note.style.top = vert ? '0' : ((H - NH)/2) + 'px'; note.style.bottom = 'auto';
+    if (vert) { note.style.position = 'relative'; } else { note.style.position = 'absolute'; }
+    drawGuil();
+    if (vert) { edge.style.top = NH + 'px'; edge.style.left = ''; } else { edge.style.left = NW + 'px'; edge.style.top = ''; }
+  }
+  const STAGES = [
+    ['01 · O salário', 'R$ 3.200 parece bastante.', 'Role a página e acompanhe a mesma nota sendo dividida pelas contas do mês.'],
+    ['02 · As contas', 'Aí o mês começa a cortar.', 'Verde é o que precisa ser pago. Vermelho é o que escapa sem ninguém perceber. Repare onde a nota termina.'],
+    ['03 · O buraco', 'Faltaram R$ 720.', 'Os vazamentos passam do tamanho da nota. Essa diferença vai pro cartão, e no mês seguinte volta com juros.'],
+    ['04 · A sobra', 'Fecha os vazamentos. Sobra R$ 830.', 'Sem mudar o salário e sem largar o mercado. Só tirando o vermelho da conta.']
+  ];
+  let stageIdx = -1;
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), ease = t => t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2;
+  function splitFrame(){
+    const r = split.getBoundingClientRect(), span = split.offsetHeight - innerHeight;
+    const p = reduce ? 1 : clamp(-r.top/Math.max(1, span), 0, 1);
+    const a = ease(clamp((p - .12)/.25, 0, 1));   // abre as fatias
+    const c = ease(clamp((p - .62)/.25, 0, 1));   // vazamentos caem, sobra aparece
+    const st = p < .1 ? 0 : p < .42 ? 1 : p < .7 ? 2 : 3;
+    if (st !== stageIdx) { stageIdx = st; sEb.textContent = STAGES[st][0]; sH.textContent = STAGES[st][1]; sTx.textContent = STAGES[st][2]; }
+    face.style.opacity = String(1 - clamp(a*3, 0, 1));
+    edge.style.opacity = String(clamp((a - .6)*3, 0, 1));
+    const L = vert ? NH : NW, gap = 6*a;
+    let pos = 0, fixPos = 0;
+    strips.forEach(({s, e}, i) => {
+      const size = s.v/SAL*L;
+      const off = pos + gap*i;
+      let x = off, y = 0, o = a > 0 ? 1 : 0;
+      if (s.t === 'fix') { x = off*(1 - c) + (fixPos + 4*i)*c; fixPos += size; }
+      else { y = c*(vert ? 0 : NH*1.1); if (vert) x = off + c*0; o = (a > 0 ? 1 : 0)*(1 - c); }
+      if (vert) { e.style.left = '0'; e.style.right = '0'; e.style.width = 'auto'; e.style.top = '0'; e.style.bottom = 'auto'; e.style.height = size + 'px';
+        e.style.transform = `translate(${s.t === 'fix' ? 0 : c*NW*1.2}px,${x}px)`; }
+      else { e.style.top = '0'; e.style.bottom = '0'; e.style.height = 'auto'; e.style.left = '0'; e.style.width = size + 'px'; e.style.transform = `translate(${x}px,${y}px) rotate(${s.t === 'fix' ? 0 : c*(i % 2 ? 9 : -7)}deg)`; }
+      e.style.opacity = String(o);
+      e.classList.toggle('over', s.t !== 'fix' && (pos + size) > L + 1 && c < .5 && a > .9);
+      pos += size;
+    });
+    const sv = SAVE/SAL*L, so = c;
+    if (vert) { save.style.left = '0'; save.style.right = '0'; save.style.top = '0'; save.style.width = 'auto'; save.style.height = sv + 'px'; save.style.transform = `translate(0,${(L - sv) + 4*5}px) scale(${.6 + .4*so})`; }
+    else { save.style.top = '0'; save.style.bottom = '0'; save.style.left = '0'; save.style.height = 'auto'; save.style.width = sv + 'px'; save.style.transform = `translate(${(L - sv) + 4*5}px,0) scale(${.6 + .4*so})`; }
+    save.style.opacity = String(so);
+  }
+  // guilhoché da nota (desenho próprio, não imita cédula real)
+  const gc = document.getElementById('guil'), gx = gc.getContext('2d');
+  function drawGuil(){
+    const d = DPR(), w = NW, h = NH; gc.width = w*d; gc.height = h*d; gx.setTransform(d,0,0,d,0,0); gx.clearRect(0,0,w,h);
+    gx.strokeStyle = 'rgba(234,244,223,.22)'; gx.lineWidth = 1;
+    for (let k = 0; k < 26; k++) { gx.beginPath(); for (let x = 0; x <= w; x += 4) { const y = h*.55 + Math.sin(x*.018 + k*.45)*h*.18*Math.sin(k*.21 + x*.004) + (k - 13)*3.2; x ? gx.lineTo(x, y) : gx.moveTo(x, y); } gx.stroke(); }
+    const cx = w*.22, cy = h*.42, R = Math.min(w, h)*.32;
+    for (let k = 0; k < 40; k++) { gx.beginPath(); for (let t = 0; t <= 6.3; t += .04) { const rr = R*(.55 + .45*Math.sin(t*7 + k*.16)); const x = cx + Math.cos(t + k*.08)*rr, y = cy + Math.sin(t + k*.08)*rr*.85; t ? gx.lineTo(x, y) : gx.moveTo(x, y); } gx.stroke(); }
+  }
+  sizeNote(); splitFrame();
+  let ticking = false;
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { splitFrame(); ticking = false; }); } }, {passive:true});
+  addEventListener('resize', () => { sizeNote(); splitFrame(); });
+
+  // ---------- monograma da autora ----------
+  const mc = document.getElementById('monoC'), mx = mc.getContext('2d');
+  function drawMono(){
+    const d = DPR(), w = mc.clientWidth, h = mc.clientHeight; mc.width = w*d; mc.height = h*d; mx.setTransform(d,0,0,d,0,0);
+    const o = document.createElement('canvas'); o.width = w; o.height = h; const ox = o.getContext('2d');
+    let fs = h*.62; ox.font = `800 ${fs}px "Bricolage Grotesque", sans-serif`; const tw = ox.measureText('MT').width; if (tw > w*.86) { fs *= w*.86/tw; ox.font = `800 ${fs}px "Bricolage Grotesque", sans-serif`; }
+    ox.fillStyle = '#fff'; ox.textAlign = 'center'; ox.textBaseline = 'middle'; ox.fillText('MT', w/2, h*.46);
+    const data = ox.getImageData(0, 0, w, h).data, g = Math.max(6, Math.round(w/34));
+    mx.clearRect(0, 0, w, h);
+    for (let y = g/2; y < h; y += g) for (let x = g/2; x < w; x += g) {
+      const on = data[((y|0)*w + (x|0))*4 + 3] > 120;
+      mx.fillStyle = on ? '#ffd83d' : 'rgba(234,244,223,.22)';
+      const r = on ? g*.42 : g*.12; mx.beginPath(); mx.arc(x, y, r, 0, 6.283); mx.fill();
+    }
+  }
+
+  // ---------- preço com dígitos que rolam ----------
+  const T = [
+    {n:'Curso', p:197, i:'à vista no Pix, ou em até 12x no cartão', pop:false},
+    {n:'Completo', p:297, i:'à vista no Pix, ou em até 12x no cartão', pop:true},
+    {n:'Com mentoria', p:497, i:'à vista no Pix, ou em até 12x no cartão', pop:false}
+  ];
+  const digits = document.getElementById('digits'), pill = document.getElementById('pill'), tName = document.getElementById('tName'), tInst = document.getElementById('tInst');
+  const cols = [];
+  for (let i = 0; i < 3; i++) { const dg = document.createElement('span'); dg.className = 'dg'; const col = document.createElement('span'); col.className = 'col'; for (let n = 0; n <= 9; n++) { const s = document.createElement('span'); s.textContent = n; col.appendChild(s); } dg.appendChild(col); digits.appendChild(dg); cols.push(col); }
+  function tier(i){
+    const t = T[i];
+    document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t == i));
+    pill.style.transform = `translateX(${i*100}%)`;
+    tName.innerHTML = t.n + (t.pop ? ' <span class="pop">mais escolhido</span>' : '');
+    tInst.textContent = t.i; digits.setAttribute('aria-label', t.p + ' reais');
+    String(t.p).split('').forEach((c, k) => { cols[k].style.transitionDelay = (k*.07) + 's'; cols[k].style.transform = `translateY(${-(+c)}em)`; });
+    document.querySelectorAll('#inc li').forEach(li => li.classList.toggle('off', !!li.dataset.min && +li.dataset.min > i));
+  }
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => tier(+b.dataset.t)));
+  tier(1);
+
+  // ---------- compra (página de exemplo) ----------
+  const toast = document.getElementById('toast'); let tt;
+  document.getElementById('buy').addEventListener('click', () => {
+    toast.textContent = 'Página de exemplo: aqui entra o checkout do cliente (Hotmart, Kiwify ou Eduzz).';
+    toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 3200);
+  });
+
+  const ready = document.fonts && document.fonts.load ? document.fonts.load('800 100px "Bricolage Grotesque"').catch(() => {}) : Promise.resolve();
+  ready.then(() => { drawMono(); placeStamp(sim().end); });
+  addEventListener('resize', drawMono);
+})();
+</script>
+</body>
+</html>
