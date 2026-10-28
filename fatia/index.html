@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fatia · Curso de bolos para vender</title>
+<meta name="description" content="Fatia: curso de confeitaria para vender bolo em fatia. Monte o bolo, veja em qual fatia ele se paga e quanto sobra no mês.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Conceito: o bolo visto de cima é a calculadora. Cada fatia mostra se ainda está pagando os ingredientes ou se já é lucro.
+   O mesmo bolo desce a página: vira vitrine da semana e, no fim, o preço do curso. */
+:root{
+  --cream:#fff4e6; --cream-2:#fbe7cf; --choc:#2b1710; --choc-2:#4a2a1d; --muted:#7a6255; --line:#ecd3b4;
+  --pink:#ff6f91; --pink-2:#ffb3c4; --pist:#b9d68a; --caramel:#e3a24b; --berry:#c2185b;
+  --f-d:"Fraunces",Georgia,serif; --f-b:"Outfit",ui-sans-serif,system-ui,sans-serif; --f-m:"DM Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--cream)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--cream);color:var(--choc);font-family:var(--f-b);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+::selection{background:var(--pink-2)}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:8px}
+.w{max-width:1240px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.d{font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;letter-spacing:-.025em;line-height:.92}
+.d em{font-style:italic;font-weight:700;color:var(--pink)}
+.m{font-family:var(--f-m);font-size:12.5px}
+.eb{font-family:var(--f-m);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px;padding:16px 26px;border-radius:999px;background:var(--choc);color:var(--cream);transition:transform .15s,background .2s;text-align:center}
+.btn:hover{background:var(--pink);color:var(--choc)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--choc);box-shadow:inset 0 0 0 2px var(--choc)}
+.btn.ghost:hover{background:var(--choc);color:var(--cream)}
+.btn:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:18px}
+.logo{font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:30px;text-decoration:none;letter-spacing:-.03em}
+.logo i{font-style:normal;color:var(--pink)}
+.top nav{display:flex;gap:22px}
+.top nav a{text-decoration:none;font-weight:600;font-size:15px}
+.top nav a:hover{color:var(--berry)}
+.top .btn{padding:11px 18px;font-size:14px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,64px);align-items:center;padding-block:clamp(20px,3vw,40px) clamp(56px,7vw,96px)}
+.hero h1{margin:14px 0 22px;font-size:clamp(52px,7.6vw,118px)}
+.hero .lead{margin:0 0 28px;max-width:44ch;font-size:clamp(17px,1.5vw,20px);color:var(--choc-2)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hnote{margin-top:18px;color:var(--muted)}
+
+.lab{background:#fff;border:2px solid var(--choc);border-radius:26px;padding:clamp(14px,2vw,24px);box-shadow:0 10px 0 var(--choc);display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.cakeWrap{position:relative;aspect-ratio:1/1;width:100%;max-width:440px;margin:0 auto}
+.cakeWrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:manipulation}
+.pay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;background:var(--cream);border:2px solid var(--choc);border-radius:50%;width:38%;aspect-ratio:1;display:grid;place-content:center;gap:2px;box-shadow:0 4px 0 var(--choc)}
+.pay b{font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:clamp(26px,4.4vw,50px);line-height:.9;color:var(--berry)}
+.pay span{font-family:var(--f-m);font-size:clamp(9.5px,1vw,12px);color:var(--muted);line-height:1.25;padding-inline:8px}
+.ctrl{display:grid;gap:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.row .eb{font-size:11px}
+.cutRow{flex-wrap:nowrap;gap:16px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;padding:8px 12px;border:2px solid var(--choc);border-radius:999px;background:var(--cream);transition:background .2s,color .2s,transform .15s;display:inline-flex;gap:7px;align-items:center}
+.chip i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--choc);flex:none}
+.chip[aria-pressed="true"]{background:var(--choc);color:var(--cream)}
+.chip:active{transform:scale(.96)}
+.chip:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.slider{display:flex;align-items:center;gap:12px}
+.slider input{flex:1;accent-color:var(--pink);height:28px}
+.slider output{font-family:var(--f-m);font-size:15px;min-width:76px;text-align:right;font-weight:500}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px dashed var(--line);padding-top:12px}
+.sum div{display:flex;flex-direction:column;gap:2px}
+.sum div + div{border-left:2px dashed var(--line);padding-left:12px}
+.sum b{font-family:var(--f-m);font-size:clamp(17px,1.8vw,22px);font-weight:500;font-variant-numeric:tabular-nums}
+.sum .p b{color:var(--berry)}
+.sum span{font-size:12.5px;color:var(--muted)}
+
+.tape{background:var(--pink);color:var(--choc);overflow:hidden;white-space:nowrap;padding-block:14px;border-block:2px solid var(--choc);font-family:var(--f-d);font-weight:800;font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-size:clamp(20px,2.4vw,30px)}
+.tape div{display:inline-block;animation:tp 40s linear infinite}
+.tape span{margin-inline:18px}
+@keyframes tp{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape div{animation:none}}
+
+section{border-top:2px solid var(--choc)}
+.sec{padding-block:clamp(64px,9vw,120px)}
+.sec h2{margin:12px 0 0;font-size:clamp(44px,7vw,104px)}
+.headRow{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
+.headRow p{margin:0;max-width:40ch;color:var(--choc-2)}
+
+/* vitrine: o mês */
+.month{background:var(--choc);color:var(--cream)}
+.month .eb{color:#c9a990}
+.month .d em{color:var(--pink)}
+.monthGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+.shelf{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;padding:16px;border:2px solid #6b4433;border-radius:20px;background:#3a2017}
+.shelf .c{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,var(--pink-2) 0 28%,#8a4a33 30% 60%,#5a2e20 62%);opacity:.14;transform:scale(.7);transition:opacity .3s,transform .4s cubic-bezier(.3,1.5,.5,1)}
+.shelf .c.on{opacity:1;transform:scale(1)}
+.big{font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:clamp(64px,9vw,128px);line-height:.9;letter-spacing:-.03em;color:var(--pink);font-variant-numeric:tabular-nums}
+.monthGrid .slider output{color:var(--cream)}
+.monthGrid .small{color:#c9a990;font-size:14px;margin:10px 0 0;max-width:46ch}
+
+/* módulos: receita */
+.recipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,20px)}
+.card{border:2px solid var(--choc);border-radius:22px;background:#fff;padding:22px;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 8px 0 var(--choc)}
+.card .n{font-family:var(--f-m);font-size:12px;color:var(--muted)}
+.card h3{margin:0;font-family:var(--f-d);font-weight:800;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.015em}
+.card p{margin:0;color:var(--choc-2);font-size:15.5px}
+.card .tag{align-self:flex-start;font-family:var(--f-m);font-size:11.5px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--choc);background:var(--cream-2)}
+.card:nth-child(1){background:var(--cream-2)}
+.card:nth-child(3){background:#f3f8e9}
+.card:nth-child(5){background:#ffe7ee}
+
+/* pra quem */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,32px)}
+.who > div{border:2px solid var(--choc);border-radius:22px;padding:clamp(20px,3vw,32px);background:#fff}
+.who .no{background:transparent;border-style:dashed}
+.who h3{margin:0 0 14px;font-family:var(--f-d);font-weight:800;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:clamp(26px,2.8vw,36px);line-height:1}
+.who ul{margin:0;padding:0;list-style:none}
+.who li{padding:10px 0 10px 30px;border-top:1.5px dashed var(--line);position:relative}
+.who li::before{content:"●";position:absolute;left:6px;top:9px;color:var(--pink);font-size:13px}
+.who .no li::before{content:"×";color:var(--choc);font-size:20px;top:4px}
+
+/* quem ensina */
+.author{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(24px,5vw,72px);align-items:center}
+.plate{aspect-ratio:1;border-radius:50%;border:2px solid var(--choc);background:#fff;position:relative;box-shadow:0 10px 0 var(--choc);max-width:380px;width:100%}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%}
+.author blockquote{margin:0;font-family:var(--f-d);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 0,"opsz" 72;font-size:clamp(25px,3vw,40px);line-height:1.12;letter-spacing:-.01em}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px}
+.facts div{border-top:2px solid var(--choc);padding-top:8px;min-width:130px}
+.facts b{display:block;font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:34px;line-height:1}
+
+/* oferta */
+.offer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:start}
+.offer h2{margin:12px 0 18px}
+.offer .lead{color:var(--choc-2);max-width:42ch;margin:0 0 22px}
+.honest{border:2px dashed var(--choc);border-radius:18px;padding:16px 18px;max-width:46ch}
+.honest b{font-family:var(--f-d);font-weight:800;font-variation-settings:"SOFT" 100;font-size:21px;display:block;line-height:1.1;margin-bottom:4px}
+.price{border:2px solid var(--choc);border-radius:26px;background:#fff;box-shadow:0 10px 0 var(--choc);padding:clamp(18px,2.6vw,30px)}
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--choc);border-radius:999px;padding:4px;background:var(--cream)}
+.seg button{all:unset;cursor:pointer;position:relative;z-index:1;text-align:center;font-weight:700;font-size:14px;padding:10px 4px;border-radius:999px;transition:color .25s}
+.seg button[aria-pressed="true"]{color:var(--cream)}
+.seg button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.seg .pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:999px;background:var(--choc);transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.tierName{margin:22px 0 2px;font-family:var(--f-d);font-weight:800;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:30px;line-height:1}
+.pop{display:inline-block;margin-left:8px;vertical-align:4px;font-family:var(--f-m);font-size:11px;background:var(--pink-2);border:1.5px solid var(--choc);padding:2px 8px;border-radius:999px}
+.amount{display:flex;align-items:flex-start;gap:6px;margin:12px 0 2px;font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100,"WONK" 1}
+.amount .cur{font-size:26px;margin-top:12px}
+.digits{display:flex;font-size:clamp(76px,9vw,116px);line-height:1;height:1em;overflow:hidden;letter-spacing:-.03em}
+.dg{display:block;height:1em;overflow:hidden}
+.dg .col{display:flex;flex-direction:column;transition:transform .7s cubic-bezier(.2,.9,.25,1)}
+.dg .col span{height:1em;display:block}
+.inst{color:var(--muted);margin:0 0 18px}
+.inc{list-style:none;margin:0 0 22px;padding:0}
+.inc li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1.5px dashed var(--line);transition:opacity .3s}
+.inc li span:last-child{font-family:var(--f-m);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.inc li.off{opacity:.35;text-decoration:line-through}
+.price .btn{width:100%}
+.guar{display:flex;gap:14px;align-items:center;margin-top:18px}
+.guar .seal{flex:none;width:76px;height:76px;border-radius:50%;background:var(--pink);border:2px solid var(--choc);display:grid;place-items:center;text-align:center;font-family:var(--f-d);font-weight:900;font-variation-settings:"SOFT" 100;line-height:.9;font-size:13px;transform:rotate(-10deg)}
+.guar .seal b{display:block;font-size:30px}
+.guar p{margin:0;font-size:14.5px;color:var(--choc-2)}
+
+.faq{max-width:900px}
+.faq details{border-top:2px solid var(--choc)}
+.faq details:last-child{border-bottom:2px solid var(--choc)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-family:var(--f-d);font-weight:700;font-variation-settings:"SOFT" 100;font-size:clamp(20px,2.2vw,26px);line-height:1.15}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-m);font-weight:400}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:0 0 22px;max-width:62ch;color:var(--choc-2)}
+
+.final{background:var(--pink);text-align:center;padding-block:clamp(72px,10vw,140px)}
+.final h2{margin:0 auto 28px;font-size:clamp(52px,9vw,150px);max-width:13ch}
+.final h2 em{color:var(--cream);-webkit-text-stroke:2px var(--choc)}
+footer{background:var(--choc);color:#c9a990}
+footer .w{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-block:22px;font-size:13px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,160%);background:var(--choc);color:var(--cream);padding:14px 18px;border-radius:14px;font-size:14px;z-index:60;max-width:calc(100% - 32px);transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.toast.on{transform:translate(-50%,0)}
+
+@media (max-width:980px){
+  .hero,.offer,.author,.monthGrid{grid-template-columns:1fr}
+  .recipe{grid-template-columns:1fr 1fr}
+  .who{grid-template-columns:1fr}
+  .plate{max-width:300px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .top nav{display:none}
+  .hero h1{font-size:clamp(46px,13.4vw,64px)}
+  .lab{box-shadow:0 6px 0 var(--choc);border-radius:22px}
+  .recipe{grid-template-columns:1fr}
+  .shelf{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;padding:10px}
+  .sum b{font-size:16px}
+  .cutRow{flex-wrap:wrap}
+  .cutRow .slider{min-width:100%!important}
+  .price{box-shadow:0 6px 0 var(--choc)}
+}
+</style>
+</head>
+<body>
+<header class="w top">
+  <a class="logo" href="#">Fatia<i>.</i></a>
+  <nav aria-label="Seções"><a href="#bolo">O bolo</a><a href="#mes">O mês</a><a href="#modulos">Módulos</a><a href="#turma">Turma</a></nav>
+  <a class="btn" href="#turma">Quero entrar</a>
+</header>
+
+<main>
+  <div class="w hero" id="bolo">
+    <div>
+      <span class="eb">Curso online · confeitaria para vender</span>
+      <h1 class="d">Da <em>6ª fatia</em> em diante, o bolo é lucro.</h1>
+      <p class="lead">Todo mundo ensina a receita. Aqui você aprende a receita e a conta: quanto custa, por quanto vender e quantos bolos por semana pagam as suas contas. Monte o bolo ao lado e veja.</p>
+      <div class="ctas"><a class="btn" href="#turma">Quero aprender a vender</a><a class="btn ghost" href="#modulos">Ver os módulos</a></div>
+      <p class="hnote m">Valores de exemplo, com ingredientes de mercado em São Paulo.</p>
+    </div>
+
+    <div class="lab" aria-label="Simulador do bolo">
+      <div class="cakeWrap">
+        <canvas id="cake" aria-hidden="true"></canvas>
+        <div class="pay" aria-live="polite"><span>se paga na</span><b id="payN">5ª</b><span id="payTx">fatia</span></div>
+      </div>
+      <div class="ctrl">
+        <div class="row"><span class="eb">Recheio</span></div>
+        <div class="chips" role="group" aria-label="Recheio" id="recs"></div>
+        <div class="row"><span class="eb">Fatias por bolo</span><span class="eb">Preço da fatia</span></div>
+        <div class="row cutRow">
+          <div class="chips" role="group" aria-label="Fatias por bolo" id="cuts"></div>
+          <div class="slider" style="flex:1;min-width:150px"><input type="range" id="price" min="8" max="20" step="1" value="12" aria-label="Preço da fatia"><output id="priceO">R$ 12</output></div>
+        </div>
+        <div class="sum">
+          <div><b id="sCost">R$ 56</b><span>custo do bolo</span></div>
+          <div><b id="sRev">R$ 144</b><span>vendendo tudo</span></div>
+          <div class="p"><b id="sProf">R$ 88</b><span>lucro por bolo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tape" aria-hidden="true"><div>
+    <span>brigadeiro de verdade</span><span>✿</span><span>ninho com morango</span><span>✿</span><span>massa que não afunda</span><span>✿</span><span>preço que dá lucro</span><span>✿</span><span>embalagem que vende sozinha</span><span>✿</span>
+    <span>brigadeiro de verdade</span><span>✿</span><span>ninho com morango</span><span>✿</span><span>massa que não afunda</span><span>✿</span><span>preço que dá lucro</span><span>✿</span><span>embalagem que vende sozinha</span><span>✿</span>
+  </div></div>
+
+  <section class="sec month" id="mes" aria-labelledby="mesT">
+    <div class="w monthGrid">
+      <div>
+        <span class="eb">O mês</span>
+        <h2 class="d" id="mesT">Agora multiplica pela <em>semana.</em></h2>
+        <p style="color:#e9d3bf;max-width:44ch;margin:18px 0 0">Com o bolo que você montou lá em cima, arraste quantos bolos consegue fazer por semana. A vitrine enche e o lucro do mês aparece.</p>
+      </div>
+      <div>
+        <div class="shelf" id="shelf" aria-hidden="true"></div>
+        <div class="slider" style="margin-top:18px"><input type="range" id="week" min="1" max="20" step="1" value="6" aria-label="Bolos por semana"><output id="weekO">6 bolos</output></div>
+        <div class="big" id="month" aria-live="polite">R$ 2.270</div>
+        <p class="small">de lucro por mês, em 4,3 semanas. Sem contar encomenda de festa, que o módulo 06 ensina a cobrar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="modulos" aria-labelledby="modT">
+    <div class="w">
+      <div class="headRow">
+        <div><span class="eb">Os módulos</span><h2 class="d" id="modT">Seis módulos, <em>uma vitrine.</em></h2></div>
+        <p>Metade é cozinha, metade é negócio. As receitas são poucas e testadas para render, durar na vitrine e viajar no delivery.</p>
+      </div>
+      <div class="recipe">
+        <article class="card"><span class="n">01</span><h3>Massa que não afunda</h3><p>Pão de ló de chocolate e baunilha que aguenta recheio pesado e dura três dias macio.</p><span class="tag">cozinha</span></article>
+        <article class="card"><span class="n">02</span><h3>Quatro recheios que vendem</h3><p>Brigadeiro, ninho com morango, doce de leite e limão. Ponto certo, rendimento e custo de cada um.</p><span class="tag">cozinha</span></article>
+        <article class="card"><span class="n">03</span><h3>Corte e embalagem</h3><p>Fatias do mesmo tamanho, embalagem que não amassa e foto de celular que dá vontade.</p><span class="tag">cozinha + venda</span></article>
+        <article class="card"><span class="n">04</span><h3>A conta do bolo</h3><p>Planilha de custo por receita, margem e o preço mínimo de cada fatia. A mesma conta do simulador lá em cima.</p><span class="tag">negócio</span></article>
+        <article class="card"><span class="n">05</span><h3>Vender sem ter loja</h3><p>Lista de transmissão, encomenda pelo WhatsApp, parceria com padaria e café do bairro.</p><span class="tag">negócio</span></article>
+        <article class="card"><span class="n">06</span><h3>Bolo de festa</h3><p>Como orçar encomenda de aniversário por quilo, sinal, prazo e entrega sem prejuízo.</p><span class="tag">negócio</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="whoT">
+    <div class="w">
+      <div class="headRow"><div><span class="eb">Honestidade</span><h2 class="d" id="whoT">Pra quem é. <em>Pra quem não é.</em></h2></div></div>
+      <div class="who">
+        <div><h3>É pra você se</h3><ul>
+          <li>já faz bolo em casa e o pessoal sempre elogia</li>
+          <li>quer uma renda extra sem montar loja</li>
+          <li>vende, mas não sabe se está tendo lucro</li>
+          <li>tem forno comum e uma batedeira</li>
+        </ul></div>
+        <div class="no"><h3>Não é pra você se</h3><ul>
+          <li>procura bolo artístico de vitrine de concurso</li>
+          <li>quer garantia de faturamento</li>
+          <li>não pode cozinhar pelo menos dois dias por semana</li>
+          <li>já tem confeitaria com equipe montada</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="autT">
+    <div class="w author">
+      <div class="plate"><canvas id="plate" aria-hidden="true"></canvas></div>
+      <div>
+        <span class="eb" id="autT">Quem ensina</span>
+        <blockquote style="margin-top:14px">“Comecei vendendo fatia no portão de casa pra pagar o gás. O que mudou meu negócio não foi uma receita nova, foi aprender a fazer a conta antes de ligar o forno.”</blockquote>
+        <p class="m" style="margin:14px 0 0;color:var(--muted)">Carla Moraes · confeiteira</p>
+        <div class="facts"><div><b>8 anos</b><span class="m">vendendo bolo</span></div><div><b>4</b><span class="m">recheios no cardápio</span></div><div><b>2 dias</b><span class="m">de forno por semana</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="turma" aria-labelledby="offT">
+    <div class="w offer">
+      <div>
+        <span class="eb">A turma</span>
+        <h2 class="d" id="offT">Escolha como quer <em>entrar.</em></h2>
+        <p class="lead">Todas as opções têm o curso completo e acesso por um ano. A diferença é o material extra e o apoio.</p>
+        <div class="honest"><b>Sem promessa de ficar rica.</b>O simulador mostra uma conta possível, não uma garantia. Quanto você vende depende do seu bairro, do seu preço e de quantos dias você cozinha.</div>
+      </div>
+      <div class="price">
+        <div class="seg" role="group" aria-label="Escolher plano"><span class="pill" id="pill"></span>
+          <button type="button" data-t="0" aria-pressed="false">Receitas</button><button type="button" data-t="1" aria-pressed="true">Negócio</button><button type="button" data-t="2" aria-pressed="false">Com mentoria</button></div>
+        <div class="tierName" id="tName">Negócio <span class="pop">mais escolhido</span></div>
+        <div class="amount" aria-live="polite"><span class="cur">R$</span><span class="digits" id="digits" aria-label="247 reais"></span></div>
+        <p class="inst">à vista no Pix, ou em até 12x no cartão</p>
+        <ul class="inc" id="inc">
+          <li><span>Os 6 módulos em vídeo</span><span>4 h de aula</span></li>
+          <li><span>Acesso por um ano</span><span>12 meses</span></li>
+          <li data-min="1"><span>Planilha de custo e preço</span><span>bônus</span></li>
+          <li data-min="1"><span>Modelos de mensagem e cardápio</span><span>bônus</span></li>
+          <li data-min="2"><span>2 mentorias em grupo ao vivo</span><span>1 por mês</span></li>
+        </ul>
+        <button class="btn" type="button" id="buy">Quero entrar na turma</button>
+        <div class="guar"><div class="seal"><span><b>7</b>dias</span></div><p>Se em 7 dias você achar que não é pra você, devolvemos 100% do valor. Um e-mail resolve.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="faqT">
+    <div class="w">
+      <div class="headRow"><div><span class="eb">Dúvidas</span><h2 class="d" id="faqT">Perguntas de <em>quem já assa.</em></h2></div></div>
+      <div class="faq">
+        <details><summary>Preciso ter experiência?</summary><p>Precisa saber o básico de cozinha. Se você já fez um bolo de caixinha dar certo, consegue acompanhar.</p></details>
+        <details><summary>Preciso de equipamento profissional?</summary><p>Não. Forno de casa, batedeira e duas formas de 22 cm. A lista completa está na primeira aula.</p></details>
+        <details><summary>Posso vender bolo feito em casa?</summary><p>O módulo 05 explica o que é preciso para vender de casa com segurança, incluindo MEI e boas práticas de higiene.</p></details>
+        <details><summary>Os valores do simulador são reais?</summary><p>São de exemplo, com preços de mercado em São Paulo. Na aula 04 você refaz a conta com os preços da sua cidade.</p></details>
+        <details><summary>Quanto tempo dura o curso?</summary><p>São cerca de 4 horas de aula, divididas em vídeos de 10 a 20 minutos. O acesso fica liberado por um ano.</p></details>
+        <details><summary>Como recebo o acesso?</summary><p>Na hora, por e-mail, depois da confirmação do pagamento.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="finT">
+    <div class="w">
+      <h2 class="d" id="finT">A primeira fatia é sua. <em>As outras, vende.</em></h2>
+      <a class="btn" href="#turma">Quero aprender a vender</a>
+    </div>
+  </section>
+</main>
+<footer><div class="w"><span>Fatia. · Marca e confeiteira fictícias criadas para portfólio.</span><span>Site por Henrique Campos</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DPR = () => Math.min(2, devicePixelRatio || 1);
+  const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+  const PACK = 1.2;
+  const RECS = [
+    {n:'Brigadeiro', c:42, top:'#4a2416', fill:'#6b3420', dot:'#2a120a'},
+    {n:'Ninho com morango', c:56, top:'#fff6ec', fill:'#ffd9e2', dot:'#e2335b'},
+    {n:'Doce de leite e coco', c:40, top:'#c98a45', fill:'#e2b77a', dot:'#fff4e0'},
+    {n:'Limão siciliano', c:36, top:'#fbf3c4', fill:'#f2e48a', dot:'#9cc25a'}
+  ];
+  const CUTS = [8, 10, 12, 16];
+  const S = {r:0, n:12, p:12};
+  const recEl = document.getElementById('recs'), cutEl = document.getElementById('cuts');
+  RECS.forEach((r, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.innerHTML = '<i style="background:' + r.fill + '"></i>' + r.n; b.addEventListener('click', () => { S.r = i; sync(); }); recEl.appendChild(b); });
+  CUTS.forEach(n => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = n; b.setAttribute('aria-label', n + ' fatias'); b.addEventListener('click', () => { S.n = n; sync(); }); cutEl.appendChild(b); });
+  const price = document.getElementById('price'), priceO = document.getElementById('priceO');
+  price.addEventListener('input', () => { S.p = +price.value; sync(); });
+
+  const calc = () => { const r = RECS[S.r], cost = r.c + PACK*S.n, rev = S.n*S.p; return {cost, rev, prof: rev - cost, pay: Math.ceil(cost/S.p)}; };
+
+  // bolo visto de cima
+  const cv = document.getElementById('cake'), cx = cv.getContext('2d');
+  let W = 0, slices = [], hover = -1, t0 = performance.now();
+  function size(){ const d = DPR(); W = cv.clientWidth; cv.width = W*d; cv.height = W*d; cx.setTransform(d,0,0,d,0,0); }
+  function sprinkles(r){ const out = []; let seed = 7 + S.r*13; const rnd = () => (seed = (seed*9301 + 49297) % 233280)/233280; for (let i = 0; i < 70; i++) { const a = rnd()*6.283, d = Math.sqrt(rnd()); out.push({a, d, s:rnd()}); } return out; }
+  let spr = sprinkles();
+  function draw(now){
+    const r = RECS[S.r], {pay} = calc(), n = S.n;
+    const c = W/2, R = W*.43, t = (now - t0)/1000;
+    cx.clearRect(0, 0, W, W);
+    // prato
+    cx.fillStyle = '#f6efe6'; cx.beginPath(); cx.arc(c, c + W*.012, W*.49, 0, 6.283); cx.fill();
+    cx.strokeStyle = '#2b1710'; cx.lineWidth = 2; cx.stroke();
+    for (let i = 0; i < n; i++) {
+      const a0 = -Math.PI/2 + i/n*6.283, a1 = a0 + 6.283/n, mid = (a0 + a1)/2;
+      const s = slices[i] || (slices[i] = {o:0});
+      const target = (i === hover ? .085 : .028)*W + (i < pay ? 0 : .008*W);
+      s.o += (target - s.o)*(reduce ? 1 : .18);
+      const ox = Math.cos(mid)*s.o, oy = Math.sin(mid)*s.o;
+      const paid = i < pay;
+      // lateral da fatia (sombra/altura)
+      cx.fillStyle = paid ? '#2b1710' : '#2b1710';
+      cx.beginPath(); cx.moveTo(c + ox, c + oy + W*.018); cx.arc(c + ox, c + oy + W*.018, R, a0, a1); cx.closePath(); cx.fill();
+      // topo
+      cx.fillStyle = r.top; cx.beginPath(); cx.moveTo(c + ox, c + oy); cx.arc(c + ox, c + oy, R, a0, a1); cx.closePath(); cx.fill();
+      cx.strokeStyle = '#2b1710'; cx.lineWidth = 2; cx.stroke();
+      // borda de recheio visível
+      cx.strokeStyle = r.fill; cx.lineWidth = W*.022; cx.beginPath(); cx.arc(c + ox, c + oy, R - W*.022, a0 + .03, a1 - .03); cx.stroke();
+      // marcação: custo ou lucro
+      const lr = R*.78, lx = c + ox + Math.cos(mid)*lr, ly = c + oy + Math.sin(mid)*lr;
+      const bob = paid || reduce ? 0 : Math.sin(t*3 + i)*1.5;
+      cx.fillStyle = paid ? '#2b1710' : '#ff6f91'; cx.beginPath(); cx.arc(lx, ly + bob, W*(n > 12 ? .028 : .034), 0, 6.283); cx.fill();
+      cx.strokeStyle = '#2b1710'; cx.lineWidth = 1.5; cx.stroke();
+      cx.fillStyle = paid ? '#fff4e6' : '#2b1710'; cx.font = `600 ${W*(n > 12 ? .026 : .032)}px Outfit, sans-serif`; cx.textAlign = 'center'; cx.textBaseline = 'middle';
+      cx.fillText(paid ? (i + 1) : '$', lx, ly + bob + 1);
+    }
+    // confeitos no topo
+    spr.forEach(p => {
+      const a = p.a, d = .18 + p.d*.5, idx = Math.floor(((a + Math.PI/2 + 6.283) % 6.283)/6.283*n), s = slices[idx];
+      const mid = -Math.PI/2 + (idx + .5)/n*6.283, ox = Math.cos(mid)*(s ? s.o : 0), oy = Math.sin(mid)*(s ? s.o : 0);
+      cx.fillStyle = r.dot; cx.globalAlpha = .85; cx.beginPath(); cx.arc(c + ox + Math.cos(a)*R*d, c + oy + Math.sin(a)*R*d, W*.006 + p.s*W*.004, 0, 6.283); cx.fill();
+    });
+    cx.globalAlpha = 1;
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  cv.addEventListener('pointermove', e => {
+    const b = cv.getBoundingClientRect(), x = e.clientX - b.left - W/2, y = e.clientY - b.top - W/2, d = Math.hypot(x, y);
+    if (d < W*.19 || d > W*.47) { hover = -1; return; }
+    hover = Math.floor(((Math.atan2(y, x) + Math.PI/2 + 6.283) % 6.283)/6.283*S.n);
+    if (reduce) draw(performance.now());
+  });
+  cv.addEventListener('pointerleave', () => { hover = -1; if (reduce) draw(performance.now()); });
+
+  const payN = document.getElementById('payN'), payTx = document.getElementById('payTx');
+  const sCost = document.getElementById('sCost'), sRev = document.getElementById('sRev'), sProf = document.getElementById('sProf');
+  function sync(){
+    [...recEl.children].forEach((b, i) => b.setAttribute('aria-pressed', i === S.r));
+    [...cutEl.children].forEach((b, i) => b.setAttribute('aria-pressed', CUTS[i] === S.n));
+    priceO.textContent = 'R$ ' + S.p;
+    const k = calc(); spr = sprinkles(); slices = slices.slice(0, S.n);
+    if (k.pay > S.n) { payN.textContent = '—'; payTx.textContent = 'não se paga, suba o preço'; }
+    else { payN.textContent = k.pay + 'ª'; payTx.textContent = 'fatia · ' + (S.n - k.pay) + ' de lucro'; }
+    sCost.textContent = brl(k.cost); sRev.textContent = brl(k.rev); sProf.textContent = brl(k.prof);
+    sProf.style.color = k.prof < 0 ? '#2b1710' : '';
+    month();
+    if (reduce) draw(performance.now());
+  }
+
+  // vitrine do mês
+  const shelf = document.getElementById('shelf'), week = document.getElementById('week'), weekO = document.getElementById('weekO'), mEl = document.getElementById('month');
+  for (let i = 0; i < 20; i++) { const e = document.createElement('div'); e.className = 'c'; shelf.appendChild(e); }
+  let shown = null;
+  function month(){
+    const n = +week.value, v = Math.max(0, calc().prof*n*4.3);
+    weekO.textContent = n + (n === 1 ? ' bolo' : ' bolos');
+    [...shelf.children].forEach((c, i) => setTimeout(() => c.classList.toggle('on', i < n), reduce ? 0 : Math.abs(i - n)*14));
+    const from = shown === null ? v : shown; shown = v; const t1 = performance.now(), D = reduce ? 0 : 600;
+    const step = t => { const p = D ? Math.min(1, (t - t1)/D) : 1; mEl.textContent = brl(from + (v - from)*(1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  week.addEventListener('input', month);
+
+  // prato da autora: bolo de aniversário em pontos
+  const pc = document.getElementById('plate'), px = pc.getContext('2d');
+  function plate(){
+    const d = DPR(), w = pc.clientWidth; pc.width = w*d; pc.height = w*d; px.setTransform(d,0,0,d,0,0);
+    const o = document.createElement('canvas'); o.width = w; o.height = w; const ox = o.getContext('2d');
+    let fs = w*.6; ox.font = `900 ${fs}px Fraunces, serif`; const tw = ox.measureText('CM').width; if (tw > w*.7) { fs *= w*.7/tw; ox.font = `900 ${fs}px Fraunces, serif`; }
+    ox.fillStyle = '#000'; ox.textAlign = 'center'; ox.textBaseline = 'middle'; ox.fillText('CM', w/2, w/2 + fs*.04);
+    const data = ox.getImageData(0, 0, w, w).data, g = Math.max(5, Math.round(w/44));
+    for (let y = g/2; y < w; y += g) for (let x = g/2; x < w; x += g) {
+      const dd = Math.hypot(x - w/2, y - w/2); if (dd > w*.44) continue;
+      const on = data[((y|0)*w + (x|0))*4 + 3] > 120;
+      px.fillStyle = on ? '#ff6f91' : (dd > w*.38 ? '#e3a24b' : '#fbe7cf');
+      px.beginPath(); px.arc(x, y, on ? g*.44 : g*.3, 0, 6.283); px.fill();
+    }
+  }
+
+  // preço com dígitos
+  const T = [{n:'Receitas', p:147, pop:false}, {n:'Negócio', p:247, pop:true}, {n:'Com mentoria', p:397, pop:false}];
+  const digits = document.getElementById('digits'), pill = document.getElementById('pill'), tName = document.getElementById('tName'), cols = [];
+  for (let i = 0; i < 3; i++) { const dg = document.createElement('span'); dg.className = 'dg'; const col = document.createElement('span'); col.className = 'col'; for (let n = 0; n <= 9; n++) { const s = document.createElement('span'); s.textContent = n; col.appendChild(s); } dg.appendChild(col); digits.appendChild(dg); cols.push(col); }
+  function tier(i){
+    const t = T[i];
+    document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t == i));
+    pill.style.transform = `translateX(${i*100}%)`;
+    tName.innerHTML = t.n + (t.pop ? ' <span class="pop">mais escolhido</span>' : '');
+    digits.setAttribute('aria-label', t.p + ' reais');
+    String(t.p).split('').forEach((c, k) => { cols[k].style.transitionDelay = (k*.07) + 's'; cols[k].style.transform = `translateY(${-(+c)}em)`; });
+    document.querySelectorAll('#inc li').forEach(li => li.classList.toggle('off', !!li.dataset.min && +li.dataset.min > i));
+  }
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => tier(+b.dataset.t)));
+  tier(1);
+
+  const toast = document.getElementById('toast'); let tt;
+  document.getElementById('buy').addEventListener('click', () => { toast.textContent = 'Página de exemplo: aqui entra o checkout do cliente (Hotmart, Kiwify ou Eduzz).'; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 3200); });
+
+  size(); sync(); requestAnimationFrame(draw);
+  const ready = document.fonts && document.fonts.load ? document.fonts.load('900 60px Fraunces').catch(() => {}) : Promise.resolve();
+  ready.then(plate);
+  addEventListener('resize', () => { size(); plate(); if (reduce) draw(performance.now()); });
+})();
+</script>
+</body>
+</html>
