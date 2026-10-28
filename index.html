@@ -424,7 +424,7 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
     a.href = w.s ? BASE + w.s + '/' : (w.u || 'https://github.com/LuiixCampos');
     if (w.s || w.u) { a.target = '_blank'; a.rel = 'noopener'; }
     a.setAttribute('aria-label', 'Abrir ' + w.n);
-    if (w.s) { const im = new Image(); im.src = 'assets/' + w.s + '.webp'; im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.width = 800; im.height = 500; a.appendChild(im); }
+    if (w.s) { const im = new Image(); im.src = 'assets/' + w.s + '.webp'; im.alt = ''; im.decoding = 'async'; im.width = 800; im.height = 500; a.appendChild(im); }
     else { const cv = document.createElement('canvas'); cv.dataset.glyph = w.g; a.appendChild(cv); }
     const l = document.createElement('span'); l.className = 'lbl'; l.textContent = w.n; a.appendChild(l);
     track.appendChild(a);
